@@ -1,0 +1,1 @@
+image_blend = global.border_color;
