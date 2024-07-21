@@ -10,7 +10,7 @@ draw_set_font(global.fnt_calculator);
 
 // Initialize variables
 button_width = 52;
-center_pos = [room_width / 2, 440];
+center_pos = [room_width / 2, room_height - 168];
 
 // Creating Buttons
 global.button_layout = [
@@ -37,3 +37,9 @@ for (var _row = 0; _row < no_row; _row++) {
 		);
 	}
 }
+
+// Creating A Display
+instance_create_layer(center_pos[0], center_pos[1] - 3 * button_width, "Button", obj_display_border);
+global.current_equation = "";
+global.equations = [];
+equations_pos = [320, 300];
