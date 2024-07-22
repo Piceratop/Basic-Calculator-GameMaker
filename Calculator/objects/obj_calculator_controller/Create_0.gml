@@ -16,8 +16,8 @@ center_pos = [room_width / 2, room_height - 168];
 global.button_layout = [
 	["⌫", "(", ")", "÷"],
 	["7", "8", "9", "×"],
-	["6", "5", "4", "−"],
-	["3", "2", "1", "+"],
+	["4", "5", "6", "−"],
+	["1", "2", "3", "+"],
 	["0", "00", ".", "="]
 ];
 no_col = array_length(global.button_layout);
@@ -43,3 +43,12 @@ instance_create_layer(center_pos[0], center_pos[1] - 3 * button_width, "Button",
 global.current_equation = "";
 global.equations = [];
 equations_pos = [320, 300];
+
+// Debugging
+show_debug_message($"{normalize("−000000.00000")}");
+show_debug_message($"{normalize("−00000120.50000")}");
+
+
+
+
+
