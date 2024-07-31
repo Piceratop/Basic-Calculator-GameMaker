@@ -1,5 +1,5 @@
 // Initialize global components
-global.fnt_calculator = font_add_sprite_ext(spr_fnt_calculator, "().+0123456789=C×÷−⌫", true, 2);
+global.fnt_calculator = font_add_sprite_ext(spr_fnt_calculator, "()+.0123456789=C×÷−⌫", true, 2);
 global.border_color = c_black;
 global.fnt_color = c_black;
 
@@ -45,10 +45,6 @@ global.equations = [];
 equations_pos = [320, 300];
 
 // Debugging
-show_debug_message($"{normalize("−000000.00000")}");
-show_debug_message($"{normalize("−00000120.50000")}");
-
-
-
-
-
+show_debug_message($"{ord("-")}");
+show_debug_message($"{ord("+")}");
+show_debug_message($"{ord(".")}");

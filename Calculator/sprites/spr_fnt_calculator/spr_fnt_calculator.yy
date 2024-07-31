@@ -14,8 +14,8 @@
   "frames":[
     {"$GMSpriteFrame":"","%Name":"e417ab94-3335-42c4-97c7-7e27e778be00","name":"e417ab94-3335-42c4-97c7-7e27e778be00","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
     {"$GMSpriteFrame":"","%Name":"c1451b0f-8cda-499f-a95c-f98d9b2e4579","name":"c1451b0f-8cda-499f-a95c-f98d9b2e4579","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"","%Name":"e4c90c31-a4be-49ec-85f1-af25a902ad06","name":"e4c90c31-a4be-49ec-85f1-af25a902ad06","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
     {"$GMSpriteFrame":"","%Name":"20178826-5d02-4a0b-a4c2-d99f1a0365f9","name":"20178826-5d02-4a0b-a4c2-d99f1a0365f9","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"","%Name":"e4c90c31-a4be-49ec-85f1-af25a902ad06","name":"e4c90c31-a4be-49ec-85f1-af25a902ad06","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
     {"$GMSpriteFrame":"","%Name":"f1e977b7-d5e8-4f08-ad48-13abe7107d7d","name":"f1e977b7-d5e8-4f08-ad48-13abe7107d7d","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
     {"$GMSpriteFrame":"","%Name":"9a44e2dd-0712-4997-92cf-b1dd40bdc6ec","name":"9a44e2dd-0712-4997-92cf-b1dd40bdc6ec","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
     {"$GMSpriteFrame":"","%Name":"e08bb22e-8b6b-4edf-8172-5a9398be3b85","name":"e08bb22e-8b6b-4edf-8172-5a9398be3b85","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
@@ -94,11 +94,11 @@
                 "0":{"$SpriteFrameKeyframe":"","Id":{"name":"c1451b0f-8cda-499f-a95c-f98d9b2e4579","path":"sprites/spr_fnt_calculator/spr_fnt_calculator.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
               },"Disabled":false,"id":"e4ea29dc-1757-40c9-b585-e3406139884c","IsCreationKey":false,"Key":1.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"e4c90c31-a4be-49ec-85f1-af25a902ad06","path":"sprites/spr_fnt_calculator/spr_fnt_calculator.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"088fea45-03ce-4301-b846-683c54a94b15","IsCreationKey":false,"Key":2.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
                 "0":{"$SpriteFrameKeyframe":"","Id":{"name":"20178826-5d02-4a0b-a4c2-d99f1a0365f9","path":"sprites/spr_fnt_calculator/spr_fnt_calculator.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"c33bfb1a-c036-4ec1-8ffe-4f636feee900","IsCreationKey":false,"Key":3.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+              },"Disabled":false,"id":"c33bfb1a-c036-4ec1-8ffe-4f636feee900","IsCreationKey":false,"Key":2.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"e4c90c31-a4be-49ec-85f1-af25a902ad06","path":"sprites/spr_fnt_calculator/spr_fnt_calculator.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"088fea45-03ce-4301-b846-683c54a94b15","IsCreationKey":false,"Key":3.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
                 "0":{"$SpriteFrameKeyframe":"","Id":{"name":"f1e977b7-d5e8-4f08-ad48-13abe7107d7d","path":"sprites/spr_fnt_calculator/spr_fnt_calculator.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
               },"Disabled":false,"id":"59adefdc-c669-4ea2-8fc4-9399fa3ad091","IsCreationKey":false,"Key":4.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
