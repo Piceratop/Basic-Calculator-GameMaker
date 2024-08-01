@@ -141,7 +141,41 @@ function normalize_similar_form(_a, _b) {
 	return [_a, _b];
 }
 
+/**
+ * @function						compare(_a, _b
+ *	@description					Compare two numbers. Return -1 if the first number is 
+ *										smaller, 0 if the two number has the same value, 1 if
+ *										the first number if bigger.
+ * @param {String}				_a - The first value.
+ * @param {String}				_b - The second value.
+ * @returns {Real}
+ */
+
 function compare(_a, _b) {
 	_a = normalize(_a); _b = normalize(_b);
-	
+	var _is_both_negative = 0;
+	if (string_char_at(_a, 1) == "-")
+		_is_both_negative += 1;
+	if (string_char_at(_b, 1) == "-")
+		_is_both_negative += 2;
+	switch (_is_both_negative) {
+		case 1:
+			return -1;
+		case 2:
+			return 1;
+	}
+	var _nml = normalize_similar_form(_a, _b);
+	_a = _nml[0]; _b = _nml[0];
+	for (var _i = 1; _i <= string_length(_a); _i++) {
+		var _ord_ai = ord(string_char_at(_a, _i));
+		var _ord_bi = ord(string_char_at(_b, _i));
+		if (_ord_ai > _ord_bi) {
+			if (_is_both_negative == 3) return -1;
+			return 1;
+		} else if (_ord_ai < _ord_bi) {
+			if (_is_both_negative == 3) return 1;
+			return -1;
+		}
+	}
+	return 0;
 }

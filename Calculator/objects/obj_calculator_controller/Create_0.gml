@@ -1,5 +1,5 @@
 // Initialize global components
-global.fnt_calculator = font_add_sprite_ext(spr_fnt_calculator, "()+.0123456789=C×÷−⌫", true, 2);
+global.fnt_calculator = font_add_sprite_ext(spr_fnt_calculator, "()+-.0123456789=C×÷−⌫", true, 2);
 global.border_color = c_black;
 global.fnt_color = c_black;
 
@@ -18,7 +18,7 @@ global.button_layout = [
 	["7", "8", "9", "×"],
 	["4", "5", "6", "−"],
 	["1", "2", "3", "+"],
-	["0", "00", ".", "="]
+	["0", ".", "-", "="]
 ];
 no_col = array_length(global.button_layout);
 no_row = array_length(global.button_layout[0]);
