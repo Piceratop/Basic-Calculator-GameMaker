@@ -142,7 +142,7 @@ function normalize_similar_form(_a, _b) {
 }
 
 /**
- * @function						compare(_a, _b
+ * @function						compare(_a, _b)
  *	@description					Compare two numbers. Return -1 if the first number is 
  *										smaller, 0 if the two number has the same value, 1 if
  *										the first number if bigger.
@@ -178,4 +178,35 @@ function compare(_a, _b) {
 		}
 	}
 	return 0;
+}
+
+/**
+ * @function						add(_a, _b)
+ *	@description					Add two real numbers.
+ * @param {String}				_a - The first value.
+ * @param {String}				_b - The second value.
+ * @returns {String}
+ */
+
+function add(_a, _b) {
+	if (compare(_a, _b) == -1) return add(_b, _a);
+	if (compare("0", _b) == 1) return subtract(_a, inverse_s(_b));
+	var _nml = normalize_similar_form(_a, _b);
+	_a = _nml[0]; _b = _nml[1]; 
+	var _reverse_ans = "";
+	var _carry = 0;
+	for (var _i = string_length(_a); _i > 0; _i--) {
+		if (string_char_at(_a, _i) == ".") {
+			_reverse_ans += ".";
+			continue;
+		}
+		var _s = real(string_char_at(_a, _i)) + real(string_char_at(_b, _i)) + _carry;
+		_reverse_ans += string(_s % 10);
+		_carry = floor(_s / 10);
+	}
+	var _ans = "";
+	for (var _i = string_length(_a); _i > 0; _i--) {
+		_ans += string_char_at(_reverse_ans, _i);	
+	}
+	return normalize(_ans);
 }

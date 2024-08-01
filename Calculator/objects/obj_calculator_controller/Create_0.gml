@@ -45,6 +45,5 @@ global.equations = [];
 equations_pos = [320, 300];
 
 // Debugging
-show_debug_message($"{compare("1999999999.05", "23.43")}");
-show_debug_message($"{compare("1.0011111122", "0.123456789123456789")}");
-show_debug_message($"{compare("1.0230", "1.023")}");
+show_debug_message($"{add("3", "4")}");
+show_debug_message($"{add("3.123", "456.877")}");
