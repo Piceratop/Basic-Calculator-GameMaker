@@ -165,8 +165,7 @@ function compare(_a, _b) {
 			return 1;
 	}
 	var _nml = normalize_similar_form(_a, _b);
-	show_debug_message($"{_nml}");
-	_a = _nml[0]; _b = _nml[0];
+	_a = _nml[0]; _b = _nml[1]; 
 	for (var _i = 1; _i <= string_length(_a); _i++) {
 		var _ord_ai = ord(string_char_at(_a, _i));
 		var _ord_bi = ord(string_char_at(_b, _i));
