@@ -41,6 +41,7 @@
     {"id":{"name":"rm_calculator","path":"rooms/rm_calculator/rm_calculator.yy",},},
     {"id":{"name":"rm_main","path":"rooms/rm_main/rm_main.yy",},},
     {"id":{"name":"scr_math","path":"scripts/scr_math/scr_math.yy",},},
+    {"id":{"name":"scr_string","path":"scripts/scr_string/scr_string.yy",},},
     {"id":{"name":"spr_button","path":"sprites/spr_button/spr_button.yy",},},
     {"id":{"name":"spr_display_border","path":"sprites/spr_display_border/spr_display_border.yy",},},
     {"id":{"name":"spr_fnt_calculator","path":"sprites/spr_fnt_calculator/spr_fnt_calculator.yy",},},

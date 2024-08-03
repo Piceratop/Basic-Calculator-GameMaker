@@ -45,5 +45,4 @@ global.equations = [];
 equations_pos = [320, 300];
 
 // Debugging
-show_debug_message($"{add("3", "4")}");
-show_debug_message($"{add("3.123", "456.877")}");
+show_debug_message($"{divide("123456789123456788", "3", "20")}");
