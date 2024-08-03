@@ -42,7 +42,7 @@ for (var _row = 0; _row < no_row; _row++) {
 instance_create_layer(center_pos[0], center_pos[1] - 3 * button_width, "Button", obj_display_border);
 global.current_equation = "";
 global.equations = [];
-equations_pos = [320, 300];
+equations_pos = [room_width - 40, center_pos[1] - 3.5 * button_width];
 
 // Debugging
 show_debug_message($"{divide("123456789123456788", "3", "20")}");
