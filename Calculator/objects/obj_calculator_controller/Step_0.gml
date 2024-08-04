@@ -1,3 +1,5 @@
+// Checking Keyboard Input
+
 if (keyboard_check_pressed(vk_anykey)) {
 	if (
 		ord(keyboard_lastchar) >= ord("0") and ord(keyboard_lastchar) <= ord("9")

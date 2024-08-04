@@ -14,11 +14,11 @@ center_pos = [room_width / 2, room_height - 168];
 
 // Creating Buttons
 global.button_layout = [
-	["⌫", "(", ")", "÷"],
-	["7", "8", "9", "×"],
-	["4", "5", "6", "−"],
-	["1", "2", "3", "+"],
-	["0", ".", "-", "="]
+	["⌫", "(", ")", "÷", "▲"],
+	["7", "8", "9", "×", "▼"],
+	["4", "5", "6", "−", "▶"],
+	["1", "2", "3", "+", "◀"],
+	["0", ".", "-", "=", ""]
 ];
 no_col = array_length(global.button_layout);
 no_row = array_length(global.button_layout[0]);
@@ -46,5 +46,3 @@ global.equations = [];
 equations_pos = [room_width - button_width, center_pos[1] - 3.5 * button_width];
 
 // Debugging
-show_debug_message($"{divide("123456789123456788", "3", "20")}");
-show_debug_message($"{string_width("123\n456")}")
