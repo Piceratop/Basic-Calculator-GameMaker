@@ -9,12 +9,19 @@ function input_equation(_str, _label){
 				string_length(_curr_equation),
 				1
 			);
-			global.display_text_start_pos -= 1;
+			global.display_text_start_pos -= 2;
 			break;
+		case "-":
+			_curr_equation += "−";
+			break;
+		case "*":
+			_curr_equation += "×";
+		case "/":
+			_curr_equation += "÷";
 		default:
 			_curr_equation += _label;
-			navigate_equations("▶");
 	}
+	navigate_equations("▶");
 	return _curr_equation;
 }
 
