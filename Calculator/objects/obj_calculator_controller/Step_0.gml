@@ -16,5 +16,5 @@ if (keyboard_check_pressed(vk_anykey)) {
 		global.current_equation = input_equation(
 			global.current_equation, keyboard_lastchar
 		);
-	
+	show_debug_message(global.current_equation);
 }

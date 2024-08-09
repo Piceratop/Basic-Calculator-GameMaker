@@ -16,10 +16,13 @@ function input_equation(_str, _label){
 			break;
 		case "*":
 			_curr_equation += "×";
+			break;
 		case "/":
 			_curr_equation += "÷";
+			break;
 		default:
 			_curr_equation += _label;
+			break;
 	}
 	navigate_equations("▶");
 	return _curr_equation;

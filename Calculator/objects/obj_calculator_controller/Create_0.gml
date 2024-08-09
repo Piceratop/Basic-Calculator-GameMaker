@@ -46,5 +46,3 @@ global.equation_max_width = room_width - button_width * 2;
 global.equation_max_length = floor(global.equation_max_width / string_width("0"));
 global.equations = [];
 equations_pos = [room_width - button_width, center_pos[1] - 3.5 * button_width];
-
-// Debugging
