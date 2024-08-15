@@ -1,5 +1,5 @@
 // Initialize global components
-global.fnt_calculator = font_add_sprite_ext(spr_fnt_calculator, "()+-.0123456789=C×÷−⌫▲▶▼◀", true, 2);
+global.fnt_calculator = font_add_sprite_ext(spr_fnt_calculator, "()+-.0123456789=C|×÷−⌫▲▶▼◀", true, 2);
 global.border_color = c_black;
 global.fnt_color = c_black;
 
@@ -41,8 +41,7 @@ for (var _row = 0; _row < no_row; _row++) {
 // Text Display
 instance_create_layer(center_pos[0], center_pos[1] - 3 * button_width, "Button", obj_display_border);
 global.current_equation = "";
-global.display_text_start_pos = 1;
+global.cursor_position = 1;
 global.equation_max_width = room_width - button_width * 2;
-global.equation_max_length = floor(global.equation_max_width / string_width("0"));
 global.equations = [];
 equations_pos = [room_width - button_width, center_pos[1] - 3.5 * button_width];
