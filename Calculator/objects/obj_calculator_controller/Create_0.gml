@@ -45,3 +45,7 @@ global.cursor_position = 1;
 global.equation_max_width = room_width - button_width * 2;
 global.equations = [];
 equations_pos = [room_width - button_width, center_pos[1] - 3.5 * button_width];
+
+// Debugging
+time = get_timer();
+show_debug_message(get_timer() - time);

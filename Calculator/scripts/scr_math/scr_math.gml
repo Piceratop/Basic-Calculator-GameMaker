@@ -7,10 +7,11 @@
  */
 
 function get_decimal_position(_n) {
-	for (var _i = 1; _i <= string_length(_n); _i++) 
+	var _i;
+	for (_i = 1; _i <= string_length(_n); _i++) 
 		if (string_char_at(_n, _i) == ".")
 			return _i;
-	return 0;
+	return _i;
 }
 
 /**
@@ -34,8 +35,7 @@ function is_negative(_n) {
  */
 
 function normalize(_n){
-	if (get_decimal_position(_n) == 0)
-		_n += ".";
+	if (get_decimal_position(_n) > string_length(_n)) _n += ".";
 	var _delete_count = 0;
 	for (var _i = string_length(_n); string_char_at(_n, _i) == "0"; _i--)
 		_delete_count++;
@@ -75,6 +75,18 @@ function absolute_value(_n) {
 }
 
 /**
+ * @function			ceiling_decimal(_n, _precision)
+ * @description		Calculates the ceiling value of a numeric string with
+ *							a specified precision.
+ * @param {String}	_n - The input numeric string.
+ * @param {Real}		_precision - The desired precision (number of decimal places).
+ * @returns {String}
+ */
+function ceiling_decimal(_n, _precision = 0) {
+	return shift_decimal(ceiling_s(shift_decimal(_n, _precision)), -_precision);
+}
+
+/**
  * @function			ceiling_s(_n)
  * @description		Rounds up a numeric value to the nearest integer.
  * @param {String}	_n - The input value.
@@ -82,33 +94,40 @@ function absolute_value(_n) {
  */
 
 function ceiling_s(_n) {
-	if (is_negative(_n))	return inverse_s(floor_s(inverse_s(_n)));
-	for (var _i = 1; _i <= string_length(_n); _i++)
-		if (string_char_at(_n, _i) == ".") {
-			var _truncated = string_delete(_n, _i, string_length(_n));
-			if (string_char_at(_n, _i + 1) == "0") _n = _truncated;
-			else _n = add(_truncated, "1")
-		}
-	return normalize(_n);
+	if (is_negative(_n))	return inverse(floor_s(inverse(_n)));
+	_n = normalize(_n);
+	var _dn = get_decimal_position(_n);
+	if (_dn > string_length(_n)) return _n;
+	else return add(string_delete(_n, _dn, string_length(_n)), "1");
+}
+
+/**
+ * @function			ceiling_decimal(_n, _precision)
+ * @description		Calculates the floor value of a numeric string with
+ *							a specified precision.
+ * @param {String}	_n - The input numeric string.
+ * @param {Real}		_precision - The desired precision (number of decimal places).
+ * @returns {String}
+ */
+
+function floor_decimal(_n, _precision = 0) {
+	return shift_decimal(floor_s(shift_decimal(_n, _precision)), -_precision);
 }
 
 /**
  * @function			floor_s(_n)
- * @description		Rounds down a numeric value to the nearest integerr.
+ * @description		Rounds down a numeric value to the nearest integer.
  * @param {String}	_n - The input value.
  * @returns {String}
  */
 
 function floor_s(_n) {
-	if (is_negative(_n))	return inverse_s(ceiling_s(inverse_s(_n)));
-	for (var _i = 1; _i <= string_length(_n); _i++)
-		if (string_char_at(_n, _i) == ".")
-			_n = string_delete(_n, _i, string_length(_n));
-	return normalize(_n);
+	if (is_negative(_n))	return inverse(ceiling_s(inverse(_n)));
+	return normalize(string_delete(_n, get_decimal_position(_n), string_length(_n)));
 }
 
 /**
- * @function			inverse_s(_n)
+ * @function			inverse(_n)
  * @description		Calculates the inverse of the input value.
  *							If the input is negative, returns the positive value.
  *							If the input is positive, returns the negated value.
@@ -116,9 +135,56 @@ function floor_s(_n) {
  * @returns {String} The inverse value.
  */
 
-function inverse_s(_n) {
+function inverse(_n) {
 	if (is_negative(_n)) return normalize(string_delete(_n, 0, 1));
 	return normalize("\u2212" + _n);
+}
+
+/**
+ * @function			round_decimal(_n, _precision)
+ * @description		Rounds a number to the specified precision.
+ * @param {String}	_n - The input numeric string.
+ * @param {Real}		_precision - The desired precision (number of decimal places).
+ * @returns {String}
+ */
+
+function round_decimal(_n, _precision = 0) {
+	var _dn = get_decimal_position(_n);
+	var _pos_to_check = _dn + _precision + 1;
+	if (_pos_to_check > string_length(_n)) return normalize(_n);
+	if (_pos_to_check < 0) return "0";
+	if (compare(string_char_at(_n, _pos_to_check), "5") == -1)
+		return floor_decimal(_n, _precision);
+	else
+		return ceiling_decimal(_n, _precision);
+}
+
+/**
+ * @function			shift_decimal(_n)
+ * @description		Shifts the decimal point of a numeric string.
+ * @param {String}	_n - The input value.
+ * @param {Real}		_shift - The number of positions to shift the decimal point.
+ *							If positive, shifts to the right; if negative, shifts to 
+ *							the left.
+ * @returns {String}
+ */
+
+function shift_decimal(_n, _shift) {
+	var _dn = get_decimal_position(_n);
+	if (_dn > string_length(_n)) _n += ".";
+	if (_shift < 0) {
+		var _pad = "";
+		for (var _i = 0; _i > _shift; _i--)
+			_pad += "0";
+		_n = _pad + _n;
+		_dn -= _shift;
+	} else if (_shift > 0) {
+		for (var _i = 0; _i < _shift; _i++)
+			_n += "0";
+	}
+	_n = string_delete(_n, _dn, 1);
+	_n = string_insert(".", _n, _dn + _shift);
+	return normalize(_n);
 }
 
 /**
@@ -136,14 +202,12 @@ function inverse_s(_n) {
 function normalize_similar_form(_a, _b) {
 	_a = normalize(_a); _b = normalize(_b);
 	var _decimal_a = get_decimal_position(_a);
-	if (_decimal_a == 0) {
+	if (_decimal_a > string_length(_a)) {
 		_a += ".";
-		_decimal_a = string_length(_a);
 	}
 	var _decimal_b = get_decimal_position(_b);
-	if (_decimal_b == 0) {
+	if (_decimal_b > string_length(_b)) {
 		_b += ".";
-		_decimal_b = string_length(_b);
 	}
 	var _i;
 	for (_i = _decimal_a; _i < _decimal_b; _i++) _a = "0" + _a;
@@ -204,7 +268,7 @@ function compare(_a, _b) {
 
 function add(_a, _b) {
 	if (compare(_a, _b) == -1) return add(_b, _a);
-	if (compare("0", _b) == 1) return subtract(_a, inverse_s(_b));
+	if (compare("0", _b) == 1) return subtract(_a, inverse(_b));
 	var _nml = normalize_similar_form(_a, _b);
 	_a = _nml[0]; _b = _nml[1]; 
 	var _reverse_ans = "";
@@ -230,9 +294,9 @@ function add(_a, _b) {
  */
 
 function subtract(_a, _b) {
-	if (compare("0", _b) == 1) return add(_a, inverse_s(_b));
-	if (compare("0", _a) == 1) return inverse_s(add(inverse_s(_a), _b));
-	if (compare(_a, _b) == -1) return inverse_s(subtract(_b, _a));
+	if (compare("0", _b) == 1) return add(_a, inverse(_b));
+	if (compare("0", _a) == 1) return inverse(add(inverse(_a), _b));
+	if (compare(_a, _b) == -1) return inverse(subtract(_b, _a));
 	var _nml = normalize_similar_form(_a, _b);
 	_a = _nml[0]; _b = _nml[1];
 	var _reverse_ans = "";
@@ -292,8 +356,8 @@ function int_multiply(_a, _b) {
  */
  
 function multiply(_a, _b) {
-	if (compare("0", _a) == 1) return inverse_s(multiply(inverse_s(_a), _b));
-	if (compare("0", _b) == 1) return inverse_s(multiply(_a, inverse_s(_b)));
+	if (compare("0", _a) == 1) return inverse(multiply(inverse(_a), _b));
+	if (compare("0", _b) == 1) return inverse(multiply(_a, inverse(_b)));
 	var _nml = normalize_similar_form(_a, _b);
 	_a = _nml[0]; _b = _nml[1];
 	var _da = get_decimal_position(_a);
@@ -313,14 +377,15 @@ function multiply(_a, _b) {
  *	@description		Divides two numbers with a specified level of precision.
  * @param {String}	_a - The dividend.
  * @param {String}	_b - The divisor.
- * @param {string}	_precision - The desired precision (number of decimal
+ * @param {Real}	_precision - The desired precision (number of decimal
  *							places).
  * @returns {String}
  */
-function divide(_a, _b, _precision="6") {
-	if (compare(_a, "0") == -1) return inverse_s(divide(inverse_s(_a), _b));
-	if (compare(_b, "0") == -1) return inverse_s(divide(_a, inverse_s(_b)));
-	if (compare(_precision, "0") == -1) _precision = "0";
+
+function divide(_a, _b, _precision = 6) {
+	if (compare(_a, "0") == -1) return inverse(divide(inverse(_a), _b));
+	if (compare(_b, "0") == -1) return inverse(divide(_a, inverse(_b)));
+	if (_precision < 0) _precision = 0;
 	var _nml = normalize_similar_form(_a, _b);
 	_a = normalize(string_replace(_nml[0], ".", "")); 
 	_b = normalize(string_replace(_nml[1], ".", "")); 
@@ -343,5 +408,18 @@ function divide(_a, _b, _precision="6") {
 		_reci = add(_reci, _error);
 	_reci = string_delete(_reci, _se + 1, string_length(_reci));
 	var _ans = multiply(_a, _reci);
-	return normalize(_ans);
+	return round_decimal(_ans, _precision);
+}
+
+/**
+ * @function			get_random_range(_a, _b, _precision)
+ *	@description		Get a real number between the two given bounds with a 
+ *							specified level of precision.
+ * @param {String}	_a - The lower bound.
+ * @param {String}	_b - The upper bound.
+ * @param {Real}		_precision - The desired precision (number of decimal places).
+ * @returns {String}
+ */
+ 
+function get_random_range(_a, _b, _precision = 0) {
 }
