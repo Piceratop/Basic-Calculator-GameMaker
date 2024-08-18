@@ -1,7 +1,7 @@
 draw_set_valign(fa_bottom);
 draw_set_halign(fa_right);
 
-var _display_equation = "|";
+var _display_equation = "⁁";
 if (global.cursor_position < 1)
 	global.cursor_position = 1;
 if (global.cursor_position <= string_length(global.current_equation)) {

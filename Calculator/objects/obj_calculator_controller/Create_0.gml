@@ -1,5 +1,10 @@
 // Initialize global components
-global.fnt_calculator = font_add_sprite_ext(spr_fnt_calculator, "()+-.0123456789=C|×÷−⌫▲▶▼◀", true, 2);
+global.allow_characters = "()+-.0123456789=C|×÷⁁−⌫▲▶▼◀"
+global.fnt_calculator = font_add_sprite_ext(
+	spr_fnt_calculator,
+	global.allow_characters,
+	true, 2
+);
 global.border_color = c_black;
 global.fnt_color = c_black;
 
@@ -47,5 +52,12 @@ global.equations = [];
 equations_pos = [room_width - button_width, center_pos[1] - 3.5 * button_width];
 
 // Debugging
-time = get_timer();
-show_debug_message(get_timer() - time);
+//time = current_time;
+//show_debug_message(current_time - time);
+for (var _i = 1; _i < string_length(global.allow_characters); _i++) {
+	show_debug_message(
+		"{0} {1}", 
+		ord(string_char_at(global.allow_characters, _i)),
+		string_char_at(global.allow_characters, _i)
+	);
+}
