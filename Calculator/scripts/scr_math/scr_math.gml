@@ -1,64 +1,48 @@
 /**
- * @function			get_decimal_position(_n)
- * @description		Get the position of the decimal place in the number.
+ * @function				get_decimal_position(_n)
+ * @description				Get the position of the decimal place in the number.
  *							If the number is an integer, return 0.
- * @param {String}	_n - The input value to check.
+ * @param {Array<Real>}		_n - The input value to check.
  * @return {Real}
  */
 
 function get_decimal_position(_n) {
-	var _i;
-	for (_i = 1; _i <= string_length(_n); _i++) 
-		if (string_char_at(_n, _i) == ".")
-			return _i;
-	return _i;
+	var _f = function(_element, _index) {
+		return _element == 10
+	}
+	return array_find_index(_n, _f);
 }
+
 
 /**
  * @function			is_negative(_n)
- * @description		Checks if the given input is a negative number.
- * @param {String}	_n - The input value to check.
+ * @description			Checks if the given input is a negative number.
+ * @param {Array<Real>}	_n - The input value to check.
  * @return {Bool}
  */
 
 function is_negative(_n) {
-	return string_char_at(_n, 1) == "-" || string_char_at(_n, 1) == "\u2212";
+	return _n[0] == 10;
 }
 
 /**
  * @function			normalize(_n)
- * @description		Normalizes the input value by removing trailing zeros,
-							replacing "-" with the minus sign (U+2212),
- *							and ensuring consistent formatting.
- * @param {String}	_n - The input value to normalize.
- * @returns {String}
+ * @description			Normalizes the input value by removing trailing zeros,
+						replacing "-" with the minus sign (U+2212),
+ *						and ensuring consistent formatting.
+ * @param {Array<Real>}	_n - The input value to normalize.
+ * @returns {Array<Real>}
  */
 
 function normalize(_n){
-	if (get_decimal_position(_n) > string_length(_n)) _n += ".";
-	var _delete_count = 0;
-	for (var _i = string_length(_n); string_char_at(_n, _i) == "0"; _i--)
-		_delete_count++;
-	_n = string_delete(_n, string_length(_n) - _delete_count + 1, _delete_count);
-	_n = string_replace(_n, "\u2212", "-");
-	_delete_count = 0;
-	if (is_negative(_n)) {
-		_n = string_insert("0", _n, 2);
-		for (var _i = 2; string_char_at(_n, _i) == "0"
-		&& string_char_at(_n, _i + 1) != "."; _i++)
-			_delete_count++;
-		_n = string_delete(_n, 2, _delete_count);
-	} else {
-		_n = "0" + _n;
-		for (var _i = 1; string_char_at(_n, _i) == "0"
-		&& string_char_at(_n, _i + 1) != "."; _i++)
-			_delete_count++;
-		_n = string_delete(_n, 1, _delete_count);
-	}
-	if (string_char_at(_n, string_length(_n)) == ".")
-		_n = string_delete(_n, string_length(_n), 1);
-	if (_n == "-0")
-		return "0";
+	var _i = array_length(_n) - 1;
+	if (get_decimal_position(_n) != -1)
+		for (; _n[_i] == 0; _i--)
+			array_pop(_n);
+	if (_n[_i] == 10) array_pop(_n);
+	for (_i = 0; _n[_i] == 0; _i++)
+		array_shift(_n);
+	if (array_equals(_n, [10])) _n[0] = 0;
 	return _n;
 }
 

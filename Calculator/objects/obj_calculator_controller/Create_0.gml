@@ -52,12 +52,16 @@ global.equations = [];
 equations_pos = [room_width - button_width, center_pos[1] - 3.5 * button_width];
 
 // Debugging
-//time = current_time;
-//show_debug_message(current_time - time);
-for (var _i = 1; _i < string_length(global.allow_characters); _i++) {
-	show_debug_message(
-		"{0} {1}", 
-		ord(string_char_at(global.allow_characters, _i)),
-		string_char_at(global.allow_characters, _i)
-	);
-}
+test_str1 = [9, 8, 7, 6, 5, 4, 3, 2, 1, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+test_str2 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+time = get_timer();
+show_debug_message(get_timer() - time);
+time = get_timer();
+show_debug_message(get_timer() - time);
+//for (var _i = 1; _i < string_length(global.allow_characters); _i++) {
+//	show_debug_message(
+//		"{0} {1}", 
+//		ord(string_char_at(global.allow_characters, _i)),
+//		string_char_at(global.allow_characters, _i)
+//	);
+//}
