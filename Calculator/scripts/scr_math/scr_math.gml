@@ -1,8 +1,8 @@
 /**
- * @function				get_decimal_position(_n)
- * @description				Get the position of the decimal place in the number.
- *							If the number is an integer, return 0.
- * @param {Array<Real>}		_n - The input value to check.
+ * @function - get_decimal_position(_n)
+ * @description - Get the position of the decimal place in the number.
+ * If the number is an integer, return 0.
+ * @param {Array<Real>}	_n - The input value to check.
  * @return {Real}
  */
 
@@ -13,49 +13,49 @@ function get_decimal_position(_n) {
 	return array_find_index(_n, _f);
 }
 
-
 /**
- * @function			is_negative(_n)
- * @description			Checks if the given input is a negative number.
- * @param {Array<Real>}	_n - The input value to check.
- * @return {Bool}
- */
-
-function is_negative(_n) {
-	return _n[0] == 10;
-}
-
-/**
- * @function			normalize(_n)
- * @description			Normalizes the input value by removing trailing zeros,
-						replacing "-" with the minus sign (U+2212),
- *						and ensuring consistent formatting.
- * @param {Array<Real>}	_n - The input value to normalize.
+ * @function - normalize(_m)
+ * @description - Normalizes the input value by removing trailing zeros and ensuring consistent formatting.
+ * @param {Array<Real>}	_m - The input value to normalize.
  * @returns {Array<Real>}
  */
 
-function normalize(_n){
+function normalize(_m) {
+	var _n = [];
+	array_copy(_n, 0, _m, 0, array_length(_m));
 	var _i = array_length(_n) - 1;
 	if (get_decimal_position(_n) != -1)
 		for (; _n[_i] == 0; _i--)
 			array_pop(_n);
-	if (_n[_i] == 10) array_pop(_n);
-	for (_i = 0; _n[_i] == 0; _i++)
-		array_shift(_n);
+	if (_n[_i] == 10)
+		array_pop(_n);
+	while (array_length(_n) > 1 and _n[0] == 11 and _n[1] == 11)
+		array_delete(_n, 0, 2);
+	var _start = 0;
+	if (_n[0] == 11) _start = 1;
+	while (array_length(_n) > _start and _n[_start] == 0)
+		array_delete(_n, _start, 1);
+	if (array_length(_n) == 0) return [0];
 	if (array_equals(_n, [10])) _n[0] = 0;
+	if (_n[0] == 10) _n = array_concat([0], _n);
 	return _n;
 }
 
 /**
- * @function			absolute_value(_n)
- * @description		Calculates the absolute value of the input value.
- * @param {String}	_n - The input value.
- * @returns {String}
+ * @function					absolute_value(_n)
+ * @description				Calculates the absolute value of the input value.
+ * @param {Array<Real>}		_m - The input value.
+ * @param {Bool}				_is_normalized - Check if the input is normalized.
+ * @returns {Array<Real>}
  */
 
-function absolute_value(_n) {
-	if (is_negative(_n)) _n = string_delete(_n, 1, 1);
-	return normalize(_n);
+function absolute_value(_m, _is_normalized=false) {
+	var _n = [];
+	if (_is_normalized) array_copy(_n, 0, _m, 0, array_length(_m));
+	else _n = normalize(_m);
+	if (_n[0] == 11)
+		array_delete(_n, 0, 1);
+	return _n;
 }
 
 /**
@@ -111,17 +111,24 @@ function floor_s(_n) {
 }
 
 /**
- * @function			inverse(_n)
- * @description		Calculates the inverse of the input value.
- *							If the input is negative, returns the positive value.
- *							If the input is positive, returns the negated value.
- * @param {String}	_n - The input value.
- * @returns {String} The inverse value.
+ * @function					inverse(_m)
+ * @description				Calculates the inverse of the input value.
+ *									If the input is negative, returns the positive value.
+ *									If the input is positive, returns the negated value.
+ * @param {Array<Real>}		_m - The input value.
+ * @param {Bool}				_is_normalized - Check if the input is normalized.
+ * @returns {Array<Real>}	The inverse value.
  */
 
-function inverse(_n) {
-	if (is_negative(_n)) return normalize(string_delete(_n, 0, 1));
-	return normalize("\u2212" + _n);
+function inverse(_m, _is_normalized) {
+	var _n = [];
+	if (_is_normalized) array_copy(_n, 0, _m, 0, array_length(_m));
+	else _n = normalize(_m);
+	if (_n[0] == 11)
+		array_shift(_n);
+	else
+		_n = array_concat([11], _n);
+	return _n;
 }
 
 /**
@@ -131,6 +138,7 @@ function inverse(_n) {
  * @param {Real}		_precision - The desired precision (number of decimal places).
  * @returns {String}
  */
+ 
 
 function round_decimal(_n, _precision = 0) {
 	var _dn = get_decimal_position(_n);
