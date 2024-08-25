@@ -1,61 +1,44 @@
 /**
- * @function - get_decimal_position(_n)
- * @description - Get the position of the decimal place in the number.
- * If the number is an integer, return 0.
- * @param {Array<Real>}	_n - The input value to check.
- * @return {Real}
+ * @function					normalize(_m)
+ * @description				Normalizes the input value by removing trailing zeros and ensuring consistent formatting.
+ * @param {Id.DsList}		_n - The input value to normalize.
+ * @returns {Undefined}
  */
 
-function get_decimal_position(_n) {
-	var _f = function(_element, _index) {
-		return _element == 10
+function normalize(_n) {
+	var _i = ds_list_size(_n) - 1;
+	if (ds_list_find_index(_n, 10) != -1)
+		for (; _n[| _i] == 0; _i--)
+			ds_list_delete(_n, _i);
+	if (_n[| _i] == 10)
+		ds_list_delete(_n, _i);
+	while (_n[| 0] == 11 and _n[| 1] == 11) {
+		ds_list_delete(_n, 0);
+		ds_list_delete(_n, 0);
 	}
-	return array_find_index(_n, _f);
-}
-
-/**
- * @function - normalize(_m)
- * @description - Normalizes the input value by removing trailing zeros and ensuring consistent formatting.
- * @param {Array<Real>}	_m - The input value to normalize.
- * @returns {Array<Real>}
- */
-
-function normalize(_m) {
-	var _n = [];
-	array_copy(_n, 0, _m, 0, array_length(_m));
-	var _i = array_length(_n) - 1;
-	if (get_decimal_position(_n) != -1)
-		for (; _n[_i] == 0; _i--)
-			array_pop(_n);
-	if (_n[_i] == 10)
-		array_pop(_n);
-	while (array_length(_n) > 1 and _n[0] == 11 and _n[1] == 11)
-		array_delete(_n, 0, 2);
 	var _start = 0;
-	if (_n[0] == 11) _start = 1;
-	while (array_length(_n) > _start and _n[_start] == 0)
-		array_delete(_n, _start, 1);
-	if (array_length(_n) == 0) return [0];
-	if (array_equals(_n, [10])) _n[0] = 0;
-	if (_n[0] == 10) _n = array_concat([0], _n);
-	return _n;
+	if (_n[| 0] == 11) _start = 1;
+	while (ds_list_size(_n) > _start and _n[| _start] == 0)
+		ds_list_delete(_n, _start);
+	if (ds_list_size(_n) == 0) ds_list_add(_n, 0);
+	if (ds_list_size(_n) == 1 and (_n[| 0] == 10 or _n[| 0] == 11)) _n[| 0] = 0;
+	if (_n[| _start] == 10) ds_list_insert(_n, _start, 0);
 }
 
 /**
- * @function					absolute_value(_n)
- * @description				Calculates the absolute value of the input value.
- * @param {Array<Real>}		_m - The input value.
- * @param {Bool}				_is_normalized - Check if the input is normalized.
- * @returns {Array<Real>}
+ * @function						absolute_value(_n)
+ * @description					Calculates the absolute value of the input value.
+ * @param {Id.DsList}	_n - The input value.
+ * @param {Bool}					_is_normalized - Check if the input is normalized.
+ * @returns {Id.DsList}
  */
 
-function absolute_value(_m, _is_normalized=false) {
-	var _n = [];
-	if (_is_normalized) array_copy(_n, 0, _m, 0, array_length(_m));
-	else _n = normalize(_m);
-	if (_n[0] == 11)
-		array_delete(_n, 0, 1);
-	return _n;
+function absolute_value(_n, _is_normalized=false) {
+	if (not _is_normalized) normalize(_n);
+	var _ans_list = ds_list_create();
+	ds_list_copy(_ans_list, _n);
+	if (_ans_list[| 0] == 11) ds_list_delete(_ans_list, 0);
+	return _ans_list;
 }
 
 /**
@@ -111,24 +94,24 @@ function floor_s(_n) {
 }
 
 /**
- * @function					inverse(_m)
- * @description				Calculates the inverse of the input value.
- *									If the input is negative, returns the positive value.
- *									If the input is positive, returns the negated value.
- * @param {Array<Real>}		_m - The input value.
- * @param {Bool}				_is_normalized - Check if the input is normalized.
- * @returns {Array<Real>}	The inverse value.
+ * @function						inverse(_n)
+ * @description					Calculates the inverse of the input value.
+ *										If the input is negative, returns the positive value.
+ *										If the input is positive, returns the negated value.
+ * @param {Id.DsList}			_n - The input value.
+ * @param {Bool}					_is_normalized - Check if the input is normalized.
+ * @returns {Id.DsList<Real>}	The inverse value.
  */
 
-function inverse(_m, _is_normalized) {
-	var _n = [];
-	if (_is_normalized) array_copy(_n, 0, _m, 0, array_length(_m));
-	else _n = normalize(_m);
-	if (_n[0] == 11)
-		array_shift(_n);
-	else
-		_n = array_concat([11], _n);
-	return _n;
+function inverse(_n, _is_normalized=false) {
+	if (not _is_normalized) normalize(_n);
+	var _ans_list = ds_list_create();
+	ds_list_copy(_ans_list, _n);
+	if (_ans_list[| 0] == 11)
+		ds_list_delete(_ans_list, 0);
+	else if (ds_list_size(_ans_list) > 1 or _ans_list[| 0] != 0)
+		ds_list_insert(_ans_list, 0, 11);
+	return _ans_list;
 }
 
 /**
@@ -152,31 +135,32 @@ function round_decimal(_n, _precision = 0) {
 }
 
 /**
- * @function			shift_decimal(_n)
- * @description		Shifts the decimal point of a numeric string.
- * @param {String}	_n - The input value.
- * @param {Real}		_shift - The number of positions to shift the decimal point.
- *							If positive, shifts to the right; if negative, shifts to 
- *							the left.
- * @returns {String}
+ * @function					shift_decimal(_n)
+ * @description				Shifts the decimal point of a numeric string.
+ * @param {Array<Real>}		_m - The input value.
+ * @param {Real}				_shift - The number of positions to shift the decimal point.
+ *									If positive, shifts to the right; if negative, shifts to 
+ *									the left.
+ * @param {Bool}				_is_normalized - Check if the input is normalized.
+ * @returns {Array<Real>}
  */
 
-function shift_decimal(_n, _shift) {
+function shift_decimal(_m, _shift, _is_normalized=false) {
+	var _n = [];
+	if (_is_normalized) array_copy(_n, 0, _m, 0, array_length(_m));
+	else _n = normalize(_m);
 	var _dn = get_decimal_position(_n);
-	if (_dn > string_length(_n)) _n += ".";
-	if (_shift < 0) {
-		var _pad = "";
-		for (var _i = 0; _i > _shift; _i--)
-			_pad += "0";
-		_n = _pad + _n;
-		_dn -= _shift;
-	} else if (_shift > 0) {
-		for (var _i = 0; _i < _shift; _i++)
-			_n += "0";
+	if (_dn == -1) {
+	} else {
+		while (_shift < 0 and _dn > 1) {
+			var _temp = _n[_dn];
+			_n[_dn] = _n[_dn - 1];
+			_n[_dn - 1] = _temp;
+			_dn--;
+			_shift++;
+		}
 	}
-	_n = string_delete(_n, _dn, 1);
-	_n = string_insert(".", _n, _dn + _shift);
-	return normalize(_n);
+	return _n;
 }
 
 /**

@@ -4,25 +4,22 @@
 /// @return {string}    reversed string
  
 function string_reverse(_str) {
-    var _out = "";
-    for(var _i=string_length(_str); _i>0; _i--) {
-        _out += string_char_at(_str, _i);
-    }
-    return _out;
+   var _out = "";
+   for(var _i=string_length(_str); _i>0; _i--) {
+      _out += string_char_at(_str, _i);
+   }
+   return _out;
 }
 
-function check_function(_func, _input, _repeat=10000) {
-	var _time = get_timer();
-	var _ans;
-	for (var _i = 0; _i < _repeat; _i++)
-		_ans = _func(_input);
-	_time = get_timer() - _time;
-	show_debug_message($"{script_get_name(_func)}({_input}) = {_ans} .");
-	show_debug_message($"Repeated {_repeat} times {_time} in microseconds.");
-}
+/// @func   print_ds_list(_str)
+/// @desc   Print a ds_list to the console
+/// @param  {Id.DsList}	_list - The ds_list to be printed
+/// @return {undefined}
 
-function check_function_multi_cases(_func, _test_cases, _repeat=10000) {
-	for (var _i = 0; _i < array_length(_test_cases); _i++)
-		check_function(_func, _test_cases[_i], _repeat);
-	show_debug_message("\n");
+function print_ds_list(_list) {
+	var _ans = "[ "
+	for (var _i = 0; _i < ds_list_size(_list); _i++)
+		_ans += string(_list[| _i]) + ", ";
+	_ans += "]";
+	show_debug_message(_ans);
 }
