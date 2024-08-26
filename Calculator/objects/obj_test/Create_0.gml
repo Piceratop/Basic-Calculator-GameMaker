@@ -31,10 +31,13 @@ for (var _i = 0; _i < array_length(test_cases); _i++) {
 	var _test_list = ds_list_create();
 	for (var _j = 0; _j < array_length(test_cases[_i]); _j++)
 		ds_list_add(_test_list, test_cases[_i, _j]);
-	var _ans_list = ds_list_create();
-	_ans_list = absolute_value(_test_list);
 	var _time = get_timer();
+	for (var _k = 0; _k < 10000; _k++) {
+		var _ans_list = absolute_value(_test_list);
+		ds_list_destroy(_ans_list);
+	}
 	show_debug_message(get_timer() - _time);
+	var _ans_list = absolute_value(_test_list);
 	print_ds_list(_ans_list);
 	ds_list_destroy(_test_list);
 	ds_list_destroy(_ans_list);
@@ -47,10 +50,13 @@ for (var _i = 0; _i < array_length(test_cases); _i++) {
 	var _test_list = ds_list_create();
 	for (var _j = 0; _j < array_length(test_cases[_i]); _j++)
 		ds_list_add(_test_list, test_cases[_i, _j]);
-	var _ans_list = ds_list_create();
-	_ans_list = inverse(_test_list);
 	var _time = get_timer();
+	for (var _k = 0; _k < 10000; _k++) {
+		var _ans_list = inverse(_test_list);
+		ds_list_destroy(_ans_list);
+	}
 	show_debug_message(get_timer() - _time);
+	var _ans_list = inverse(_test_list);
 	print_ds_list(_ans_list);
 	ds_list_destroy(_test_list);
 	ds_list_destroy(_ans_list);
@@ -58,8 +64,28 @@ for (var _i = 0; _i < array_length(test_cases); _i++) {
 show_debug_message("");
 
 // Shift Decimal
-//test_cases = [
-//	[[1, 2, 10, 3, 4], -1],
-//	[[1, 2, 10, 3, 4], 1]
-//]
-//check_function_multi_cases(shift_decimal, test_cases, 2);
+show_debug_message("Shift Decimal");
+test_cases_2 = [
+	[[1, 2, 10, 3, 4], 0],
+	[[1, 2, 10, 3, 4], -1],
+	[[1, 2, 10, 3, 4], 1],
+	[[1, 2, 10, 3, 4], -2],
+	[[1, 2, 10, 3, 4], 2],
+	[[1, 2, 10, 3, 4], -3],
+	[[1, 2, 10, 3, 4], 3],
+]
+for (var _i = 0; _i < array_length(test_cases_2); _i++) {
+	var _test_list = ds_list_create();
+	for (var _j = 0; _j < array_length(test_cases_2[_i][0]); _j++)
+		ds_list_add(_test_list, test_cases_2[_i][0][_j]);
+	var _time = get_timer();
+	for (var _k = 0; _k < 10000; _k++) {
+		var _ans_list = shift_decimal(_test_list, test_cases_2[_i][1]);
+		ds_list_destroy(_ans_list);
+	}
+	show_debug_message(get_timer() - _time);
+	var _ans_list = shift_decimal(_test_list, test_cases_2[_i][1]);
+	print_ds_list(_ans_list);
+	ds_list_destroy(_test_list);
+	ds_list_destroy(_ans_list);
+}

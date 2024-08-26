@@ -136,31 +136,38 @@ function round_decimal(_n, _precision = 0) {
 
 /**
  * @function					shift_decimal(_n)
- * @description				Shifts the decimal point of a numeric string.
- * @param {Array<Real>}		_m - The input value.
+ * @description				Shifts the decimal point of a given number.
+ * @param {Id.DsList}		_n - The input value.
  * @param {Real}				_shift - The number of positions to shift the decimal point.
  *									If positive, shifts to the right; if negative, shifts to 
  *									the left.
  * @param {Bool}				_is_normalized - Check if the input is normalized.
- * @returns {Array<Real>}
+ * @returns {Id.DsList<Real>}
  */
 
-function shift_decimal(_m, _shift, _is_normalized=false) {
-	var _n = [];
-	if (_is_normalized) array_copy(_n, 0, _m, 0, array_length(_m));
-	else _n = normalize(_m);
-	var _dn = get_decimal_position(_n);
+function shift_decimal(_n, _shift, _is_normalized=false) {
+	if (not _is_normalized) normalize(_n);
+	var _ans_list = ds_list_create();
+	ds_list_copy(_ans_list, _n);
+	var _dn = ds_list_find_index(_ans_list, 10);
 	if (_dn == -1) {
+		_dn = ds_list_size(_ans_list);
 	} else {
-		while (_shift < 0 and _dn > 1) {
-			var _temp = _n[_dn];
-			_n[_dn] = _n[_dn - 1];
-			_n[_dn - 1] = _temp;
-			_dn--;
-			_shift++;
-		}
+		ds_list_delete(_ans_list, _dn);
 	}
-	return _n;
+	var _decimal_new_pos = _dn + _shift;
+	if (_decimal_new_pos > 0 and _decimal_new_pos < ds_list_size(_ans_list)) {
+		ds_list_insert(_ans_list, _decimal_new_pos, 10);
+	} else if (_decimal_new_pos <= 0) {
+		for (; _decimal_new_pos < 0; _decimal_new_pos++)
+			ds_list_insert(_ans_list, 0, 0);
+		ds_list_insert(_ans_list, 0, 10);
+		ds_list_insert(_ans_list, 0, 0);
+	} else {
+		for (_decimal_new_pos = _decimal_new_pos - ds_list_size(_ans_list); _decimal_new_pos > 0; _decimal_new_pos--)
+			ds_list_insert(_ans_list, ds_list_size(_ans_list), 0);
+	}
+	return _ans_list;
 }
 
 /**
