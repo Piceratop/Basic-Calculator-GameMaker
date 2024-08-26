@@ -105,7 +105,8 @@ test_cases_3 = [
 	[[11, 1], [11, 2]],
 	[[11, 0], [11, 1]],
 	[[1], [11, 0]],
-	[[11, 1, 0, 10, 2], [11, 1, 0, 10, 2]]
+	[[11, 1, 0, 10, 2], [11, 1, 0, 10, 2]],
+	[[1, 4, 7, 8], [1, 3, 4, 5, 6]]
 ]
 for (var _i = 0; _i < array_length(test_cases_3); _i++) {
 	var _test_list_0 = ds_list_create();
@@ -127,3 +128,4 @@ for (var _i = 0; _i < array_length(test_cases_3); _i++) {
 	ds_list_destroy(_test_list_1);
 }
 show_debug_message("");
+

@@ -171,39 +171,6 @@ function shift_decimal(_n, _shift, _is_normalized=false) {
 }
 
 /**
- * @function						normalize_similar_form(_a, _b)
- *	@description					Normalizes two similar values to have the same number 
- *										of decimal places.
- *										If either value is an integer, it adds a decimal point.
- *										If one value has more decimal places than the other,
- *										it pads with zeros.
- * @param {String}				_a - The first value.
- * @param {String}				_b - The second value.
- * @param {Bool}					_is_normalized - Check if the input is normalized.
- * @returns {Array<String>}
- */
-
-function normalize_similar_form(_a, _b) {
-	_a = normalize(_a); _b = normalize(_b);
-	var _decimal_a = get_decimal_position(_a);
-	if (_decimal_a > string_length(_a)) {
-		_a += ".";
-	}
-	var _decimal_b = get_decimal_position(_b);
-	if (_decimal_b > string_length(_b)) {
-		_b += ".";
-	}
-	var _i;
-	for (_i = _decimal_a; _i < _decimal_b; _i++) _a = "0" + _a;
-	for (_i = _decimal_b; _i < _decimal_a; _i++) _b = "0" + _b;
-	var _sa = string_length(_a);
-	var _sb = string_length(_b);
-	for (_i = _sa; _i < _sb; _i++) _a += "0";
-	for (_i = _sb; _i < _sa; _i++) _b += "0";
-	return [_a, _b];
-}
-
-/**
  * @function				compare(_a, _b)
  *	@description			Compare two numbers. Return -1 if the first number is 
  *								smaller, 0 if the two number has the same value, 1 if
@@ -229,52 +196,61 @@ function compare(_a, _b, _is_normalized=false) {
 			return -1;
 		case 2:
 			return 1;
-		case 3:
-			var _c = inverse(_a, true);
-			var _d = inverse(_b, true);
-			var _ans = compare(_c, _d);
-			ds_list_destroy(_c);
-			ds_list_destroy(_d);
-			return -_ans;
 	}
 	var _dec_pos_a = ds_list_find_index(_a, 10);
+	if (_dec_pos_a == -1) _dec_pos_a = ds_list_size(_a);
 	var _dec_pos_b = ds_list_find_index(_b, 10);
-	if (_dec_pos_a > _dec_pos_b) return 1;
-	if (_dec_pos_b > _dec_pos_a) return -1;
+	if (_dec_pos_b == -1) _dec_pos_b = ds_list_size(_b);
+	if (_is_both_negative == 3) {
+		if (_dec_pos_a > _dec_pos_b) return -1;
+		if (_dec_pos_b > _dec_pos_a) return -1;
+	} else {
+		if (_dec_pos_a > _dec_pos_b) return 1;
+		if (_dec_pos_b > _dec_pos_a) return -1;
+	}
 	for (var _i = 0; _i < max(ds_list_size(_a), ds_list_size(_b)); _i++) {
 		var _cur_a = (_i < ds_list_size(_a)) ? _a[| _i] : 0;
 		var _cur_b = (_i < ds_list_size(_b)) ? _b[| _i] : 0;
-		if (_cur_a > _cur_b) return 1;
-		if (_cur_b > _cur_a) return -1;
+		if (_is_both_negative == 3) {
+			if (_cur_a > _cur_b) return -1;
+			if (_cur_b > _cur_a) return 1;
+		} else {
+			if (_cur_a > _cur_b) return 1;
+			if (_cur_b > _cur_a) return -1;
+		}
 	}	
 	return 0;
 }
 
 /**
- * @function			add(_a, _b)
- *	@description		Adds two real numbers represented as string.
- * @param {String}	_a - The first addend.
- * @param {String}	_b - The second addend.
- * @returns {String}
+ * @function				add(_a, _b)
+ *	@description			Adds two real numbers.
+ * @param {Id.DsList}	_a - The first addend.
+ * @param {Id.DsList}	_b - The second addend.
+ * @param {Bool}			_is_normalized - Check if the input is normalized.
+ * @returns {Id.DsList}
  */
 
-function add(_a, _b) {
-	if (compare(_a, _b) == -1) return add(_b, _a);
-	if (compare("0", _b) == 1) return subtract(_a, inverse(_b));
-	var _nml = normalize_similar_form(_a, _b);
-	_a = _nml[0]; _b = _nml[1]; 
-	var _reverse_ans = "";
-	var _carry = 0;
-	for (var _i = string_length(_a); _i > 0; _i--) {
-		if (string_char_at(_a, _i) == ".") {
-			_reverse_ans += ".";
+function add(_a, _b, _is_normalized=false) {
+	if (not _is_normalized) {
+		normalize(_a);
+		normalize(_b);
+	}
+	var _dec_pos_a = ds_list_find_index(_a, 10);
+	if (_dec_pos_a == -1) _dec_pos_a = ds_list_size(_a);
+	var _dec_pos_b = ds_list_find_index(_b, 10);
+	if (_dec_pos_b == -1) _dec_pos_b = ds_list_size(_b);
+	var _ans_list = ds_list_create();
+	for (
+		var _i = max(ds_list_size(_a) - 1 - _dec_pos_a, ds_list_size(_b) - 1 - _dec_pos_b);
+		_i >= min(-_dec_pos_a, -_dec_pos_b);
+		_i--
+	) {
+		if (_i == 0) {
+			ds_list_add(_ans_list, 10);
 			continue;
 		}
-		var _s = real(string_char_at(_a, _i)) + real(string_char_at(_b, _i)) + _carry;
-		_reverse_ans += string(_s % 10);
-		_carry = floor(_s / 10);
 	}
-	return normalize(string_reverse(_reverse_ans + string(_carry)));
 }
 
 /**
