@@ -179,6 +179,7 @@ function shift_decimal(_n, _shift, _is_normalized=false) {
  *										it pads with zeros.
  * @param {String}				_a - The first value.
  * @param {String}				_b - The second value.
+ * @param {Bool}					_is_normalized - Check if the input is normalized.
  * @returns {Array<String>}
  */
 
@@ -203,41 +204,49 @@ function normalize_similar_form(_a, _b) {
 }
 
 /**
- * @function			compare(_a, _b)
- *	@description		Compare two numbers. Return -1 if the first number is 
- *							smaller, 0 if the two number has the same value, 1 if
- *							the first number if bigger.
- * @param {String}	_a - The first real number.
- * @param {String}	_b - The second real number.
+ * @function				compare(_a, _b)
+ *	@description			Compare two numbers. Return -1 if the first number is 
+ *								smaller, 0 if the two number has the same value, 1 if
+ *								the first number if bigger.
+ * @param {Id.DsList}	_a - The first real number.
+ * @param {Id.DsList}	_b - The second real number.
+ * @param {Bool}			_is_normalized - Check if the input is normalized.
  * @returns {Real}
  */
 
-function compare(_a, _b) {
-	_a = normalize(_a); _b = normalize(_b);
+function compare(_a, _b, _is_normalized=false) {
+	if (not _is_normalized) {
+		normalize(_a);
+		normalize(_b);
+	}
 	var _is_both_negative = 0;
-	if (string_char_at(_a, 1) == "-")
+	if (_a[| 0] == 11)
 		_is_both_negative += 1;
-	if (string_char_at(_b, 1) == "-")
+	if (_b[| 0] == 11)
 		_is_both_negative += 2;
 	switch (_is_both_negative) {
 		case 1:
 			return -1;
 		case 2:
 			return 1;
+		case 3:
+			var _c = inverse(_a, true);
+			var _d = inverse(_b, true);
+			var _ans = compare(_c, _d);
+			ds_list_destroy(_c);
+			ds_list_destroy(_d);
+			return -_ans;
 	}
-	var _nml = normalize_similar_form(_a, _b);
-	_a = _nml[0]; _b = _nml[1]; 
-	for (var _i = 1; _i <= string_length(_a); _i++) {
-		var _ord_ai = ord(string_char_at(_a, _i));
-		var _ord_bi = ord(string_char_at(_b, _i));
-		if (_ord_ai > _ord_bi) {
-			if (_is_both_negative == 3) return -1;
-			return 1;
-		} else if (_ord_ai < _ord_bi) {
-			if (_is_both_negative == 3) return 1;
-			return -1;
-		}
-	}
+	var _dec_pos_a = ds_list_find_index(_a, 10);
+	var _dec_pos_b = ds_list_find_index(_b, 10);
+	if (_dec_pos_a > _dec_pos_b) return 1;
+	if (_dec_pos_b > _dec_pos_a) return -1;
+	for (var _i = 0; _i < max(ds_list_size(_a), ds_list_size(_b)); _i++) {
+		var _cur_a = (_i < ds_list_size(_a)) ? _a[| _i] : 0;
+		var _cur_b = (_i < ds_list_size(_b)) ? _b[| _i] : 0;
+		if (_cur_a > _cur_b) return 1;
+		if (_cur_b > _cur_a) return -1;
+	}	
 	return 0;
 }
 
