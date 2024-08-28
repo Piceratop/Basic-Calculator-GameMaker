@@ -223,12 +223,12 @@ function compare(_a, _b, _is_normalized=false) {
 }
 
 /**
- * @function				add(_a, _b)
- *	@description			Adds two real numbers.
- * @param {Id.DsList}	_a - The first addend.
- * @param {Id.DsList}	_b - The second addend.
- * @param {Bool}			_is_normalized - Check if the input is normalized.
- * @returns {Id.DsList}
+ * @function						add(_a, _b)
+ *	@description					Adds two real numbers.
+ * @param {Id.DsList}			_a - The first addend.
+ * @param {Id.DsList}			_b - The second addend.
+ * @param {Bool}					_is_normalized - Check if the input is normalized.
+ * @returns {Id.DsList<Any>}
  */
 
 function add(_a, _b, _is_normalized=false) {
@@ -241,6 +241,7 @@ function add(_a, _b, _is_normalized=false) {
 	var _dec_pos_b = ds_list_find_index(_b, 10);
 	if (_dec_pos_b == -1) _dec_pos_b = ds_list_size(_b);
 	var _ans_list = ds_list_create();
+	var _carry = 0;
 	for (
 		var _i = max(ds_list_size(_a) - 1 - _dec_pos_a, ds_list_size(_b) - 1 - _dec_pos_b);
 		_i >= min(-_dec_pos_a, -_dec_pos_b);
@@ -250,7 +251,17 @@ function add(_a, _b, _is_normalized=false) {
 			ds_list_add(_ans_list, 10);
 			continue;
 		}
+		var _digit_a = _a[| _dec_pos_a + _i];
+		if (is_undefined(_digit_a)) _digit_a = 0;
+		var _digit_b = _b[| _dec_pos_b + _i];
+		if (is_undefined(_digit_b)) _digit_b = 0;
+		var _ds = _digit_a + _digit_b + _carry;
+		ds_list_add(_ans_list, _ds % 10);
+		_carry = _ds > 10;
 	}
+	if (_carry == 1) ds_list_add(_ans_list, 1);
+	ds_list_reverse(_ans_list);
+	return _ans_list;
 }
 
 /**
