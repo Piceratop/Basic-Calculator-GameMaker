@@ -180,3 +180,7 @@ for (var _i = 0; _i < array_length(test_cases_3); _i++) {
 	ds_list_destroy(_ans_list);
 }
 show_debug_message("");
+
+// Multiply
+show_debug_message("Multiply");
+show_debug_message("");

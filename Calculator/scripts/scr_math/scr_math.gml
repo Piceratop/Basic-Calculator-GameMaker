@@ -171,58 +171,6 @@ function shift_decimal(_n, _shift, _is_normalized=false) {
 }
 
 /**
- * @function				compare(_a, _b)
- *	@description			Compare two numbers. Return -1 if the first number is 
- *								smaller, 0 if the two number has the same value, 1 if
- *								the first number if bigger.
- * @param {Id.DsList}	_a - The first real number.
- * @param {Id.DsList}	_b - The second real number.
- * @param {Bool}			_is_normalized - Check if the input is normalized.
- * @returns {Real}
- */
-
-function compare(_a, _b, _is_normalized=false) {
-	if (not _is_normalized) {
-		normalize(_a);
-		normalize(_b);
-	}
-	var _is_both_negative = 0;
-	if (_a[| 0] == 11)
-		_is_both_negative += 1;
-	if (_b[| 0] == 11)
-		_is_both_negative += 2;
-	switch (_is_both_negative) {
-		case 1:
-			return -1;
-		case 2:
-			return 1;
-	}
-	var _dec_pos_a = ds_list_find_index(_a, 10);
-	if (_dec_pos_a == -1) _dec_pos_a = ds_list_size(_a);
-	var _dec_pos_b = ds_list_find_index(_b, 10);
-	if (_dec_pos_b == -1) _dec_pos_b = ds_list_size(_b);
-	if (_is_both_negative == 3) {
-		if (_dec_pos_a > _dec_pos_b) return -1;
-		if (_dec_pos_b > _dec_pos_a) return -1;
-	} else {
-		if (_dec_pos_a > _dec_pos_b) return 1;
-		if (_dec_pos_b > _dec_pos_a) return -1;
-	}
-	for (var _i = 0; _i < max(ds_list_size(_a), ds_list_size(_b)); _i++) {
-		var _cur_a = (_i < ds_list_size(_a)) ? _a[| _i] : 0;
-		var _cur_b = (_i < ds_list_size(_b)) ? _b[| _i] : 0;
-		if (_is_both_negative == 3) {
-			if (_cur_a > _cur_b) return -1;
-			if (_cur_b > _cur_a) return 1;
-		} else {
-			if (_cur_a > _cur_b) return 1;
-			if (_cur_b > _cur_a) return -1;
-		}
-	}	
-	return 0;
-}
-
-/**
  * @function						add(_a, _b)
  *	@description					Adds two real numbers.
  * @param {Id.DsList}			_a - The first addend.
@@ -284,6 +232,58 @@ function add(_a, _b, _is_normalized=false) {
 	ds_list_reverse(_ans_list);
 	normalize(_ans_list);
 	return _ans_list;
+}
+
+/**
+ * @function				compare(_a, _b)
+ *	@description			Compare two numbers. Return -1 if the first number is 
+ *								smaller, 0 if the two number has the same value, 1 if
+ *								the first number if bigger.
+ * @param {Id.DsList}	_a - The first real number.
+ * @param {Id.DsList}	_b - The second real number.
+ * @param {Bool}			_is_normalized - Check if the input is normalized.
+ * @returns {Real}
+ */
+
+function compare(_a, _b, _is_normalized=false) {
+	if (not _is_normalized) {
+		normalize(_a);
+		normalize(_b);
+	}
+	var _is_both_negative = 0;
+	if (_a[| 0] == 11)
+		_is_both_negative += 1;
+	if (_b[| 0] == 11)
+		_is_both_negative += 2;
+	switch (_is_both_negative) {
+		case 1:
+			return -1;
+		case 2:
+			return 1;
+	}
+	var _dec_pos_a = ds_list_find_index(_a, 10);
+	if (_dec_pos_a == -1) _dec_pos_a = ds_list_size(_a);
+	var _dec_pos_b = ds_list_find_index(_b, 10);
+	if (_dec_pos_b == -1) _dec_pos_b = ds_list_size(_b);
+	if (_is_both_negative == 3) {
+		if (_dec_pos_a > _dec_pos_b) return -1;
+		if (_dec_pos_b > _dec_pos_a) return -1;
+	} else {
+		if (_dec_pos_a > _dec_pos_b) return 1;
+		if (_dec_pos_b > _dec_pos_a) return -1;
+	}
+	for (var _i = 0; _i < max(ds_list_size(_a), ds_list_size(_b)); _i++) {
+		var _cur_a = (_i < ds_list_size(_a)) ? _a[| _i] : 0;
+		var _cur_b = (_i < ds_list_size(_b)) ? _b[| _i] : 0;
+		if (_is_both_negative == 3) {
+			if (_cur_a > _cur_b) return -1;
+			if (_cur_b > _cur_a) return 1;
+		} else {
+			if (_cur_a > _cur_b) return 1;
+			if (_cur_b > _cur_a) return -1;
+		}
+	}	
+	return 0;
 }
 
 /**
