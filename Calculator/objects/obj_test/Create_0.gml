@@ -97,16 +97,18 @@ test_cases_3 = [
 	[[1], [1]],
 	[[1], [2]],
 	[[2], [1]],
+	[[0], [11, 0]],
+	[[1], [11, 0]],
+	[[11, 1], [11, 2]],
+	[[11, 0], [11, 1]],
+	[[1, 4, 7, 8], [1, 3, 4, 5, 6]],
+	[[11, 1, 0, 10, 2], [11, 1, 0, 10, 2]],
+	[[11, 6, 3, 9, 1, 9, 2], [11, 8, 4, 3, 0, 5, 4]],
+	[[1, 10, 2, 4, 6, 8, 9], [1, 10, 7, 5, 3, 1, 1]],
 	[[1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 5, 6, 7, 8, 9]],
 	[[11, 1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 5, 6, 7, 8, 9]],
 	[[1, 2, 3, 4, 5, 6, 7, 8, 9], [11, 1, 2, 3, 4, 5, 6, 7, 8, 9]],
 	[[1, 2, 3, 4, 5, 6, 10, 4, 5], [1, 2, 3, 10, 4, 5, 6, 7, 8, 9, 1, 2, 3]],
-	[[0], [11, 0]],
-	[[11, 1], [11, 2]],
-	[[11, 0], [11, 1]],
-	[[1], [11, 0]],
-	[[11, 1, 0, 10, 2], [11, 1, 0, 10, 2]],
-	[[1, 4, 7, 8], [1, 3, 4, 5, 6]]
 ]
 for (var _i = 0; _i < array_length(test_cases_3); _i++) {
 	var _test_list_0 = ds_list_create();
@@ -130,6 +132,7 @@ for (var _i = 0; _i < array_length(test_cases_3); _i++) {
 show_debug_message("");
 
 // Add
+show_debug_message("Add");
 for (var _i = 0; _i < array_length(test_cases_3); _i++) {
 	var _test_list_0 = ds_list_create();
 	var _test_list_1 = ds_list_create();
@@ -151,4 +154,29 @@ for (var _i = 0; _i < array_length(test_cases_3); _i++) {
 	ds_list_destroy(_test_list_1);
 	ds_list_destroy(_ans_list);
 }
+show_debug_message("");
 
+// Subtract
+show_debug_message("Subtract");
+for (var _i = 0; _i < array_length(test_cases_3); _i++) {
+	var _test_list_0 = ds_list_create();
+	var _test_list_1 = ds_list_create();
+	for (var _j = 0; _j < array_length(test_cases_3[_i][0]); _j++) {
+		ds_list_add(_test_list_0, test_cases_3[_i][0][_j]);	
+	}
+	for (var _j = 0; _j < array_length(test_cases_3[_i][1]); _j++) {
+		ds_list_add(_test_list_1, test_cases_3[_i][1][_j]);	
+	}
+	var _time = get_timer();
+	for (var _k = 0; _k < 10000; _k++) {
+		var _ans_list = subtract(_test_list_0, _test_list_1);
+		ds_list_destroy(_ans_list);
+	}
+	show_debug_message(get_timer() - _time);
+	var _ans_list = subtract(_test_list_0, _test_list_1);
+	print_ds_list(_ans_list);
+	ds_list_destroy(_test_list_0);
+	ds_list_destroy(_test_list_1);
+	ds_list_destroy(_ans_list);
+}
+show_debug_message("");

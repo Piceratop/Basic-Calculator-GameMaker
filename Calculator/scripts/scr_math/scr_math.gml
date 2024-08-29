@@ -228,13 +228,34 @@ function compare(_a, _b, _is_normalized=false) {
  * @param {Id.DsList}			_a - The first addend.
  * @param {Id.DsList}			_b - The second addend.
  * @param {Bool}					_is_normalized - Check if the input is normalized.
- * @returns {Id.DsList<Any>}
+ * @returns {Id.DsList}
  */
 
 function add(_a, _b, _is_normalized=false) {
 	if (not _is_normalized) {
 		normalize(_a);
 		normalize(_b);
+		if (_a[| 0] == 11 and _b[| 0] == 11) {
+			ds_list_delete(_a, 0);
+			ds_list_delete(_b, 0);
+			var _c = add(_a, _b, true);
+			ds_list_insert(_a, 0, 11);
+			ds_list_insert(_b, 0, 11);
+			ds_list_insert(_c, 0, 11);
+			return _c;
+		}
+		if (_a[| 0] == 11) {
+			ds_list_delete(_a, 0);
+			var _c = subtract(_b, _a, true);
+			ds_list_insert(_a, 0, 11);
+			return _c;
+		}
+		if (_b[| 0] == 11)  {
+			ds_list_delete(_b, 0);
+			var _c = subtract(_a, _b, true);
+			ds_list_insert(_b, 0, 11);
+			return _c;
+		}
 	}
 	var _dec_pos_a = ds_list_find_index(_a, 10);
 	if (_dec_pos_a == -1) _dec_pos_a = ds_list_size(_a);
@@ -261,39 +282,100 @@ function add(_a, _b, _is_normalized=false) {
 	}
 	if (_carry == 1) ds_list_add(_ans_list, 1);
 	ds_list_reverse(_ans_list);
+	normalize(_ans_list);
 	return _ans_list;
 }
 
 /**
- * @function			subtract(_a, _b)
- *	@description		Subtracts two real numbers represented as string.
- * @param {String}	_a - The minuend.
- * @param {String}	_b - The subtrahend.
- * @returns {String}
+ * @function				subtract(_a, _b)
+ * @description			Subtracts two real numbers.
+ * @param {Id.DsList}	_a - The minuend.
+ * @param {Id.DsList}	_b - The subtrahend.
+ * @param {Bool}			_is_normalized - Check if the input is normalized.
+ * @returns {Id.DsList}
  */
 
-function subtract(_a, _b) {
-	if (compare("0", _b) == 1) return add(_a, inverse(_b));
-	if (compare("0", _a) == 1) return inverse(add(inverse(_a), _b));
-	if (compare(_a, _b) == -1) return inverse(subtract(_b, _a));
-	var _nml = normalize_similar_form(_a, _b);
-	_a = _nml[0]; _b = _nml[1];
-	var _reverse_ans = "";
-	var _borrow = 0;
-	for (var _i = string_length(_a); _i > 0; _i--) {
-		if (string_char_at(_a, _i) == ".") {
-			_reverse_ans += ".";
-			continue;
+function subtract(_a, _b, _is_normalized=false) {
+	if (not _is_normalized) {
+		normalize(_a);
+		normalize(_b);
+		if (_a[| 0] == 11 and _b[| 0] == 11) {
+			ds_list_delete(_b, 0);
+			ds_list_delete(_a, 0);
+			var _c = subtract(_b, _a, true);
+			ds_list_insert(_a, 0, 11);
+			ds_list_insert(_b, 0, 11);
+			return _c;
 		}
-		var _d = real(string_char_at(_a, _i)) - real(string_char_at(_b, _i)) - _borrow;
-		if (_d < 0) {
-			_d += 10;
-			_borrow = 1;
-		} else
-			_borrow = 0;
-		_reverse_ans += string(_d);
+		if (_a[| 0] == 11) {
+			ds_list_delete(_a, 0);
+			var _c = add(_a, _b, true);
+			ds_list_insert(_a, 0, 11);
+			ds_list_insert(_c, 0, 11);
+			return _c;
+		}
+		if (_b[| 0] == 11) {
+			ds_list_delete(_b, 0);
+			var _c = add(_a, _b, true);
+			ds_list_insert(_b, 0, 11);
+			return _c;
+		}
 	}
-	return normalize(string_reverse(_reverse_ans));
+	var _dec_pos_a = ds_list_find_index(_a, 10);
+	if (_dec_pos_a == -1) _dec_pos_a = ds_list_size(_a);
+	var _dec_pos_b = ds_list_find_index(_b, 10);
+	if (_dec_pos_b == -1) _dec_pos_b = ds_list_size(_b);
+	var _ans_list = ds_list_create();
+	if (compare(_a, _b) == -1) {
+		var _borrow = 0;
+		for (
+			var _i = max(ds_list_size(_a) - 1 - _dec_pos_a, ds_list_size(_b) - 1 - _dec_pos_b);
+			_i >= min(-_dec_pos_a, -_dec_pos_b);
+			_i--
+		) {
+			if (_i == 0) {
+				ds_list_add(_ans_list, 10);
+				continue;
+			}
+			var _digit_a = _a[| _dec_pos_a + _i];
+			if (is_undefined(_digit_a)) _digit_a = 0;
+			var _digit_b = _b[| _dec_pos_b + _i];
+			if (is_undefined(_digit_b)) _digit_b = 0;
+			var _ds = _digit_b - _digit_a - _borrow;
+			if (_ds < 0) {
+				_ds += 10;
+				_borrow = 1;
+			} else _borrow = 1;
+			ds_list_add(_ans_list, _ds);
+		}
+		ds_list_add(_ans_list, 11);
+		ds_list_reverse(_ans_list);
+	} else {
+		var _borrow = 0;
+		for (
+			var _i = max(ds_list_size(_a) - 1 - _dec_pos_a, ds_list_size(_b) - 1 - _dec_pos_b);
+			_i >= min(-_dec_pos_a, -_dec_pos_b);
+			_i--
+		) {
+			if (_i == 0) {
+				ds_list_add(_ans_list, 10);
+				continue;
+			}
+			var _digit_a = _a[| _dec_pos_a + _i];
+			if (is_undefined(_digit_a)) _digit_a = 0;
+			var _digit_b = _b[| _dec_pos_b + _i];
+			if (is_undefined(_digit_b)) _digit_b = 0;
+			var _ds = _digit_a - _digit_b - _borrow;
+			if (_ds < 0) {
+				_ds += 10;
+				_borrow = 1;
+			} else _borrow = 0;
+			ds_list_add(_ans_list, _ds);
+		}
+		ds_list_reverse(_ans_list);
+	}
+	normalize(_ans_list);
+	return _ans_list;
 }
 
 /**
