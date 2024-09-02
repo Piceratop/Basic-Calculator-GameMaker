@@ -287,8 +287,87 @@ function compare(_a, _b, _is_normalized=false) {
 }
 
 /**
+ * @function				int_multiply_v1(_a, _b)
+ *	@description			Multiply two integers (Long Multiplication).
+ * @param {Id.DsList}	_a - The multiplier.
+ * @param {Id.DsList}	_b - The multiplicand.
+ * @returns {Id.DsList}
+ */
+
+function int_multiply_v1(_a, _b) {
+	var _ans_list = ds_list_create();
+	var _carry = 0;
+	for (var _i = ds_list_size(_b) - 1; _i >= 0; _i--) {
+		for (var _j = ds_list_size(_a) - 1; _j >= 0; _j--) {
+			var _curr_prod = _a[| _j] * _b[| _i] + _carry;
+			var _curr_id = ds_list_size(_a) + ds_list_size(_b) - 2 - _i - _j;
+			if (_curr_id >= ds_list_size(_ans_list))
+				ds_list_add(_ans_list, _curr_prod % 10);
+			else {
+				_curr_prod += _ans_list[| _curr_id];
+				_ans_list[| _curr_id] = _curr_prod % 10;
+			}
+			_carry = _curr_prod div 10;
+		}
+		if (_carry > 0) {
+			ds_list_add(_ans_list, _carry);
+			_carry = 0;
+		}
+	}
+	ds_list_reverse(_ans_list);
+	return _ans_list;
+}
+
+/**
+ * @function				int_multiply_v2(_a, _b)
+ *	@description			Multiply two integers (Karatsuba).
+ * @param {Id.DsList}	_a - The multiplier.
+ * @param {Id.DsList}	_b - The multiplicand.
+ * @returns {Id.DsList}
+ */
+
+function int_multiply_v2(_a, _b) {
+	var _ans_list = ds_list_create();
+	if (ds_list_size(_a) == 1) {
+		var _curr_prod = 0;
+		for (var _i = ds_list_size(_b) - 1; _i >= 0; _i--) {
+			_curr_prod += _a[| 0] * _b[| _i];
+			ds_list_add(_ans_list, _curr_prod % 10);
+			_curr_prod = _curr_prod div 10;
+		}
+		if (_curr_prod > 0) ds_list_add(_ans_list, _curr_prod);
+		ds_list_reverse(_ans_list);
+		return _ans_list;
+	} else if (ds_list_size(_b) == 1) {
+		var _curr_prod = 0;
+		for (var _i = ds_list_size(_a) - 1; _i >= 0; _i-- ) {
+			_curr_prod += _a[| _i] * _b[| 0];
+			ds_list_add(_ans_list, _curr_prod % 10);
+			_curr_prod = _curr_prod div 10;
+		}
+		if (_curr_prod > 0) ds_list_add(_ans_list, _curr_prod);
+		ds_list_reverse(_ans_list);
+		return _ans_list;
+	}
+	var _bm_shift = ceil(min(ds_list_size(_a), ds_list_size(_b)) / 2);
+	var _a0 = ds_list_create();
+	var _a1 = ds_list_create();
+	for (var _i = 0; _i < ds_list_size(_a) - _bm_shift; _i++)
+		ds_list_add(_a0, _a[| _i]);
+	for (var _i = ds_list_size(_a) - _bm_shift; _i < ds_list_size(_a); _i++)
+		ds_list_add(_a1, _a[| _i]);
+	var _b0 = ds_list_create();
+	var _b1 = ds_list_create();
+	for (var _i = 0l _i < ds_list_size(_b) - _bm_shift; _i++)
+		ds_list_add(_b0, _b[| _i]);
+	for (var _i = ds_list_size(_b) - _bm_shift; _i < ds_list_size(_b); _i++)
+		ds_list_add(_b1, _b[| _i]);
+	return _ans_list;
+}
+
+/**
  * @function				subtract(_a, _b)
- * @description			Subtracts two real numbers.
+ * @description			Subtract two real numbers.
  * @param {Id.DsList}	_a - The minuend.
  * @param {Id.DsList}	_b - The subtrahend.
  * @param {Bool}			_is_normalized - Check if the input is normalized.
@@ -376,36 +455,6 @@ function subtract(_a, _b, _is_normalized=false) {
 	}
 	normalize(_ans_list);
 	return _ans_list;
-}
-
-/**
- * @function			int_multiply(_a, _b)
- *	@description		Multiplies two integers represented as string.
- * @param {String}	_a - The multiplier.
- * @param {String}	_b - The multiplicand.
- * @returns {String}
- */
-
-function int_multiply(_a, _b) {
-	var _nml = normalize_similar_form(_a, _b);
-	_a = string_delete(_nml[0], string_length(_nml[0]), 1); 
-	_b = string_delete(_nml[1], string_length(_nml[1]), 1);
-	var _sa = string_length(_a);
-	var _sb = string_length(_b);
-	if (_sa > 6) {
-		var _a_h = string_delete(_a, 1 + floor(_sa / 2), _sa);
-		var _a_l = string_delete(_a, 1, floor(_sa / 2));
-		var _b_h = string_delete(_b, 1 + floor(_sb / 2), _sb);
-		var _b_l = string_delete(_b, 1, floor(_sb / 2));
-		var _c1 = int_multiply(_a_h, _b_h);
-		var _c3 = int_multiply(_a_l, _b_l);
-		var _d = add(_a_h, _a_l);
-		var _e = add(_b_h, _b_l);
-		var _c2 = subtract(subtract(int_multiply(_d, _e), _c1), _c3);
-		for (var _i = 0; _i < string_length(_a_l) * 2; _i++) _c1 += "0";
-		for (var _i = 0; _i < string_length(_a_l); _i++) _c2 += "0";
-		return add(add(_c1, _c2), _c3);
-	} else return string(real(_a) * real(_b));
 }
 
 /**
