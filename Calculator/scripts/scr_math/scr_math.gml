@@ -1,7 +1,7 @@
 /**
- * @function					normalize(_m)
- * @description				Normalizes the input value by removing trailing zeros and ensuring consistent formatting.
- * @param {Id.DsList}		_n - The input value to normalize.
+ * @function						normalize(_m)
+ * @description					Normalizes the input value by removing trailing zeros and ensuring consistent formatting.
+ * @param {Id.DsList<Real>}	_n - The input value to normalize.
  * @returns {Undefined}
  */
 
@@ -26,11 +26,11 @@ function normalize(_n) {
 }
 
 /**
- * @function						absolute_value(_n)
+ * @function						absolute_value(_n, _is_normalized)
  * @description					Calculates the absolute value of the input value.
- * @param {Id.DsList}	_n - The input value.
+ * @param {Id.DsList<Real>}	_n - The input value.
  * @param {Bool}					_is_normalized - Check if the input is normalized.
- * @returns {Id.DsList}
+ * @returns {Id.DsList<Real>}
  */
 
 function absolute_value(_n, _is_normalized=false) {
@@ -42,63 +42,24 @@ function absolute_value(_n, _is_normalized=false) {
 }
 
 /**
- * @function			ceiling_decimal(_n, _precision)
- * @description		Calculates the ceiling value of a numeric string with
- *							a specified precision.
- * @param {String}	_n - The input numeric string.
- * @param {Real}		_precision - The desired precision (number of decimal places).
- * @returns {String}
+ * @function						self_absolute_value(_self, _is_normalized)
+ * @description					Calculates the absolute value of the input value, then reassign to the input.
+ * @param {Id.DsList<Real>}	_self - The input value.
+ * @param {Bool}					_is_normalized - Check if the input is normalized.
+ * @returns {undefined}
  */
-function ceiling_decimal(_n, _precision = 0) {
-	return shift_decimal(ceiling_s(shift_decimal(_n, _precision)), -_precision);
+
+function self_absolute_value(_self, _is_normalized=false) {
+	if (not _is_normalized) normalize(_self);
+	if (_self[| 0] == 11) ds_list_delete(_self, 0);
 }
 
 /**
- * @function			ceiling_s(_n)
- * @description		Rounds up a numeric value to the nearest integer.
- * @param {String}	_n - The input value.
- * @returns {String}
- */
-
-function ceiling_s(_n) {
-	if (is_negative(_n))	return inverse(floor_s(inverse(_n)));
-	_n = normalize(_n);
-	var _dn = get_decimal_position(_n);
-	if (_dn > string_length(_n)) return _n;
-	else return add(string_delete(_n, _dn, string_length(_n)), "1");
-}
-
-/**
- * @function			ceiling_decimal(_n, _precision)
- * @description		Calculates the floor value of a numeric string with
- *							a specified precision.
- * @param {String}	_n - The input numeric string.
- * @param {Real}		_precision - The desired precision (number of decimal places).
- * @returns {String}
- */
-
-function floor_decimal(_n, _precision = 0) {
-	return shift_decimal(floor_s(shift_decimal(_n, _precision)), -_precision);
-}
-
-/**
- * @function			floor_s(_n)
- * @description		Rounds down a numeric value to the nearest integer.
- * @param {String}	_n - The input value.
- * @returns {String}
- */
-
-function floor_s(_n) {
-	if (is_negative(_n))	return inverse(ceiling_s(inverse(_n)));
-	return normalize(string_delete(_n, get_decimal_position(_n), string_length(_n)));
-}
-
-/**
- * @function						inverse(_n)
+ * @function						inverse(_n, _is_normalized)
  * @description					Calculates the inverse of the input value.
  *										If the input is negative, returns the positive value.
  *										If the input is positive, returns the negated value.
- * @param {Id.DsList}			_n - The input value.
+ * @param {Id.DsList<Real>}	_n - The input value.
  * @param {Bool}					_is_normalized - Check if the input is normalized.
  * @returns {Id.DsList<Real>}	The inverse value.
  */
@@ -115,33 +76,29 @@ function inverse(_n, _is_normalized=false) {
 }
 
 /**
- * @function			round_decimal(_n, _precision)
- * @description		Rounds a number to the specified precision.
- * @param {String}	_n - The input numeric string.
- * @param {Real}		_precision - The desired precision (number of decimal places).
- * @returns {String}
+ * @function						self_inverse(_self, _is_normalized)
+ * @description					Calculates the inverse of the input value.
+ *										If the input is negative, returns the positive value.
+ *										If the input is positive, returns the negated value.
+ * @param {Id.DsList<Real>}	_self - The input value.
+ * @param {Bool}					_is_normalized - Check if the input is normalized.
+ * @returns {undefined}	
  */
- 
 
-function round_decimal(_n, _precision = 0) {
-	var _dn = get_decimal_position(_n);
-	var _pos_to_check = _dn + _precision + 1;
-	if (_pos_to_check > string_length(_n)) return normalize(_n);
-	if (_pos_to_check < 0) return "0";
-	if (compare(string_char_at(_n, _pos_to_check), "5") == -1)
-		return floor_decimal(_n, _precision);
-	else
-		return ceiling_decimal(_n, _precision);
+function self_inverse(_self, _is_normalized=false) {
+	if (not _is_normalized) normalize(_self);
+	if (_self[| 0] == 11) ds_list_delete(_self, 0);
+	else if (ds_list_size(_self) > 1 or _self[| 0] != 0)	ds_list_insert(_self, 0, 11);
 }
 
 /**
- * @function					shift_decimal(_n)
- * @description				Shifts the decimal point of a given number.
- * @param {Id.DsList}		_n - The input value.
- * @param {Real}				_shift - The number of positions to shift the decimal point.
- *									If positive, shifts to the right; if negative, shifts to 
- *									the left.
- * @param {Bool}				_is_normalized - Check if the input is normalized.
+ * @function						shift_decimal(_n, _shift, _is_normalized)
+ * @description					Shifts the decimal point of a given number.
+ * @param {Id.DsList<Real>}	_n - The input value.
+ * @param {Real}					_shift - The number of positions to shift the decimal point.
+ *										If positive, shifts to the right; if negative, shifts to 
+ *										the left.
+ * @param {Bool}					_is_normalized - Check if the input is normalized.
  * @returns {Id.DsList<Real>}
  */
 
@@ -171,12 +128,40 @@ function shift_decimal(_n, _shift, _is_normalized=false) {
 }
 
 /**
+ * @function						self_shift_decimal(_self, _shift, _is_normalized)
+ * @description					Shifts the decimal point of a given number.
+ * @param {Id.DsList<Real>}	_self - The input value.
+ * @param {Real}					_shift - The number of positions to shift the decimal point.
+ *										If positive, shifts to the right; if negative, shifts to 
+ *										the left.
+ * @param {Bool}					_is_normalized - Check if the input is normalized.
+ * @returns {undefined}
+ */
+ 
+function self_shift_decimal(_self, _shift, _is_normalized=false) {
+	if (not _is_normalized) normalize(_self);
+	var _dn = ds_list_find_index(_self, 10);
+	if (_dn == -1) _dn = ds_list_size(_self);
+	else ds_list_delete(_self, _dn);
+	var _decimal_new_pos = _dn + _shift;
+	if (_decimal_new_pos > 0 and _decimal_new_pos < ds_list_size(_self))
+		ds_list_insert(_self, _decimal_new_pos, 10);
+	else if (_decimal_new_pos <= 0) {
+		for (; _decimal_new_pos < 0; _decimal_new_pos++)
+			ds_list_insert(_self, 0, 0);
+		ds_list_insert(_self, 0, 10);
+		ds_list_insert(_self, 0, 0);
+	} else for (_decimal_new_pos = _decimal_new_pos - ds_list_size(_self); _decimal_new_pos > 0; _decimal_new_pos--)
+		ds_list_insert(_self, ds_list_size(_self), 0);
+}
+
+/**
  * @function						add(_a, _b)
  *	@description					Adds two real numbers.
- * @param {Id.DsList}			_a - The first addend.
- * @param {Id.DsList}			_b - The second addend.
+ * @param {Id.DsList<Real>}	_a - The first addend.
+ * @param {Id.DsList<Real>}	_b - The second addend.
  * @param {Bool}					_is_normalized - Check if the input is normalized.
- * @returns {Id.DsList}
+ * @returns {Id.DsList<Real>}
  */
 
 function add(_a, _b, _is_normalized=false) {
@@ -358,10 +343,22 @@ function int_multiply_v2(_a, _b) {
 		ds_list_add(_a1, _a[| _i]);
 	var _b0 = ds_list_create();
 	var _b1 = ds_list_create();
-	for (var _i = 0l _i < ds_list_size(_b) - _bm_shift; _i++)
+	for (var _i = 0; _i < ds_list_size(_b) - _bm_shift; _i++)
 		ds_list_add(_b0, _b[| _i]);
 	for (var _i = ds_list_size(_b) - _bm_shift; _i < ds_list_size(_b); _i++)
 		ds_list_add(_b1, _b[| _i]);
+	var _z2 = int_multiply_v2(_a1, _b1);
+	var _z0 = int_multiply_v2(_a0, _b0);
+	var _w1 = add(_a0, _a1, true);
+	var _w2 = add(_b0, _b1, true);
+	var _w3 = int_multiply_v2(_w1, _w2);
+	ds_list_destroy(_w1);
+	ds_list_destroy(_w2);
+	var _w4 = subtract(_w3, _z2);
+	ds_list_destroy(_w3);
+	var _z1 = subtract(_w4, _z0);
+	ds_list_destroy(_w4);
+	
 	return _ans_list;
 }
 

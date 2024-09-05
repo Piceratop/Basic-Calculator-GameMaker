@@ -42,12 +42,15 @@ test_absolute_value = function () {
 		}
 		show_debug_message(get_timer() - _time);
 		var _ans_list = absolute_value(_test_list);
+		self_absolute_value(_test_list);
 		print_ds_list(_ans_list);
+		print_ds_list(_test_list);
 		ds_list_destroy(_test_list);
 		ds_list_destroy(_ans_list);
 	}
 	show_debug_message("");
 }
+//test_absolute_value();
 
 // Inverse
 test_inverse = function () {
@@ -63,13 +66,15 @@ test_inverse = function () {
 		}
 		show_debug_message(get_timer() - _time);
 		var _ans_list = inverse(_test_list);
+		self_inverse(_test_list);
 		print_ds_list(_ans_list);
+		print_ds_list(_test_list);
 		ds_list_destroy(_test_list);
 		ds_list_destroy(_ans_list);
 	}
 	show_debug_message("");
 }
-
+//test_inverse();
 
 // Shift Decimal
 test_cases_2 = [
@@ -94,12 +99,15 @@ test_shift_decimal = function () {
 		}
 		show_debug_message(get_timer() - _time);
 		var _ans_list = shift_decimal(_test_list, test_cases_2[_i][1]);
+		self_shift_decimal(_test_list, test_cases_2[_i][1]);
 		print_ds_list(_ans_list);
+		print_ds_list(_test_list);
 		ds_list_destroy(_test_list);
 		ds_list_destroy(_ans_list);
 	}
 	show_debug_message("");
 }
+test_shift_decimal();
 
 // Compare
 test_cases_3 = [
@@ -240,6 +248,6 @@ test_multiply_integer = function () {
 	}
 	show_debug_message("");
 }
-test_multiply_integer();
+//test_multiply_integer();
 
 // Multiply
