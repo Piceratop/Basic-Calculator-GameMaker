@@ -77,7 +77,7 @@ function inverse(_n, _is_normalized=false) {
 
 /**
  * @function						self_inverse(_self, _is_normalized)
- * @description					Calculates the inverse of the input value.
+ * @description					Calculates the inverse of the input value, then reassign to it.
  *										If the input is negative, returns the positive value.
  *										If the input is positive, returns the negated value.
  * @param {Id.DsList<Real>}	_self - The input value.
@@ -129,7 +129,7 @@ function shift_decimal(_n, _shift, _is_normalized=false) {
 
 /**
  * @function						self_shift_decimal(_self, _shift, _is_normalized)
- * @description					Shifts the decimal point of a given number.
+ * @description					Shifts the decimal point of a given number, then reassign to the input.
  * @param {Id.DsList<Real>}	_self - The input value.
  * @param {Real}					_shift - The number of positions to shift the decimal point.
  *										If positive, shifts to the right; if negative, shifts to 
@@ -156,7 +156,7 @@ function self_shift_decimal(_self, _shift, _is_normalized=false) {
 }
 
 /**
- * @function						add(_a, _b)
+ * @function						add(_a, _b, _is_normalized)
  *	@description					Adds two real numbers.
  * @param {Id.DsList<Real>}	_a - The first addend.
  * @param {Id.DsList<Real>}	_b - The second addend.
@@ -220,7 +220,28 @@ function add(_a, _b, _is_normalized=false) {
 }
 
 /**
- * @function				compare(_a, _b)
+ * @function						self_add(_a, _b, _is_normalized)
+ *	@description					Adds two real numbers, then reassign to the first input, and delete the second input.
+ * @param {Id.DsList<Real>}	_a - The first addend.
+ * @param {Id.DsList<Real>}	_b - The second addend.
+ * @param {Bool}					_is_normalized - Check if the input is normalized.
+ * @returns {undefined}
+ */
+ 
+function self_add(_a, _b, _is_normalized=false) {
+	if (not _is_normalized) {
+		normalize(_a);
+		normalize(_b);
+		if (_a[| 0] == 11 && _b[| 0] == 11) {
+			ds_list_delete(_a, 0);
+			ds_list_delete(_b, 0);
+			self_add(_a, _b, true);
+		}
+	}
+}
+
+/**
+ * @function				compare(_a, _b, _is_normalized)
  *	@description			Compare two numbers. Return -1 if the first number is 
  *								smaller, 0 if the two number has the same value, 1 if
  *								the first number if bigger.
@@ -452,6 +473,10 @@ function subtract(_a, _b, _is_normalized=false) {
 	}
 	normalize(_ans_list);
 	return _ans_list;
+}
+
+function self_subtract(_a, _b, _is_normalized=false) {
+	
 }
 
 /**
