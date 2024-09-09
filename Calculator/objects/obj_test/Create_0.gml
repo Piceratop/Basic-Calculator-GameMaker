@@ -107,13 +107,14 @@ test_shift_decimal = function () {
 	}
 	show_debug_message("");
 }
-test_shift_decimal();
+//test_shift_decimal();
 
 // Compare
 test_cases_3 = [
 	[[1], [1]],
 	[[1], [2]],
 	[[2], [1]],
+	[[2, 3, 5], [8, 0, 0]],
 	[[1, 4, 7, 8], [1, 3, 4, 5, 6]],
 	[[2, 4, 9, 6, 6, 2, 7, 3], [6, 3, 7, 0, 6, 5, 0, 9]],
 	[[1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 5, 6, 7, 8, 9]],
@@ -165,12 +166,12 @@ test_add = function () {
 		for (var _j = 0; _j < array_length(test_cases_3[_i][1]); _j++) {
 			ds_list_add(_test_list_1, test_cases_3[_i][1][_j]);	
 		}
-		var _time = get_timer();
-		for (var _k = 0; _k < 10000; _k++) {
-			var _ans_list = add(_test_list_0, _test_list_1);
-			ds_list_destroy(_ans_list);
-		}
-		show_debug_message(get_timer() - _time);
+		//var _time = get_timer();
+		//for (var _k = 0; _k < 10000; _k++) {
+		//	var _ans_list = add(_test_list_0, _test_list_1);
+		//	ds_list_destroy(_ans_list);
+		//}
+		//show_debug_message(get_timer() - _time);
 		var _ans_list = add(_test_list_0, _test_list_1);
 		print_ds_list(_ans_list);
 		ds_list_destroy(_test_list_0);
@@ -179,6 +180,7 @@ test_add = function () {
 	}
 	show_debug_message("");
 }
+//test_add();
 
 // Subtract
 test_subtract = function() {
@@ -208,7 +210,7 @@ test_subtract = function() {
 }
 
 // Multiply (Integer)
-show_debug_message("Multiply (Integer, version 1)");
+show_debug_message("Multiply (Integer)");
 test_cases_4 = [
 	[[2], [3]],
 	[[1, 2, 3], [4]],
@@ -232,11 +234,17 @@ test_multiply_integer = function () {
 			ds_list_add(_test_list_1, test_cases_4[_i][1][_j]);	
 		}
 		var _time = get_timer();
-		//for (var _k = 0; _k < 1000; _k++) {
-		//	var _ans_list = int_multiply_v1(_test_list_0, _test_list_1);
-		//	ds_list_destroy(_ans_list);
-		//}
-		//show_debug_message(get_timer() - _time);
+		for (var _k = 0; _k < 1000; _k++) {
+			var _ans_list = int_multiply_v1(_test_list_0, _test_list_1);
+			ds_list_destroy(_ans_list);
+		}
+		show_debug_message(get_timer() - _time);
+		_time = get_timer();
+		for (var _k = 0; _k < 1000; _k++) {
+			var _ans_list = int_multiply_v2(_test_list_0, _test_list_1);
+			ds_list_destroy(_ans_list);
+		}
+		show_debug_message(get_timer() - _time);
 		var _ans_list = int_multiply_v1(_test_list_0, _test_list_1);
 		print_ds_list(_ans_list);
 		ds_list_destroy(_ans_list);
@@ -248,6 +256,6 @@ test_multiply_integer = function () {
 	}
 	show_debug_message("");
 }
-//test_multiply_integer();
+test_multiply_integer();
 
 // Multiply

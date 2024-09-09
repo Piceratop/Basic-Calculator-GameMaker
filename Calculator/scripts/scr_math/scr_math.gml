@@ -211,33 +211,12 @@ function add(_a, _b, _is_normalized=false) {
 		if (is_undefined(_digit_b)) _digit_b = 0;
 		var _ds = _digit_a + _digit_b + _carry;
 		ds_list_add(_ans_list, _ds % 10);
-		_carry = _ds > 10;
+		_carry = _ds >= 10;
 	}
 	if (_carry == 1) ds_list_add(_ans_list, 1);
 	ds_list_reverse(_ans_list);
 	normalize(_ans_list);
 	return _ans_list;
-}
-
-/**
- * @function						self_add(_a, _b, _is_normalized)
- *	@description					Adds two real numbers, then reassign to the first input, and delete the second input.
- * @param {Id.DsList<Real>}	_a - The first addend.
- * @param {Id.DsList<Real>}	_b - The second addend.
- * @param {Bool}					_is_normalized - Check if the input is normalized.
- * @returns {undefined}
- */
- 
-function self_add(_a, _b, _is_normalized=false) {
-	if (not _is_normalized) {
-		normalize(_a);
-		normalize(_b);
-		if (_a[| 0] == 11 && _b[| 0] == 11) {
-			ds_list_delete(_a, 0);
-			ds_list_delete(_b, 0);
-			self_add(_a, _b, true);
-		}
-	}
 }
 
 /**
@@ -333,27 +312,8 @@ function int_multiply_v1(_a, _b) {
  */
 
 function int_multiply_v2(_a, _b) {
-	var _ans_list = ds_list_create();
-	if (ds_list_size(_a) == 1) {
-		var _curr_prod = 0;
-		for (var _i = ds_list_size(_b) - 1; _i >= 0; _i--) {
-			_curr_prod += _a[| 0] * _b[| _i];
-			ds_list_add(_ans_list, _curr_prod % 10);
-			_curr_prod = _curr_prod div 10;
-		}
-		if (_curr_prod > 0) ds_list_add(_ans_list, _curr_prod);
-		ds_list_reverse(_ans_list);
-		return _ans_list;
-	} else if (ds_list_size(_b) == 1) {
-		var _curr_prod = 0;
-		for (var _i = ds_list_size(_a) - 1; _i >= 0; _i-- ) {
-			_curr_prod += _a[| _i] * _b[| 0];
-			ds_list_add(_ans_list, _curr_prod % 10);
-			_curr_prod = _curr_prod div 10;
-		}
-		if (_curr_prod > 0) ds_list_add(_ans_list, _curr_prod);
-		ds_list_reverse(_ans_list);
-		return _ans_list;
+	if (ds_list_size(_a) == 1 or ds_list_size(_b) == 1) {
+		return int_multiply_v1(_a, _b);
 	}
 	var _bm_shift = ceil(min(ds_list_size(_a), ds_list_size(_b)) / 2);
 	var _a0 = ds_list_create();
@@ -372,14 +332,25 @@ function int_multiply_v2(_a, _b) {
 	var _z0 = int_multiply_v2(_a0, _b0);
 	var _w1 = add(_a0, _a1, true);
 	var _w2 = add(_b0, _b1, true);
+	ds_list_destroy(_a0);
+	ds_list_destroy(_a1);
+	ds_list_destroy(_b0);
+	ds_list_destroy(_b1);
 	var _w3 = int_multiply_v2(_w1, _w2);
 	ds_list_destroy(_w1);
 	ds_list_destroy(_w2);
-	var _w4 = subtract(_w3, _z2);
+	_w1 = subtract(_w3, _z2, true);
 	ds_list_destroy(_w3);
-	var _z1 = subtract(_w4, _z0);
-	ds_list_destroy(_w4);
-	
+	var _z1 = subtract(_w1, _z0, true);
+	ds_list_destroy(_w1);
+	self_shift_decimal(_z0, 2 * _bm_shift);
+	self_shift_decimal(_z1, _bm_shift);
+	var _w1 = add(_z2, _z1, true);
+	ds_list_destroy(_z2);
+	ds_list_destroy(_z1);
+	var _ans_list = add(_w1, _z0, true);
+	ds_list_destroy(_w1);
+	ds_list_destroy(_z0);
 	return _ans_list;
 }
 
