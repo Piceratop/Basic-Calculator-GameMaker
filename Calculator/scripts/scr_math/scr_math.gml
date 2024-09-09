@@ -355,7 +355,7 @@ function int_multiply_v2(_a, _b) {
 }
 
 /**
- * @function				subtract(_a, _b)
+ * @function				subtract(_a, _b, _is_normalized)
  * @description			Subtract two real numbers.
  * @param {Id.DsList}	_a - The minuend.
  * @param {Id.DsList}	_b - The subtrahend.
@@ -446,32 +446,28 @@ function subtract(_a, _b, _is_normalized=false) {
 	return _ans_list;
 }
 
-function self_subtract(_a, _b, _is_normalized=false) {
-	
-}
-
 /**
- * @function			multiply(_a, _b)
- *	@description		Multiplies two real numbers represented as string.
- * @param {String}	_a - The dividend.
- * @param {String}	_b - The divisor.
- * @returns {String}
+ * @function				multiply(_a, _b, _is_normalized)
+ *	@description			Multiplies two real numbers represented as string.
+ * @param {Id.DsList}	_a - The multiplicand.
+ * @param {Id.DsList}	_b - The multiplier.
+ * @param {Bool}			_is_normalized - Check if the input is normalized.
+ * @returns {Id.DsList}
  */
  
-function multiply(_a, _b) {
-	if (compare("0", _a) == 1) return inverse(multiply(inverse(_a), _b));
-	if (compare("0", _b) == 1) return inverse(multiply(_a, inverse(_b)));
-	var _nml = normalize_similar_form(_a, _b);
-	_a = _nml[0]; _b = _nml[1];
-	var _da = get_decimal_position(_a);
-	var _db = get_decimal_position(_b);
-	var _shift = string_length(_a) - _da + string_length(_b) - _db;
-	_a = string_delete(_a, _da, 1);
-	_b = string_delete(_b, _db, 1);
-	var _ans = int_multiply(_a, _b);
-	for (var _i = 0; _i < _shift; _i++)
-		_ans = "0" + _ans;
-	return normalize(string_insert(".", _ans, string_length(_ans) - _shift + 1));
+function multiply(_a, _b, _is_normalized=false) {
+	if (not _is_normalized) {
+		normalize(_a);
+		normalize(_b);
+		if (_a[| 0] == 11 and _b[| 0] == 11) {
+			ds_list_delete(_a, 0);
+			ds_list_delete(_b, 0);
+			var _c = multiply(_a, _b, true);
+			ds_list_insert(_a, 0, 11);
+			ds_list_insert(_b, 0, 11);
+		}
+		
+	}
 }
  
  
