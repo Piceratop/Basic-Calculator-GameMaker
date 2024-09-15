@@ -166,12 +166,12 @@ test_add = function () {
 		for (var _j = 0; _j < array_length(test_cases_3[_i][1]); _j++) {
 			ds_list_add(_test_list_1, test_cases_3[_i][1][_j]);	
 		}
-		//var _time = get_timer();
-		//for (var _k = 0; _k < 10000; _k++) {
-		//	var _ans_list = add(_test_list_0, _test_list_1);
-		//	ds_list_destroy(_ans_list);
-		//}
-		//show_debug_message(get_timer() - _time);
+		var _time = get_timer();
+		for (var _k = 0; _k < 10000; _k++) {
+			var _ans_list = add(_test_list_0, _test_list_1);
+			ds_list_destroy(_ans_list);
+		}
+		show_debug_message(get_timer() - _time);
 		var _ans_list = add(_test_list_0, _test_list_1);
 		print_ds_list(_ans_list);
 		ds_list_destroy(_test_list_0);
@@ -210,7 +210,6 @@ test_subtract = function() {
 }
 
 // Multiply (Integer)
-show_debug_message("Multiply (Integer)");
 test_cases_4 = [
 	[[2], [3]],
 	[[1, 2, 3], [4]],
@@ -224,6 +223,7 @@ test_cases_4 = [
 	[[9, 9, 8, 8, 7, 7, 6, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1], [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9]],
 ]
 test_multiply_integer = function () {
+	show_debug_message("Multiply (Integer)");
 	for (var _i = 0; _i < array_length(test_cases_4); _i++) {
 		var _test_list_0 = ds_list_create();
 		var _test_list_1 = ds_list_create();
@@ -256,6 +256,32 @@ test_multiply_integer = function () {
 	}
 	show_debug_message("");
 }
-test_multiply_integer();
+//test_multiply_integer();
 
 // Multiply
+test_multiply = function() {
+	show_debug_message("Multiply");
+	for (var _i = 0; _i < array_length(test_cases_3); _i++) {
+		var _test_list_0 = ds_list_create();
+		var _test_list_1 = ds_list_create();
+		for (var _j = 0; _j < array_length(test_cases_3[_i][0]); _j++) {
+			ds_list_add(_test_list_0, test_cases_3[_i][0][_j]);	
+		}
+		for (var _j = 0; _j < array_length(test_cases_3[_i][1]); _j++) {
+			ds_list_add(_test_list_1, test_cases_3[_i][1][_j]);	
+		}
+		var _time = get_timer();
+		for (var _k = 0; _k < 10000; _k++) {
+			var _ans_list = multiply(_test_list_0, _test_list_1);
+			ds_list_destroy(_ans_list);
+		}
+		show_debug_message(get_timer() - _time);
+		var _ans_list = multiply(_test_list_0, _test_list_1);
+		print_ds_list(_ans_list);
+		ds_list_destroy(_test_list_0);
+		ds_list_destroy(_test_list_1);
+		ds_list_destroy(_ans_list);
+	}
+	show_debug_message("");
+}
+test_multiply();

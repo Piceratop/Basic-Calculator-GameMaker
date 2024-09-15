@@ -355,6 +355,64 @@ function int_multiply_v2(_a, _b) {
 }
 
 /**
+ * @function				multiply(_a, _b, _is_normalized)
+ *	@description			Multiplies two real numbers represented as string.
+ * @param {Id.DsList}	_a - The multiplicand.
+ * @param {Id.DsList}	_b - The multiplier.
+ * @param {Bool}			_is_normalized - Check if the input is normalized.
+ * @returns {Id.DsList}
+ */
+ 
+function multiply(_a, _b, _is_normalized=false) {
+	if (not _is_normalized) {
+		normalize(_a);
+		normalize(_b);
+		if (_a[| 0] == 11 and _b[| 0] == 11) {
+			ds_list_delete(_a, 0);
+			ds_list_delete(_b, 0);
+			var _c = multiply(_a, _b, true);
+			ds_list_insert(_a, 0, 11);
+			ds_list_insert(_b, 0, 11);
+			return _c;
+		}
+		if (_a[| 0] == 11) {
+			ds_list_delete(_a, 0);
+			var _c = multiply(_a, _b, true);
+			ds_list_insert(_a, 0, 11);
+			ds_list_insert(_c, 0, 11);
+			return _c;
+		}
+		if (_b[| 0] == 11) {
+			ds_list_delete(_b, 0);
+			var _c = multiply(_a, _b, true);
+			ds_list_insert(_b, 0, 11);
+			ds_list_insert(_c, 0, 11);
+			return _c;
+		}
+	}
+	var _dec_shift = 0;
+	var _dec_pos_a = ds_list_find_index(_a, 10);
+	if (_dec_pos_a != -1) {
+		_dec_shift = ds_list_size(_a) - 1 - _dec_pos_a;
+		ds_list_delete(_a, _dec_pos_a);
+	}
+	var _dec_pos_b = ds_list_find_index(_b, 10);
+	if (_dec_pos_b != -1) {
+		_dec_shift += ds_list_size(_b) - 1 - _dec_pos_b;
+		ds_list_delete(_b, _dec_pos_b);
+	}
+	var _ans_list = int_multiply_v1(_a, _b);
+	if (_dec_shift > 0) {
+		self_shift_decimal(_ans_list, -_dec_shift);
+		if (_dec_pos_a != -1)
+			ds_list_insert(_a, _dec_pos_a, 10);
+		if (_dec_pos_b != -1)
+			ds_list_insert(_b, _dec_pos_b, 10);
+	}
+	return _ans_list;
+}
+
+/**
  * @function				subtract(_a, _b, _is_normalized)
  * @description			Subtract two real numbers.
  * @param {Id.DsList}	_a - The minuend.
@@ -444,32 +502,7 @@ function subtract(_a, _b, _is_normalized=false) {
 	}
 	normalize(_ans_list);
 	return _ans_list;
-}
-
-/**
- * @function				multiply(_a, _b, _is_normalized)
- *	@description			Multiplies two real numbers represented as string.
- * @param {Id.DsList}	_a - The multiplicand.
- * @param {Id.DsList}	_b - The multiplier.
- * @param {Bool}			_is_normalized - Check if the input is normalized.
- * @returns {Id.DsList}
- */
- 
-function multiply(_a, _b, _is_normalized=false) {
-	if (not _is_normalized) {
-		normalize(_a);
-		normalize(_b);
-		if (_a[| 0] == 11 and _b[| 0] == 11) {
-			ds_list_delete(_a, 0);
-			ds_list_delete(_b, 0);
-			var _c = multiply(_a, _b, true);
-			ds_list_insert(_a, 0, 11);
-			ds_list_insert(_b, 0, 11);
-		}
-		
-	}
-}
- 
+} 
  
 /**
  * @function			divide(_a, _b, _precision)
