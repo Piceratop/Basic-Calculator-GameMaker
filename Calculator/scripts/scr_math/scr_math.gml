@@ -272,6 +272,51 @@ function compare(_a, _b, _is_normalized=false) {
 }
 
 /**
+ * @function				divide(_a, _b, _precision, _is_normalized)
+ *	@description			Divides two numbers with a specified level of precision.
+ * @param {Id.DsList}	_a - The dividend.
+ * @param {Id.DsList}	_b - The divisor.
+ * @param {Real}			_precision - The desired precision (number of significant digits).
+ * @param {Bool}			_is_normalized - Check if the input is normalized.
+ * @returns {Id.DsList}
+ */
+
+function divide(_a, _b, _precision = 6, _is_normalized = false) {
+	
+}
+
+/**
+ * @function				int_divide_v1(_a, _b, _precision)
+ *	@description			Divides two integers with a specified level of precision.
+ * @param {Id.DsList}	_a - The dividend.
+ * @param {Id.DsList}	_b - The divisor.
+ * @param {Real}			_precision - The desired precision (number of significant digits).
+ * @returns {Id.DsList}
+ */
+
+function int_divide_v1(_a, _b, _precision) {
+	var _ans_list = ds_list_create();
+	if (compare(_a, _b, true) == -1) {
+		ds_list_add(_ans_list, 0);
+		return _ans_list;
+	}
+	var _da = ds_list_size(_a);
+	var _db = ds_list_size(_b);
+	var _leftover_a = ds_list_create();
+	for (var _i = 0; _i < _db; _i++) {
+		ds_list_add(_leftover_a, _a[| _i]);
+		var _curr_a_real;
+		if (ds_list_size(_leftover_a) == 1) 
+			_curr_a_real = _leftover_a[| 0];
+		else _curr_a_real = _leftover_a[| 0] * 10 + _leftover_a[| 1];
+		_curr_quotient_approx[| 0] = _curr_a_real div _curr_b_real;
+		
+	}
+	
+	return _ans_list;
+}
+
+/**
  * @function				int_multiply_v1(_a, _b)
  *	@description			Multiply two integers (Long Multiplication).
  * @param {Id.DsList}	_a - The multiplier.
@@ -502,45 +547,6 @@ function subtract(_a, _b, _is_normalized=false) {
 	}
 	normalize(_ans_list);
 	return _ans_list;
-} 
- 
-/**
- * @function			divide(_a, _b, _precision)
- *	@description		Divides two numbers with a specified level of precision.
- * @param {String}	_a - The dividend.
- * @param {String}	_b - The divisor.
- * @param {Real}	_precision - The desired precision (number of decimal
- *							places).
- * @returns {String}
- */
-
-function divide(_a, _b, _precision = 6) {
-	if (compare(_a, "0") == -1) return inverse(divide(inverse(_a), _b));
-	if (compare(_b, "0") == -1) return inverse(divide(_a, inverse(_b)));
-	if (_precision < 0) _precision = 0;
-	var _nml = normalize_similar_form(_a, _b);
-	_a = normalize(string_replace(_nml[0], ".", "")); 
-	_b = normalize(string_replace(_nml[1], ".", "")); 
-	var _error = "0."
-	for (var _i = 0; _i < string_length(_a) + _precision; _i++)
-		_error += "0";
-	_error += "1";
-	var _reci = "0.";
-	for (var _i = 1; _i < string_length(_b); _i++)
-		_reci += "0";
-	_reci += "1";
-	var _se = string_length(_error);
-	while (true) {
-		var _new_reci = multiply(_reci, subtract("2", multiply(_b, _reci)));
-		_new_reci = string_delete(_new_reci, _se + 2, string_length(_new_reci));
-		if (compare(subtract(_new_reci, _reci), _error) = -1) break;
-		_reci = _new_reci;
-	}
-	if (string_length(_reci) > _se && compare(string_char_at(_reci, _se + 1), "4") == 1)
-		_reci = add(_reci, _error);
-	_reci = string_delete(_reci, _se + 1, string_length(_reci));
-	var _ans = multiply(_a, _reci);
-	return round_decimal(_ans, _precision);
 }
 
 /**

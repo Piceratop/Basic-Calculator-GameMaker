@@ -284,4 +284,38 @@ test_multiply = function() {
 	}
 	show_debug_message("");
 }
-test_multiply();
+//test_multiply();
+
+// Division (Integer)
+test_cases_5 = [
+	[[6], [3]],
+	[[1, 2], [4]],
+	[[5, 7], [1, 9]],
+	[[5, 7, 0, 0, 0, 0], [1, 9, 0]],
+]
+test_divide_integer = function () {
+	show_debug_message("Division (Integer)");
+	for (var _i = 0; _i < array_length(test_cases_5); _i++) {
+		var _test_list_0 = ds_list_create();
+		var _test_list_1 = ds_list_create();
+		for (var _j = 0; _j < array_length(test_cases_5[_i][0]); _j++) {
+			ds_list_add(_test_list_0, test_cases_5[_i][0][_j]);	
+		}
+		for (var _j = 0; _j < array_length(test_cases_5[_i][1]); _j++) {
+			ds_list_add(_test_list_1, test_cases_5[_i][1][_j]);	
+		}
+		//var _time = get_timer();
+		//for (var _k = 0; _k < 1000; _k++) {
+		//	var _ans_list = int_multiply_v1(_test_list_0, _test_list_1);
+		//	ds_list_destroy(_ans_list);
+		//}
+		//show_debug_message(get_timer() - _time);
+		var _ans_list = int_divide_v1(_test_list_0, _test_list_1, 6);
+		print_ds_list(_ans_list);
+		ds_list_destroy(_ans_list);
+		ds_list_destroy(_test_list_0);
+		ds_list_destroy(_test_list_1);
+	}
+	show_debug_message("");
+}
+test_divide_integer();
