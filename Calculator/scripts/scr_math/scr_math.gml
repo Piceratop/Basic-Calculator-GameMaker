@@ -33,7 +33,7 @@ function normalize(_n) {
  * @returns {Id.DsList<Real>}
  */
 
-function absolute_value(_n, _is_normalized=false) {
+function absolute_value(_n, _is_normalized = false) {
 	if (not _is_normalized) normalize(_n);
 	var _ans_list = ds_list_create();
 	ds_list_copy(_ans_list, _n);
@@ -49,7 +49,7 @@ function absolute_value(_n, _is_normalized=false) {
  * @returns {undefined}
  */
 
-function self_absolute_value(_self, _is_normalized=false) {
+function self_absolute_value(_self, _is_normalized = false) {
 	if (not _is_normalized) normalize(_self);
 	if (_self[| 0] == 11) ds_list_delete(_self, 0);
 }
@@ -64,7 +64,7 @@ function self_absolute_value(_self, _is_normalized=false) {
  * @returns {Id.DsList<Real>}	The inverse value.
  */
 
-function inverse(_n, _is_normalized=false) {
+function inverse(_n, _is_normalized = false) {
 	if (not _is_normalized) normalize(_n);
 	var _ans_list = ds_list_create();
 	ds_list_copy(_ans_list, _n);
@@ -85,7 +85,7 @@ function inverse(_n, _is_normalized=false) {
  * @returns {undefined}	
  */
 
-function self_inverse(_self, _is_normalized=false) {
+function self_inverse(_self, _is_normalized = false) {
 	if (not _is_normalized) normalize(_self);
 	if (_self[| 0] == 11) ds_list_delete(_self, 0);
 	else if (ds_list_size(_self) > 1 or _self[| 0] != 0)	ds_list_insert(_self, 0, 11);
@@ -102,7 +102,7 @@ function self_inverse(_self, _is_normalized=false) {
  * @returns {Id.DsList<Real>}
  */
 
-function shift_decimal(_n, _shift, _is_normalized=false) {
+function shift_decimal(_n, _shift, _is_normalized = false) {
 	if (not _is_normalized) normalize(_n);
 	var _ans_list = ds_list_create();
 	ds_list_copy(_ans_list, _n);
@@ -138,7 +138,7 @@ function shift_decimal(_n, _shift, _is_normalized=false) {
  * @returns {undefined}
  */
  
-function self_shift_decimal(_self, _shift, _is_normalized=false) {
+function self_shift_decimal(_self, _shift, _is_normalized = false) {
 	if (not _is_normalized) normalize(_self);
 	var _dn = ds_list_find_index(_self, 10);
 	if (_dn == -1) _dn = ds_list_size(_self);
@@ -164,7 +164,7 @@ function self_shift_decimal(_self, _shift, _is_normalized=false) {
  * @returns {Id.DsList<Real>}
  */
 
-function add(_a, _b, _is_normalized=false) {
+function add(_a, _b, _is_normalized = false) {
 	if (not _is_normalized) {
 		normalize(_a);
 		normalize(_b);
@@ -230,7 +230,7 @@ function add(_a, _b, _is_normalized=false) {
  * @returns {Real}
  */
 
-function compare(_a, _b, _is_normalized=false) {
+function compare(_a, _b, _is_normalized = false) {
 	if (not _is_normalized) {
 		normalize(_a);
 		normalize(_b);
@@ -272,17 +272,53 @@ function compare(_a, _b, _is_normalized=false) {
 }
 
 /**
- * @function				divide(_a, _b, _precision, _is_normalized)
- *	@description			Divides two numbers with a specified level of precision.
+ * @function				divide(_a, _b, _decimal_precision, _is_normalized)
+ *	@description			This function will divide two numbers represented as list with a specified number of digit after the decimal point.
  * @param {Id.DsList}	_a - The dividend.
  * @param {Id.DsList}	_b - The divisor.
- * @param {Real}			_precision - The desired precision (number of significant digits).
+ * @param {Real}			_decimal_precision - The desired precision (number of significant digits after the decimal place).
  * @param {Bool}			_is_normalized - Check if the input is normalized.
  * @returns {Id.DsList}
  */
 
-function divide(_a, _b, _precision = 6, _is_normalized = false) {
-	
+function divide(_a, _b, _decimal_precision = 6, _is_normalized = false) {
+	if (not _is_normalized) {
+		normalize(_a);
+		normalize(_b);
+		if (_a[| 0] == 11 && _b[| 0] == 11) {
+			ds_list_delete(_a, 0);
+			ds_list_delete(_b, 0);
+			var _c = divide(_a, _b, _decimal_precision, true);
+			ds_list_insert(_a, 0, 11);
+			ds_list_insert(_b, 0, 11);
+			return _c;
+		}
+		if (_a[| 0] == 11) {
+			ds_list_delete(_a, 0);
+			var _c = divide(_a, _b, _decimal_precision, true);
+			ds_list_insert(_a, 0, 11);
+			ds_list_insert(_c, 0, 11);
+			return _c;
+		}
+		if (_b[| 0] == 11) {
+			ds_list_delete(_b, 0);
+			var _c = divide(_a, _b, _decimal_precision, true);
+			ds_list_insert(_b, 0, 11);
+			ds_list_insert(_c, 0, 11);
+			return _c;
+		}
+	}
+	var _dec_shift = 0;
+	var _dec_pos_a = ds_list_find_index(_a, 10);
+	if (_dec_pos_a != -1) {
+		_dec_shift = ds_list_size(_a) - 1 - _dec_pos_a;
+		ds_list_delete(_a, _dec_pos_a);
+	}
+	var _dec_pos_b = ds_list_find_index(_b, 10);
+	if (_dec_pos_b != -1) {
+		_dec_shift -= ds_list_size(_b) - 1 - _dec_pos_b;
+		ds_list_delete(_b, _dec_pos_b);
+	}
 }
 
 /**
@@ -290,11 +326,10 @@ function divide(_a, _b, _precision = 6, _is_normalized = false) {
  *	@description			Divides two integers with a specified level of precision.
  * @param {Id.DsList}	_a - The dividend.
  * @param {Id.DsList}	_b - The divisor.
- * @param {Real}			_precision - The desired precision (number of significant digits).
  * @returns {Id.DsList}
  */
 
-function int_divide_v1(_a, _b, _precision) {
+function int_divide_v1(_a, _b) {
 	var _ans_list = ds_list_create();
 	if (compare(_a, _b, true) == -1) {
 		ds_list_add(_ans_list, 0);
@@ -303,16 +338,30 @@ function int_divide_v1(_a, _b, _precision) {
 	var _da = ds_list_size(_a);
 	var _db = ds_list_size(_b);
 	var _leftover_a = ds_list_create();
-	for (var _i = 0; _i < _db; _i++) {
+	var _check_sum = ds_list_create();
+	ds_list_add(_check_sum, 0);
+	for (var _i = 0; _i < _da; _i++) {
 		ds_list_add(_leftover_a, _a[| _i]);
-		var _curr_a_real;
-		if (ds_list_size(_leftover_a) == 1) 
-			_curr_a_real = _leftover_a[| 0];
-		else _curr_a_real = _leftover_a[| 0] * 10 + _leftover_a[| 1];
-		_curr_quotient_approx[| 0] = _curr_a_real div _curr_b_real;
-		
+		for (var _j = 0; _j < 10; _j++) {
+			var _cs = add(_check_sum, _b, true);
+			if (compare(_cs, _leftover_a) == 1) {
+				if (ds_list_size(_ans_list) != 0 or _j != 0) {
+					ds_list_add(_ans_list, _j);
+				}
+				var _t = subtract(_leftover_a, _check_sum, true);
+				ds_list_destroy(_leftover_a);
+				_leftover_a = _t;
+				ds_list_destroy_multiple(_cs, _check_sum);
+				_check_sum = ds_list_create();
+				ds_list_add(_check_sum, 0);
+				break;
+			} else {
+				ds_list_destroy(_check_sum);
+				_check_sum = _cs;
+			}
+		}
 	}
-	
+	ds_list_destroy_multiple(_check_sum, _leftover_a);
 	return _ans_list;
 }
 

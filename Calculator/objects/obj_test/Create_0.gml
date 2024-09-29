@@ -1,15 +1,15 @@
 // Normalize
 test_cases = [
-	[0, 0, 0, 0, 0, 10, 5, 7, 8, 6],
-	[9, 5, 10, 0, 0, 0, 0, 0],
 	[0],
-	[0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0],
-	[11, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0],
+	[9, 5, 10, 0, 0, 0, 0, 0],
 	[11, 11, 11, 9, 8, 10, 2],
 	[11, 11, 11, 11, 9, 8, 10, 2],
-	[11, 11, 11, 0, 0, 0, 0, 9, 8, 10, 2],
+	[0, 0, 0, 0, 0, 10, 5, 7, 8, 6],
 	[0, 0, 0, 0, 0, 0, 0, 0, 10, 2],
+	[0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0],
+	[11, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0],
 	[11, 0, 0, 0, 0, 0, 0, 0, 0, 10, 2],
+	[11, 11, 11, 0, 0, 0, 0, 9, 8, 10, 2],
 	[11, 11, 11, 11, 0, 0, 0, 0, 0, 0, 0, 0, 9, 8, 10, 1, 2, 3, 4, 5, 6, 0, 0, 0, 0, 0, 0, 0, 0, 7, 8, 9, 1, 2, 3, 4, 5, 7, 8, 9, 0, 0, 0, 0, 0, 0, 0, 0,],
 ]
 test_normalize = function () {
@@ -111,6 +111,7 @@ test_shift_decimal = function () {
 
 // Compare
 test_cases_3 = [
+	[[0], [3]],
 	[[1], [1]],
 	[[1], [2]],
 	[[2], [1]],
@@ -290,7 +291,9 @@ test_multiply = function() {
 test_cases_5 = [
 	[[6], [3]],
 	[[1, 2], [4]],
+	[[1, 3], [4]],
 	[[5, 7], [1, 9]],
+	[[5, 6], [1, 9]],
 	[[5, 7, 0, 0, 0, 0], [1, 9, 0]],
 ]
 test_divide_integer = function () {
@@ -304,13 +307,13 @@ test_divide_integer = function () {
 		for (var _j = 0; _j < array_length(test_cases_5[_i][1]); _j++) {
 			ds_list_add(_test_list_1, test_cases_5[_i][1][_j]);	
 		}
-		//var _time = get_timer();
-		//for (var _k = 0; _k < 1000; _k++) {
-		//	var _ans_list = int_multiply_v1(_test_list_0, _test_list_1);
-		//	ds_list_destroy(_ans_list);
-		//}
-		//show_debug_message(get_timer() - _time);
-		var _ans_list = int_divide_v1(_test_list_0, _test_list_1, 6);
+		var _time = get_timer();
+		for (var _k = 0; _k < 2500; _k++) {
+			var _ans_list = int_divide_v1(_test_list_0, _test_list_1);
+			ds_list_destroy(_ans_list);
+		}
+		show_debug_message(get_timer() - _time);
+		var _ans_list = int_divide_v1(_test_list_0, _test_list_1);
 		print_ds_list(_ans_list);
 		ds_list_destroy(_ans_list);
 		ds_list_destroy(_test_list_0);
@@ -319,3 +322,6 @@ test_divide_integer = function () {
 	show_debug_message("");
 }
 test_divide_integer();
+
+//
+

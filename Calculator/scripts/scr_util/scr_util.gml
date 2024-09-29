@@ -1,16 +1,25 @@
 /*
- * @function				string_reverse(_str)
- * @description			Returns a given string with the characters in reverse order.
- * @param {string}		_str - string to be reversed
- * @return {string}    reversed string
+ * @function				ds_list_destroy_multiple()
+ * @description			Destroy all lists.
+ */
+function ds_list_destroy_multiple() {
+	for (var _i = 0; _i < argument_count; _i++)
+		ds_list_destroy(argument[_i]);
+}
+
+/*
+ * @function				ds_list_reverse(_list)
+ * @description			This function will reverse and reassign to the given list.
+ * @param {Id.DsList}	_list - List to be reversed
+ * @return {undefined}
  */
 
-function string_reverse(_str) {
-   var _out = "";
-   for(var _i=string_length(_str); _i>0; _i--) {
-      _out += string_char_at(_str, _i);
-   }
-   return _out;
+function ds_list_reverse(_list) {
+	for (var _i = 0; _i < ds_list_size(_list) / 2; _i++) {
+		var _temp = _list[| _i];
+		_list[| _i] = _list[| ds_list_size(_list) - 1 - _i];
+		_list[| ds_list_size(_list) - 1 - _i] = _temp;
+	}
 }
 
 /// @function				print_ds_list(_str)
@@ -27,16 +36,16 @@ function print_ds_list(_list) {
 }
 
 /*
- * @function				ds_list_reverse(_list)
- * @description			Reverse the current the ds_list
- * @param {Id.DsList}	_list - List to be reversed
- * @return {undefined}
+ * @function				string_reverse(_str)
+ * @description			Returns a given string with the characters in reverse order.
+ * @param {string}		_str - string to be reversed
+ * @return {string}    reversed string
  */
 
-function ds_list_reverse(_list) {
-	for (var _i = 0; _i < ds_list_size(_list) / 2; _i++) {
-		var _temp = _list[| _i];
-		_list[| _i] = _list[| ds_list_size(_list) - 1 - _i];
-		_list[| ds_list_size(_list) - 1 - _i] = _temp;
-	}
+function string_reverse(_str) {
+   var _out = "";
+   for(var _i=string_length(_str); _i>0; _i--) {
+      _out += string_char_at(_str, _i);
+   }
+   return _out;
 }
