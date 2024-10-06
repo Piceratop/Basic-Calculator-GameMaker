@@ -308,17 +308,7 @@ function divide(_a, _b, _decimal_precision = 6, _is_normalized = false) {
 			return _c;
 		}
 	}
-	var _dec_shift = 0;
-	var _dec_pos_a = ds_list_find_index(_a, 10);
-	if (_dec_pos_a != -1) {
-		_dec_shift = ds_list_size(_a) - 1 - _dec_pos_a;
-		ds_list_delete(_a, _dec_pos_a);
-	}
-	var _dec_pos_b = ds_list_find_index(_b, 10);
-	if (_dec_pos_b != -1) {
-		_dec_shift -= ds_list_size(_b) - 1 - _dec_pos_b;
-		ds_list_delete(_b, _dec_pos_b);
-	}
+	
 }
 
 /**
