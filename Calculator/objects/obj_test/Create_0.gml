@@ -362,4 +362,4 @@ test_divide = function() {
 	}
 	show_debug_message("");
 }
-test_divide();
+//test_divide();
