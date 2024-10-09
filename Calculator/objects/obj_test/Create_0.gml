@@ -333,7 +333,7 @@ test_cases_6 = [
 	[[7, 5, 1], [2]],
 	[[5, 7, 0, 0, 0, 0], [1, 9, 0]],
 	[[8, 1, 6, 4, 8, 9, 8, 0, 4, 0], [2, 5, 4, 9, 3]],
-	[[8, 10, 3, 8, 9, 5, 7, 1, 0], [4, 5, 7, 10, 9, 1], 2],
+	[[8, 10, 3, 8, 9, 5, 7, 1], [4, 5, 7, 10, 9, 1], 2],
 	[[4, 1, 6, 3, 2, 5, 10, 5, 9, 5, 6], [6, 8, 1, 5, 9, 4], 5],
 ]
 
@@ -342,18 +342,17 @@ test_divide = function() {
 	for (var _i = 0; _i < array_length(test_cases_6); _i++) {
 		var _test_list_0 = ds_list_create();
 		var _test_list_1 = ds_list_create();
-		var _prec;
 		for (var _j = 0; _j < array_length(test_cases_6[_i][0]); _j++)
 			ds_list_add(_test_list_0, test_cases_6[_i][0][_j]);
 		for (var _j = 0; _j < array_length(test_cases_6[_i][1]); _j++) 
 			ds_list_add(_test_list_1, test_cases_6[_i][1][_j]);
+		var _prec = 0;
 		if (array_length(test_cases_6[_i]) > 2) _prec = test_cases_6[_i][2];
-		else _prec = 4;
 		var _time = get_timer();
-		//for (var _k = 0; _k < 1000; _k++) {
-		//	var _ans_list = divide(_test_list_0, _test_list_1, _prec);
-		//	ds_list_destroy(_ans_list);
-		//}
+		for (var _k = 0; _k < 1000; _k++) {
+			var _ans_list = divide(_test_list_0, _test_list_1, _prec);
+			ds_list_destroy(_ans_list);
+		}
 		show_debug_message(get_timer() - _time);
 		var _ans_list = divide(_test_list_0, _test_list_1, _prec);
 		print_ds_list(_ans_list);

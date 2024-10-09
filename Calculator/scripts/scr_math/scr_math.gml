@@ -153,6 +153,7 @@ function self_shift_decimal(_self, _shift, _is_normalized = false) {
 		ds_list_insert(_self, 0, 0);
 	} else for (_decimal_new_pos = _decimal_new_pos - ds_list_size(_self); _decimal_new_pos > 0; _decimal_new_pos--)
 		ds_list_insert(_self, ds_list_size(_self), 0);
+	normalize(_self);
 }
 
 /**
@@ -281,7 +282,7 @@ function compare(_a, _b, _is_normalized = false) {
  * @returns {Id.DsList}
  */
 
-function divide(_a, _b, _decimal_precision = 6, _is_normalized = false) {
+function divide(_a, _b, _decimal_precision = 0, _is_normalized = false) {
 	if (not _is_normalized) {
 		normalize(_a);
 		normalize(_b);
@@ -308,7 +309,39 @@ function divide(_a, _b, _decimal_precision = 6, _is_normalized = false) {
 			return _c;
 		}
 	}
-	
+	var _dec_shift = 0;
+	var _dec_pos_a = ds_list_find_index(_a, 10);
+	if (_dec_pos_a != -1) {
+		_dec_shift = ds_list_size(_a) - 1 - _dec_pos_a;
+		ds_list_delete(_a, _dec_pos_a);
+	}
+	var _dec_pos_b = ds_list_find_index(_b, 10);
+	if (_dec_pos_b != -1) {
+		_dec_shift -= ds_list_size(_b) - 1 - _dec_pos_b;
+		ds_list_delete(_b, _dec_pos_b);
+	}
+	var _ans_list;
+	if (_dec_shift < _decimal_precision) {
+		var _shift_a = _decimal_precision - _dec_shift;
+		self_shift_decimal(_a, _shift_a);
+		_ans_list = int_divide_v1(_a, _b);
+		self_shift_decimal(_a, -_shift_a, true);
+	} else if (_dec_shift > _decimal_precision) {
+		var _c = ds_list_create();
+		for (var _i = 0; _i < ds_list_size(_a) - _dec_shift + _decimal_precision; _i++)
+			ds_list_add(_c, _a[| _i]);
+		//print_ds_list(_c);
+		_ans_list = int_divide_v1(_c, _b);
+		ds_list_destroy(_c);
+	} else {
+		_ans_list = int_divide_v1(_a, _b);
+	}
+	_dec_shift = _decimal_precision;
+
+	ds_list_insert(_a, _dec_pos_a, 10);
+	ds_list_insert(_b, _dec_pos_b, 10);
+	self_shift_decimal(_ans_list, -_dec_shift, true);
+	return _ans_list;
 }
 
 /**
@@ -487,7 +520,7 @@ function multiply(_a, _b, _is_normalized=false) {
 	}
 	var _ans_list = int_multiply_v1(_a, _b);
 	if (_dec_shift > 0) {
-		self_shift_decimal(_ans_list, -_dec_shift);
+		self_shift_decimal(_ans_list, -_dec_shift, true);
 		if (_dec_pos_a != -1)
 			ds_list_insert(_a, _dec_pos_a, 10);
 		if (_dec_pos_b != -1)
