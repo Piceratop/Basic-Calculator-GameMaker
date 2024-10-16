@@ -1,6 +1,7 @@
 /*
  * @function				ds_list_destroy_multiple()
- * @description			Destroy all lists.
+ * @description			This function will destroy all given lists.
+ * @return {undefined}
  */
 function ds_list_destroy_multiple() {
 	for (var _i = 0; _i < argument_count; _i++)
@@ -22,8 +23,33 @@ function ds_list_reverse(_list) {
 	}
 }
 
+/*
+ * @function				parse_equation()
+ * @description			This function will convert a string into a 
+ *								mathematical expression represented by a list.
+ * @param {String}		_eq_str - The input string
+ * @return {Id.DsList}
+ */
+ 
+function parse_equation(_eq_str) {
+	var _eq_list = ds_list_create();
+	var _curr_eq_comp = ds_list_create();
+	var _is_number = true;
+	for (var _i = 0; _i < string_length(_eq_str); _i++) {
+		var _curr_char = string_char_at(_eq_str, _i + 1);
+		if (_is_number xor (
+			(ord(_curr_char) >= ord("0") and ord(_curr_char) <= ("9")) or 
+			_curr_char == "." or _curr_char == "-"	
+		) == true) {
+			_is_number = not _is_number;
+			ds_list_add(_eq_list, _curr_eq_comp);
+			_curr_eq_comp = ds_list_create();
+		}
+	}
+}
+
 /// @function				print_ds_list(_str)
-/// @description			Print a ds_list to the console
+/// @description			This function will print a ds_list to the console.
 /// @param {Id.DsList}	_list - The ds_list to be printed
 /// @return {undefined}
 

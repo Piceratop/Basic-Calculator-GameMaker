@@ -622,14 +622,13 @@ function subtract(_a, _b, _is_normalized=false) {
 }
 
 /**
- * @function			get_random_range(_a, _b, _precision)
- *	@description		Get a real number between the two given bounds with a 
- *							specified level of precision.
- * @param {String}	_a - The lower bound.
- * @param {String}	_b - The upper bound.
- * @param {Real}		_precision - The desired precision (number of decimal places).
- * @returns {String}
+ * @function				evaluate_equation(_a, _b, _is_normalized)
+ * @description			Subtract two real numbers.
+ * @param {Id.DsList}	_a - The minuend.
+ * @param {Id.DsList}	_b - The subtrahend.
+ * @param {Bool}			_is_normalized - Check if the input is normalized.
+ * @returns {Id.DsList}
  */
- 
-function get_random_range(_a, _b, _precision = 0) {
+
+function evaluate_equation(_equation) {
 }

@@ -13,6 +13,29 @@ draw_set_halign(fa_center);
 draw_set_valign(fa_middle);
 draw_set_font(global.fnt_calculator);
 
+
+global._math_encoding_map = ds_map_create();
+for (var _i = 0; _i < 10; _i++)
+	global._math_encoding_map[? _i] = _i;
+global._math_encoding_map[? "."] = 10;
+global._math_encoding_map[? "-"] = 11;
+global._math_encoding_map[? "+"] = 12;
+global._math_encoding_map[? "−"] = 13;
+global._math_encoding_map[? "×"] = 14;
+global._math_encoding_map[? "÷"] = 15;
+global._math_encoding_map[? "("] = 16;
+global._math_encoding_map[? ")"] = 17;
+
+global._math_decoding_map = ds_map_create();
+for (
+	var _k = ds_map_find_first(global._math_encoding_map);
+	!is_undefined(_k);
+	_k = ds_map_find_next(global._math_encoding_map, _k)
+) {
+	var _v = global._math_decoding_map[? _k];
+	global._math_decoding_map[? _v] = _k;
+}
+
 // Initialize variables
 button_width = 52;
 center_pos = [room_width / 2, room_height - 168];
