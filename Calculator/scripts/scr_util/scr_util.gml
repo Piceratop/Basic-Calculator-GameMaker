@@ -32,33 +32,55 @@ function ds_list_reverse(_list) {
  */
  
 function parse_equation(_eq_str) {
-	var _eq_list = ds_list_create();
-	var _curr_eq_comp = ds_list_create();
+	eq_list = ds_list_create();
+	eq_list_id = 0;
+	curr_eq_comp = ds_list_create();
+	var _refresh_curr_ep_comp = function() {
+		if (ds_list_size(curr_eq_comp) > 0) {
+			ds_list_add(eq_list, curr_eq_comp);
+			ds_list_mark_as_list(eq_list, eq_list_id);
+			eq_list_id++;
+			curr_eq_comp = ds_list_create();
+		}
+	}
 	var _is_number = true;
 	for (var _i = 0; _i < string_length(_eq_str); _i++) {
 		var _curr_char = string_char_at(_eq_str, _i + 1);
-		if (_is_number xor (
-			(ord(_curr_char) >= ord("0") and ord(_curr_char) <= ("9")) or 
-			_curr_char == "." or _curr_char == "-"	
-		) == true) {
+		var _check_is_number = (
+			(ord(_curr_char) >= ord("0") and ord(_curr_char) <= ord("9")) or 
+			_curr_char == "." or _curr_char == "-"
+		);		
+		if (_is_number xor _check_is_number == true) {
 			_is_number = not _is_number;
-			ds_list_add(_eq_list, _curr_eq_comp);
-			_curr_eq_comp = ds_list_create();
+			_refresh_curr_ep_comp();
+		}
+		ds_list_add(curr_eq_comp, global._math_encoding_map[? _curr_char]);
+		if (not _is_number) {
+			_refresh_curr_ep_comp();
 		}
 	}
+	_refresh_curr_ep_comp();
+	ds_list_destroy(curr_eq_comp);
+	return eq_list;
 }
 
-/// @function				print_ds_list(_str)
-/// @description			This function will print a ds_list to the console.
-/// @param {Id.DsList}	_list - The ds_list to be printed
-/// @return {undefined}
+/// @function				stringify_ds_list(_str)
+/// @description			This function will represent a ds_list as a string.
+/// @param {Id.DsList}	_list - The input list data structure.
+/// @return {String}
 
-function print_ds_list(_list) {
+function stringify_ds_list(_list) {
 	var _ans = "[ ";
-	for (var _i = 0; _i < ds_list_size(_list); _i++)
-		_ans += string(_list[| _i]) + ", ";
-	_ans += "]";
-	show_debug_message(_ans);
+	for (var _i = 0; _i < ds_list_size(_list); _i++) {
+		if (ds_list_is_list(_list, _i)) {
+			_ans += stringify_ds_list(_list[| _i]);
+		} else {
+			_ans += string(_list[| _i]);
+			if (_i != ds_list_size(_list) - 1) _ans += ", ";
+		}
+	}
+	_ans += " ]";
+	return _ans;
 }
 
 /*
@@ -70,7 +92,7 @@ function print_ds_list(_list) {
 
 function string_reverse(_str) {
    var _out = "";
-   for(var _i=string_length(_str); _i>0; _i--) {
+   for(var _i = string_length(_str); _i>0; _i--) {
       _out += string_char_at(_str, _i);
    }
    return _out;

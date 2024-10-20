@@ -16,7 +16,7 @@ draw_set_font(global.fnt_calculator);
 
 global._math_encoding_map = ds_map_create();
 for (var _i = 0; _i < 10; _i++)
-	global._math_encoding_map[? _i] = _i;
+	global._math_encoding_map[? string(_i)] = _i;
 global._math_encoding_map[? "."] = 10;
 global._math_encoding_map[? "-"] = 11;
 global._math_encoding_map[? "+"] = 12;

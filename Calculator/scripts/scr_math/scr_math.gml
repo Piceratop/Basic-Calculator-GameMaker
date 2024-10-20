@@ -330,7 +330,6 @@ function divide(_a, _b, _decimal_precision = 0, _is_normalized = false) {
 		var _c = ds_list_create();
 		for (var _i = 0; _i < ds_list_size(_a) - _dec_shift + _decimal_precision; _i++)
 			ds_list_add(_c, _a[| _i]);
-		//print_ds_list(_c);
 		_ans_list = int_divide_v1(_c, _b);
 		ds_list_destroy(_c);
 	} else {
@@ -624,8 +623,7 @@ function subtract(_a, _b, _is_normalized=false) {
 /**
  * @function				evaluate_equation(_a, _b, _is_normalized)
  * @description			Subtract two real numbers.
- * @param {Id.DsList}	_a - The minuend.
- * @param {Id.DsList}	_b - The subtrahend.
+ * @param {Id.DsList}	_equation - The equation represented in a list.
  * @param {Bool}			_is_normalized - Check if the input is normalized.
  * @returns {Id.DsList}
  */
