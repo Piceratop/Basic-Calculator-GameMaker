@@ -36,6 +36,7 @@ for (
 	global._math_decoding_map[? _v] = _k;
 }
 
+
 // Initialize variables
 button_width = 52;
 center_pos = [room_width / 2, room_height - 168];

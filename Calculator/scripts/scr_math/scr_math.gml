@@ -7,22 +7,22 @@
 
 function normalize(_n) {
 	var _i = ds_list_size(_n) - 1;
-	if (ds_list_find_index(_n, 10) != -1)
+	if (ds_list_find_index(_n, global._math_encoding_map[? "."]) != -1)
 		for (; _n[| _i] == 0; _i--)
 			ds_list_delete(_n, _i);
-	if (_n[| _i] == 10)
+	if (_n[| _i] == global._math_encoding_map[? "."])
 		ds_list_delete(_n, _i);
-	while (_n[| 0] == 11 and _n[| 1] == 11) {
+	while (_n[| 0] == global._math_encoding_map[? "-"] and _n[| 1] == global._math_encoding_map[? "-"]) {
 		ds_list_delete(_n, 0);
 		ds_list_delete(_n, 0);
 	}
 	var _start = 0;
-	if (_n[| 0] == 11) _start = 1;
+	if (_n[| 0] == global._math_encoding_map[? "-"]) _start = 1;
 	while (ds_list_size(_n) > _start and _n[| _start] == 0)
 		ds_list_delete(_n, _start);
 	if (ds_list_size(_n) == 0) ds_list_add(_n, 0);
-	if (ds_list_size(_n) == 1 and (_n[| 0] == 10 or _n[| 0] == 11)) _n[| 0] = 0;
-	if (_n[| _start] == 10) ds_list_insert(_n, _start, 0);
+	if (ds_list_size(_n) == 1 and (_n[| 0] == global._math_encoding_map[? "."] or _n[| 0] == global._math_encoding_map[? "-"])) _n[| 0] = 0;
+	if (_n[| _start] == global._math_encoding_map[? "."]) ds_list_insert(_n, _start, 0);
 }
 
 /**
@@ -37,7 +37,7 @@ function absolute_value(_n, _is_normalized = false) {
 	if (not _is_normalized) normalize(_n);
 	var _ans_list = ds_list_create();
 	ds_list_copy(_ans_list, _n);
-	if (_ans_list[| 0] == 11) ds_list_delete(_ans_list, 0);
+	if (_ans_list[| 0] == global._math_encoding_map[? "-"]) ds_list_delete(_ans_list, 0);
 	return _ans_list;
 }
 
@@ -51,7 +51,7 @@ function absolute_value(_n, _is_normalized = false) {
 
 function self_absolute_value(_self, _is_normalized = false) {
 	if (not _is_normalized) normalize(_self);
-	if (_self[| 0] == 11) ds_list_delete(_self, 0);
+	if (_self[| 0] == global._math_encoding_map[? "-"]) ds_list_delete(_self, 0);
 }
 
 /**
@@ -68,10 +68,10 @@ function inverse(_n, _is_normalized = false) {
 	if (not _is_normalized) normalize(_n);
 	var _ans_list = ds_list_create();
 	ds_list_copy(_ans_list, _n);
-	if (_ans_list[| 0] == 11)
+	if (_ans_list[| 0] == global._math_encoding_map[? "-"])
 		ds_list_delete(_ans_list, 0);
 	else if (ds_list_size(_ans_list) > 1 or _ans_list[| 0] != 0)
-		ds_list_insert(_ans_list, 0, 11);
+		ds_list_insert(_ans_list, 0, global._math_encoding_map[? "-"]);
 	return _ans_list;
 }
 
@@ -87,8 +87,8 @@ function inverse(_n, _is_normalized = false) {
 
 function self_inverse(_self, _is_normalized = false) {
 	if (not _is_normalized) normalize(_self);
-	if (_self[| 0] == 11) ds_list_delete(_self, 0);
-	else if (ds_list_size(_self) > 1 or _self[| 0] != 0)	ds_list_insert(_self, 0, 11);
+	if (_self[| 0] == global._math_encoding_map[? "-"]) ds_list_delete(_self, 0);
+	else if (ds_list_size(_self) > 1 or _self[| 0] != 0)	ds_list_insert(_self, 0, global._math_encoding_map[? "-"]);
 }
 
 /**
@@ -106,7 +106,7 @@ function shift_decimal(_n, _shift, _is_normalized = false) {
 	if (not _is_normalized) normalize(_n);
 	var _ans_list = ds_list_create();
 	ds_list_copy(_ans_list, _n);
-	var _dn = ds_list_find_index(_ans_list, 10);
+	var _dn = ds_list_find_index(_ans_list, global._math_encoding_map[? "."]);
 	if (_dn == -1) {
 		_dn = ds_list_size(_ans_list);
 	} else {
@@ -114,11 +114,11 @@ function shift_decimal(_n, _shift, _is_normalized = false) {
 	}
 	var _decimal_new_pos = _dn + _shift;
 	if (_decimal_new_pos > 0 and _decimal_new_pos < ds_list_size(_ans_list)) {
-		ds_list_insert(_ans_list, _decimal_new_pos, 10);
+		ds_list_insert(_ans_list, _decimal_new_pos, global._math_encoding_map[? "."]);
 	} else if (_decimal_new_pos <= 0) {
 		for (; _decimal_new_pos < 0; _decimal_new_pos++)
 			ds_list_insert(_ans_list, 0, 0);
-		ds_list_insert(_ans_list, 0, 10);
+		ds_list_insert(_ans_list, 0, global._math_encoding_map[? "."]);
 		ds_list_insert(_ans_list, 0, 0);
 	} else {
 		for (_decimal_new_pos = _decimal_new_pos - ds_list_size(_ans_list); _decimal_new_pos > 0; _decimal_new_pos--)
@@ -140,16 +140,16 @@ function shift_decimal(_n, _shift, _is_normalized = false) {
  
 function self_shift_decimal(_self, _shift, _is_normalized = false) {
 	if (not _is_normalized) normalize(_self);
-	var _dn = ds_list_find_index(_self, 10);
+	var _dn = ds_list_find_index(_self, global._math_encoding_map[? "."]);
 	if (_dn == -1) _dn = ds_list_size(_self);
 	else ds_list_delete(_self, _dn);
 	var _decimal_new_pos = _dn + _shift;
 	if (_decimal_new_pos > 0 and _decimal_new_pos < ds_list_size(_self))
-		ds_list_insert(_self, _decimal_new_pos, 10);
+		ds_list_insert(_self, _decimal_new_pos, global._math_encoding_map[? "."]);
 	else if (_decimal_new_pos <= 0) {
 		for (; _decimal_new_pos < 0; _decimal_new_pos++)
 			ds_list_insert(_self, 0, 0);
-		ds_list_insert(_self, 0, 10);
+		ds_list_insert(_self, 0, global._math_encoding_map[? "."]);
 		ds_list_insert(_self, 0, 0);
 	} else for (_decimal_new_pos = _decimal_new_pos - ds_list_size(_self); _decimal_new_pos > 0; _decimal_new_pos--)
 		ds_list_insert(_self, ds_list_size(_self), 0);
@@ -169,31 +169,31 @@ function add(_a, _b, _is_normalized = false) {
 	if (not _is_normalized) {
 		normalize(_a);
 		normalize(_b);
-		if (_a[| 0] == 11 and _b[| 0] == 11) {
+		if (_a[| 0] == global._math_encoding_map[? "-"] and _b[| 0] == global._math_encoding_map[? "-"]) {
 			ds_list_delete(_a, 0);
 			ds_list_delete(_b, 0);
 			var _c = add(_a, _b, true);
-			ds_list_insert(_a, 0, 11);
-			ds_list_insert(_b, 0, 11);
-			ds_list_insert(_c, 0, 11);
+			ds_list_insert(_a, 0, global._math_encoding_map[? "-"]);
+			ds_list_insert(_b, 0, global._math_encoding_map[? "-"]);
+			ds_list_insert(_c, 0, global._math_encoding_map[? "-"]);
 			return _c;
 		}
-		if (_a[| 0] == 11) {
+		if (_a[| 0] == global._math_encoding_map[? "-"]) {
 			ds_list_delete(_a, 0);
 			var _c = subtract(_b, _a, true);
-			ds_list_insert(_a, 0, 11);
+			ds_list_insert(_a, 0, global._math_encoding_map[? "-"]);
 			return _c;
 		}
-		if (_b[| 0] == 11)  {
+		if (_b[| 0] == global._math_encoding_map[? "-"])  {
 			ds_list_delete(_b, 0);
 			var _c = subtract(_a, _b, true);
-			ds_list_insert(_b, 0, 11);
+			ds_list_insert(_b, 0, global._math_encoding_map[? "-"]);
 			return _c;
 		}
 	}
-	var _dec_pos_a = ds_list_find_index(_a, 10);
+	var _dec_pos_a = ds_list_find_index(_a, global._math_encoding_map[? "."]);
 	if (_dec_pos_a == -1) _dec_pos_a = ds_list_size(_a);
-	var _dec_pos_b = ds_list_find_index(_b, 10);
+	var _dec_pos_b = ds_list_find_index(_b, global._math_encoding_map[? "."]);
 	if (_dec_pos_b == -1) _dec_pos_b = ds_list_size(_b);
 	var _ans_list = ds_list_create();
 	var _carry = 0;
@@ -203,7 +203,7 @@ function add(_a, _b, _is_normalized = false) {
 		_i--
 	) {
 		if (_i == 0) {
-			ds_list_add(_ans_list, 10);
+			ds_list_add(_ans_list, global._math_encoding_map[? "."]);
 			continue;
 		}
 		var _digit_a = _a[| _dec_pos_a + _i];
@@ -237,9 +237,9 @@ function compare(_a, _b, _is_normalized = false) {
 		normalize(_b);
 	}
 	var _is_both_negative = 0;
-	if (_a[| 0] == 11)
+	if (_a[| 0] == global._math_encoding_map[? "-"])
 		_is_both_negative += 1;
-	if (_b[| 0] == 11)
+	if (_b[| 0] == global._math_encoding_map[? "-"])
 		_is_both_negative += 2;
 	switch (_is_both_negative) {
 		case 1:
@@ -247,9 +247,9 @@ function compare(_a, _b, _is_normalized = false) {
 		case 2:
 			return 1;
 	}
-	var _dec_pos_a = ds_list_find_index(_a, 10);
+	var _dec_pos_a = ds_list_find_index(_a, global._math_encoding_map[? "."]);
 	if (_dec_pos_a == -1) _dec_pos_a = ds_list_size(_a);
-	var _dec_pos_b = ds_list_find_index(_b, 10);
+	var _dec_pos_b = ds_list_find_index(_b, global._math_encoding_map[? "."]);
 	if (_dec_pos_b == -1) _dec_pos_b = ds_list_size(_b);
 	if (_is_both_negative == 3) {
 		if (_dec_pos_a > _dec_pos_b) return -1;
@@ -286,36 +286,36 @@ function divide(_a, _b, _decimal_precision = 0, _is_normalized = false) {
 	if (not _is_normalized) {
 		normalize(_a);
 		normalize(_b);
-		if (_a[| 0] == 11 && _b[| 0] == 11) {
+		if (_a[| 0] == global._math_encoding_map[? "-"] && _b[| 0] == global._math_encoding_map[? "-"]) {
 			ds_list_delete(_a, 0);
 			ds_list_delete(_b, 0);
 			var _c = divide(_a, _b, _decimal_precision, true);
-			ds_list_insert(_a, 0, 11);
-			ds_list_insert(_b, 0, 11);
+			ds_list_insert(_a, 0, global._math_encoding_map[? "-"]);
+			ds_list_insert(_b, 0, global._math_encoding_map[? "-"]);
 			return _c;
 		}
-		if (_a[| 0] == 11) {
+		if (_a[| 0] == global._math_encoding_map[? "-"]) {
 			ds_list_delete(_a, 0);
 			var _c = divide(_a, _b, _decimal_precision, true);
-			ds_list_insert(_a, 0, 11);
-			ds_list_insert(_c, 0, 11);
+			ds_list_insert(_a, 0, global._math_encoding_map[? "-"]);
+			ds_list_insert(_c, 0, global._math_encoding_map[? "-"]);
 			return _c;
 		}
-		if (_b[| 0] == 11) {
+		if (_b[| 0] == global._math_encoding_map[? "-"]) {
 			ds_list_delete(_b, 0);
 			var _c = divide(_a, _b, _decimal_precision, true);
-			ds_list_insert(_b, 0, 11);
-			ds_list_insert(_c, 0, 11);
+			ds_list_insert(_b, 0, global._math_encoding_map[? "-"]);
+			ds_list_insert(_c, 0, global._math_encoding_map[? "-"]);
 			return _c;
 		}
 	}
 	var _dec_shift = 0;
-	var _dec_pos_a = ds_list_find_index(_a, 10);
+	var _dec_pos_a = ds_list_find_index(_a, global._math_encoding_map[? "."]);
 	if (_dec_pos_a != -1) {
 		_dec_shift = ds_list_size(_a) - 1 - _dec_pos_a;
 		ds_list_delete(_a, _dec_pos_a);
 	}
-	var _dec_pos_b = ds_list_find_index(_b, 10);
+	var _dec_pos_b = ds_list_find_index(_b, global._math_encoding_map[? "."]);
 	if (_dec_pos_b != -1) {
 		_dec_shift -= ds_list_size(_b) - 1 - _dec_pos_b;
 		ds_list_delete(_b, _dec_pos_b);
@@ -337,8 +337,8 @@ function divide(_a, _b, _decimal_precision = 0, _is_normalized = false) {
 	}
 	_dec_shift = _decimal_precision;
 
-	ds_list_insert(_a, _dec_pos_a, 10);
-	ds_list_insert(_b, _dec_pos_b, 10);
+	ds_list_insert(_a, _dec_pos_a, global._math_encoding_map[? "."]);
+	ds_list_insert(_b, _dec_pos_b, global._math_encoding_map[? "."]);
 	self_shift_decimal(_ans_list, -_dec_shift, true);
 	return _ans_list;
 }
@@ -483,36 +483,36 @@ function multiply(_a, _b, _is_normalized=false) {
 	if (not _is_normalized) {
 		normalize(_a);
 		normalize(_b);
-		if (_a[| 0] == 11 and _b[| 0] == 11) {
+		if (_a[| 0] == global._math_encoding_map[? "-"] and _b[| 0] == global._math_encoding_map[? "-"]) {
 			ds_list_delete(_a, 0);
 			ds_list_delete(_b, 0);
 			var _c = multiply(_a, _b, true);
-			ds_list_insert(_a, 0, 11);
-			ds_list_insert(_b, 0, 11);
+			ds_list_insert(_a, 0, global._math_encoding_map[? "-"]);
+			ds_list_insert(_b, 0, global._math_encoding_map[? "-"]);
 			return _c;
 		}
-		if (_a[| 0] == 11) {
+		if (_a[| 0] == global._math_encoding_map[? "-"]) {
 			ds_list_delete(_a, 0);
 			var _c = multiply(_a, _b, true);
-			ds_list_insert(_a, 0, 11);
-			ds_list_insert(_c, 0, 11);
+			ds_list_insert(_a, 0, global._math_encoding_map[? "-"]);
+			ds_list_insert(_c, 0, global._math_encoding_map[? "-"]);
 			return _c;
 		}
-		if (_b[| 0] == 11) {
+		if (_b[| 0] == global._math_encoding_map[? "-"]) {
 			ds_list_delete(_b, 0);
 			var _c = multiply(_a, _b, true);
-			ds_list_insert(_b, 0, 11);
-			ds_list_insert(_c, 0, 11);
+			ds_list_insert(_b, 0, global._math_encoding_map[? "-"]);
+			ds_list_insert(_c, 0, global._math_encoding_map[? "-"]);
 			return _c;
 		}
 	}
 	var _dec_shift = 0;
-	var _dec_pos_a = ds_list_find_index(_a, 10);
+	var _dec_pos_a = ds_list_find_index(_a, global._math_encoding_map[? "."]);
 	if (_dec_pos_a != -1) {
 		_dec_shift = ds_list_size(_a) - 1 - _dec_pos_a;
 		ds_list_delete(_a, _dec_pos_a);
 	}
-	var _dec_pos_b = ds_list_find_index(_b, 10);
+	var _dec_pos_b = ds_list_find_index(_b, global._math_encoding_map[? "."]);
 	if (_dec_pos_b != -1) {
 		_dec_shift += ds_list_size(_b) - 1 - _dec_pos_b;
 		ds_list_delete(_b, _dec_pos_b);
@@ -521,9 +521,9 @@ function multiply(_a, _b, _is_normalized=false) {
 	if (_dec_shift > 0) {
 		self_shift_decimal(_ans_list, -_dec_shift, true);
 		if (_dec_pos_a != -1)
-			ds_list_insert(_a, _dec_pos_a, 10);
+			ds_list_insert(_a, _dec_pos_a, global._math_encoding_map[? "."]);
 		if (_dec_pos_b != -1)
-			ds_list_insert(_b, _dec_pos_b, 10);
+			ds_list_insert(_b, _dec_pos_b, global._math_encoding_map[? "."]);
 	}
 	return _ans_list;
 }
@@ -541,31 +541,31 @@ function subtract(_a, _b, _is_normalized=false) {
 	if (not _is_normalized) {
 		normalize(_a);
 		normalize(_b);
-		if (_a[| 0] == 11 and _b[| 0] == 11) {
+		if (_a[| 0] == global._math_encoding_map[? "-"] and _b[| 0] == global._math_encoding_map[? "-"]) {
 			ds_list_delete(_b, 0);
 			ds_list_delete(_a, 0);
 			var _c = subtract(_b, _a, true);
-			ds_list_insert(_a, 0, 11);
-			ds_list_insert(_b, 0, 11);
+			ds_list_insert(_a, 0, global._math_encoding_map[? "-"]);
+			ds_list_insert(_b, 0, global._math_encoding_map[? "-"]);
 			return _c;
 		}
-		if (_a[| 0] == 11) {
+		if (_a[| 0] == global._math_encoding_map[? "-"]) {
 			ds_list_delete(_a, 0);
 			var _c = add(_a, _b, true);
-			ds_list_insert(_a, 0, 11);
-			ds_list_insert(_c, 0, 11);
+			ds_list_insert(_a, 0, global._math_encoding_map[? "-"]);
+			ds_list_insert(_c, 0, global._math_encoding_map[? "-"]);
 			return _c;
 		}
-		if (_b[| 0] == 11) {
+		if (_b[| 0] == global._math_encoding_map[? "-"]) {
 			ds_list_delete(_b, 0);
 			var _c = add(_a, _b, true);
-			ds_list_insert(_b, 0, 11);
+			ds_list_insert(_b, 0, global._math_encoding_map[? "-"]);
 			return _c;
 		}
 	}
-	var _dec_pos_a = ds_list_find_index(_a, 10);
+	var _dec_pos_a = ds_list_find_index(_a, global._math_encoding_map[? "."]);
 	if (_dec_pos_a == -1) _dec_pos_a = ds_list_size(_a);
-	var _dec_pos_b = ds_list_find_index(_b, 10);
+	var _dec_pos_b = ds_list_find_index(_b, global._math_encoding_map[? "."]);
 	if (_dec_pos_b == -1) _dec_pos_b = ds_list_size(_b);
 	var _ans_list = ds_list_create();
 	if (compare(_a, _b) == -1) {
@@ -576,7 +576,7 @@ function subtract(_a, _b, _is_normalized=false) {
 			_i--
 		) {
 			if (_i == 0) {
-				ds_list_add(_ans_list, 10);
+				ds_list_add(_ans_list, global._math_encoding_map[? "."]);
 				continue;
 			}
 			var _digit_a = _a[| _dec_pos_a + _i];
@@ -590,7 +590,7 @@ function subtract(_a, _b, _is_normalized=false) {
 			} else _borrow = 1;
 			ds_list_add(_ans_list, _ds);
 		}
-		ds_list_add(_ans_list, 11);
+		ds_list_add(_ans_list, global._math_encoding_map[? "-"]);
 		ds_list_reverse(_ans_list);
 	} else {
 		var _borrow = 0;
@@ -600,7 +600,7 @@ function subtract(_a, _b, _is_normalized=false) {
 			_i--
 		) {
 			if (_i == 0) {
-				ds_list_add(_ans_list, 10);
+				ds_list_add(_ans_list, global._math_encoding_map[? "."]);
 				continue;
 			}
 			var _digit_a = _a[| _dec_pos_a + _i];
@@ -624,9 +624,13 @@ function subtract(_a, _b, _is_normalized=false) {
  * @function				evaluate_equation(_a, _b, _is_normalized)
  * @description			Subtract two real numbers.
  * @param {Id.DsList}	_equation - The equation represented in a list.
- * @param {Bool}			_is_normalized - Check if the input is normalized.
  * @returns {Id.DsList}
  */
 
 function evaluate_equation(_equation) {
+	var _current_operation = undefined;
+	var _number_stack = ds_list_create();
+	for (var _i = 0; _i < ds_list_size(_equation); _i++) {
+		
+	}
 }

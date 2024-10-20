@@ -174,7 +174,7 @@ test_add = function () {
 		}
 		show_debug_message(get_timer() - _time);
 		var _ans_list = add(_test_list_0, _test_list_1);
-		print_ds_list(_ans_list);
+		show_debug_message(stringify_ds_list(_ans_list));
 		ds_list_destroy(_test_list_0);
 		ds_list_destroy(_test_list_1);
 		ds_list_destroy(_ans_list);
@@ -202,13 +202,14 @@ test_subtract = function() {
 		}
 		show_debug_message(get_timer() - _time);
 		var _ans_list = subtract(_test_list_0, _test_list_1);
-		print_ds_list(_ans_list);
+		show_debug_message(stringify_ds_list(_ans_list));
 		ds_list_destroy(_test_list_0);
 		ds_list_destroy(_test_list_1);
 		ds_list_destroy(_ans_list);
 	}
 	show_debug_message("");
 }
+//test_subtract();
 
 // Multiply (Integer)
 test_cases_4 = [
@@ -247,10 +248,10 @@ test_multiply_integer = function () {
 		}
 		show_debug_message(get_timer() - _time);
 		var _ans_list = int_multiply_v1(_test_list_0, _test_list_1);
-		print_ds_list(_ans_list);
+		show_debug_message(stringify_ds_list(_ans_list));
 		ds_list_destroy(_ans_list);
 		_ans_list = int_multiply_v2(_test_list_0, _test_list_1);
-		print_ds_list(_ans_list);
+		show_debug_message(stringify_ds_list(_ans_list));
 		ds_list_destroy(_ans_list);
 		ds_list_destroy(_test_list_0);
 		ds_list_destroy(_test_list_1);
@@ -278,7 +279,7 @@ test_multiply = function() {
 		}
 		show_debug_message(get_timer() - _time);
 		var _ans_list = multiply(_test_list_0, _test_list_1);
-		print_ds_list(_ans_list);
+		show_debug_message(stringify_ds_list(_ans_list));
 		ds_list_destroy(_test_list_0);
 		ds_list_destroy(_test_list_1);
 		ds_list_destroy(_ans_list);
@@ -308,13 +309,13 @@ test_divide_integer = function () {
 			ds_list_add(_test_list_1, test_cases_5[_i][1][_j]);	
 		}
 		var _time = get_timer();
-		for (var _k = 0; _k < 2500; _k++) {
+		for (var _k = 0; _k < 10000; _k++) {
 			var _ans_list = int_divide_v1(_test_list_0, _test_list_1);
 			ds_list_destroy(_ans_list);
 		}
 		show_debug_message(get_timer() - _time);
 		var _ans_list = int_divide_v1(_test_list_0, _test_list_1);
-		print_ds_list(_ans_list);
+		show_debug_message(stringify_ds_list(_ans_list));
 		ds_list_destroy(_ans_list);
 		ds_list_destroy(_test_list_0);
 		ds_list_destroy(_test_list_1);
@@ -349,13 +350,13 @@ test_divide = function() {
 		var _prec = 0;
 		if (array_length(test_cases_6[_i]) > 2) _prec = test_cases_6[_i][2];
 		var _time = get_timer();
-		for (var _k = 0; _k < 1000; _k++) {
+		for (var _k = 0; _k < 10000; _k++) {
 			var _ans_list = divide(_test_list_0, _test_list_1, _prec);
 			ds_list_destroy(_ans_list);
 		}
 		show_debug_message(get_timer() - _time);
 		var _ans_list = divide(_test_list_0, _test_list_1, _prec);
-		print_ds_list(_ans_list);
+		show_debug_message(stringify_ds_list(_ans_list));
 		ds_list_destroy(_ans_list);
 		ds_list_destroy(_test_list_0);
 		ds_list_destroy(_test_list_1);
@@ -367,20 +368,15 @@ test_divide = function() {
 // Parse equation
 test_cases_7 = [
 	"1024",
-	"-10.24"
+	"-10.24",
+	"10+24",
+	"-10×24",
+	"(1−2)×(3+4)"
 ];
 
 test_parse_equation = function() {
 	show_debug_message("Parse equation");
 	for (var _i = 0; _i < array_length(test_cases_7); _i++) {
-		var _time = get_timer();
-		for (var _k = 0; _k < 10000; _k++) {
-			var _eq_list = parse_equation(test_cases_7[_i]);
-			for (var _j = 0; _j < ds_list_size(_eq_list); _j++)
-				ds_list_destroy(_eq_list[| _j]);
-			ds_list_destroy(_eq_list);
-		}
-		show_debug_message(get_timer() - _time);
 		var _eq_list = parse_equation(test_cases_7[_i]);
 		show_debug_message(stringify_ds_list(_eq_list));
 		for (var _j = 0; _j < ds_list_size(_eq_list); _j++)
@@ -388,4 +384,6 @@ test_parse_equation = function() {
 		ds_list_destroy(_eq_list);
 	}
 }
-test_parse_equation();
+//test_parse_equation();
+
+// Evaluate equation
