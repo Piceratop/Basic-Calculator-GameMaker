@@ -3,7 +3,7 @@ global.allow_characters = "()+-.0123456789=C|×÷⁁−⌫▲▶▼◀"
 global.fnt_calculator = font_add_sprite_ext(
 	spr_fnt_calculator,
 	global.allow_characters,
-	true, 2
+	true, 3
 );
 global.border_color = c_black;
 global.fnt_color = c_black;
@@ -14,28 +14,36 @@ draw_set_valign(fa_middle);
 draw_set_font(global.fnt_calculator);
 
 
-global._math_encoding_map = ds_map_create();
+global.math_encoding_map = ds_map_create();
 for (var _i = 0; _i < 10; _i++)
-	global._math_encoding_map[? string(_i)] = _i;
-global._math_encoding_map[? "."] = 10;
-global._math_encoding_map[? "-"] = 11;
-global._math_encoding_map[? "+"] = 12;
-global._math_encoding_map[? "−"] = 13;
-global._math_encoding_map[? "×"] = 14;
-global._math_encoding_map[? "÷"] = 15;
-global._math_encoding_map[? "("] = 16;
-global._math_encoding_map[? ")"] = 17;
+	global.math_encoding_map[? string(_i)] = _i;
+global.math_encoding_map[? "."] = 10;
+global.math_encoding_map[? "-"] = 11;
+global.math_encoding_map[? "+"] = 12;
+global.math_encoding_map[? "−"] = 13;
+global.math_encoding_map[? "×"] = 14;
+global.math_encoding_map[? "÷"] = 15;
+global.math_encoding_map[? "("] = 16;
+global.math_encoding_map[? ")"] = 17;
 
-global._math_decoding_map = ds_map_create();
+global.math_decoding_map = ds_map_create();
 for (
-	var _k = ds_map_find_first(global._math_encoding_map);
+	var _k = ds_map_find_first(global.math_encoding_map);
 	!is_undefined(_k);
-	_k = ds_map_find_next(global._math_encoding_map, _k)
+	_k = ds_map_find_next(global.math_encoding_map, _k)
 ) {
-	var _v = global._math_decoding_map[? _k];
-	global._math_decoding_map[? _v] = _k;
+	var _v = global.math_decoding_map[? _k];
+	global.math_decoding_map[? _v] = _k;
 }
 
+function Operator(_label, _priority, _eval_function) constructor {
+	label = _label;
+	priority = _priority;
+	eval_function = _eval_function;
+}
+
+global.operator_map = ds_map_create();
+global.operator_map[? global.math_encoding_map[? "+"]] = new Operator("+", 1, ds_list_add);
 
 // Initialize variables
 button_width = 52;

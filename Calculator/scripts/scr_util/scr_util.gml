@@ -54,7 +54,7 @@ function parse_equation(_eq_str) {
 			_is_number = not _is_number;
 			_refresh_curr_ep_comp();
 		}
-		ds_list_add(curr_eq_comp, global._math_encoding_map[? _curr_char]);
+		ds_list_add(curr_eq_comp, global.math_encoding_map[? _curr_char]);
 		if (not _is_number) {
 			_refresh_curr_ep_comp();
 		}
@@ -72,12 +72,10 @@ function parse_equation(_eq_str) {
 function stringify_ds_list(_list) {
 	var _ans = "[ ";
 	for (var _i = 0; _i < ds_list_size(_list); _i++) {
-		if (ds_list_is_list(_list, _i)) {
+		if (ds_list_is_list(_list, _i)) 
 			_ans += stringify_ds_list(_list[| _i]);
-		} else {
-			_ans += string(_list[| _i]);
-			if (_i != ds_list_size(_list) - 1) _ans += ", ";
-		}
+		else _ans += string(_list[| _i]);
+		if (_i != ds_list_size(_list) - 1) _ans += ", ";
 	}
 	_ans += " ]";
 	return _ans;
@@ -92,7 +90,7 @@ function stringify_ds_list(_list) {
 
 function string_reverse(_str) {
    var _out = "";
-   for(var _i = string_length(_str); _i>0; _i--) {
+   for(var _i = string_length(_str); _i > 0; _i--) {
       _out += string_char_at(_str, _i);
    }
    return _out;

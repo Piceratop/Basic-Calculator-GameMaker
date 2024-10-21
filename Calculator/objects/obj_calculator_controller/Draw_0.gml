@@ -48,4 +48,4 @@ if (_i == string_length(global.current_equation))
 	_display_equation += string_char_at(global.current_equation, _i);
 else if (_i < string_length(global.current_equation))
 	_display_equation += "▶";
-draw_text(equations_pos[0], equations_pos[1], _display_equation);
+draw_text(equations_pos[0], equations_pos[1], global.current_equation);

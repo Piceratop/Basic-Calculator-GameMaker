@@ -387,3 +387,16 @@ test_parse_equation = function() {
 //test_parse_equation();
 
 // Evaluate equation
+test_cases_8 = [
+	[ [ 1, 0, 2, 4 ] ],
+	[ [ 11, 1, 0, 10, 2, 4 ] ],
+	[ [ 1, 0 ], [ 12 ], [ 2, 4 ] ],
+	[ [ 11, 1, 0 ], [ 14 ], [ 2, 4 ] ],
+	[ [ 16 ], [ 1 ], [ 13 ], [ 2 ], [ 17 ], [ 14 ], [ 16 ], [ 3 ], [ 12 ], [ 4 ], [ 17 ] ]
+]
+
+test_evaluate_equation = function() {
+	show_debug_message("Evaluate equation");
+
+}
+test_evaluate_equation();
