@@ -1,51 +1,26 @@
 draw_set_valign(fa_bottom);
+draw_set_halign(fa_left);
+var _cursor_pixel_position = room_width / 2;
+var _after_cursor = string_copy(
+	global.current_equation,
+	global.cursor_position,
+	string_length(global.current_equation) - global.cursor_position + 1
+);
+var _before_cursor = string_copy(global.current_equation, 1, global.cursor_position - 1);
+if (cursor_color == 1)
+	draw_rectangle(
+		_cursor_pixel_position - 1,
+		equations_pos[1] - 4,
+		_cursor_pixel_position,
+		equations_pos[1] - 28,
+		false
+	);
+draw_set_color(global.fnt_color);
+draw_text(_cursor_pixel_position + 2, equations_pos[1], _after_cursor);
 draw_set_halign(fa_right);
+draw_text(_cursor_pixel_position + 2, equations_pos[1], _before_cursor);
 
-var _display_equation = "⁁";
-if (global.cursor_position < 1)
-	global.cursor_position = 1;
-if (global.cursor_position <= string_length(global.current_equation)) {
-	_display_equation += string_char_at(
-		global.current_equation,
-		global.cursor_position
-	);
-}
-var _tpd = string_width("◀▶");
-var _i;
-for (
-	_i = global.cursor_position - 1;
-	_i > 0 and string_width(_display_equation) + _tpd < global.equation_max_width;
-	_i--
-) {
-		_display_equation = string_insert(
-			string_char_at(global.current_equation, _i),
-			_display_equation, 1
-		);
-}
-if (_i == 1)
-	_display_equation = string_insert(
-		string_char_at(global.current_equation, 1),
-		_display_equation, 1
-	);
-else if (_i > 1) {
-	if (global.cursor_position >= string_length(global.current_equation))
-		_display_equation = string_insert(
-			string_char_at(global.current_equation, _i),
-			_display_equation, 1
-		);
-	_display_equation = string_insert("◀",_display_equation, 1);
-}
-var _td = string_width("▶");
-for (
-	_i = global.cursor_position + 1;
-	_i <= string_length(global.current_equation) and
-	string_width(_display_equation) + _td < global.equation_max_width;
-	_i++
-) {
-	_display_equation += string_char_at(global.current_equation, _i);
-}
-if (_i == string_length(global.current_equation))
-	_display_equation += string_char_at(global.current_equation, _i);
-else if (_i < string_length(global.current_equation))
-	_display_equation += "▶";
-draw_text(equations_pos[0], equations_pos[1], global.current_equation);
+
+// Show debug message on screen
+draw_set_halign(fa_left);
+//draw_text(10, 30, global.cursor_position);

@@ -17,6 +17,8 @@ function input_equation(_curr_equation, _label, _pos) {
 			_curr_equation = string_insert(_label, _curr_equation, _pos);
 	}
 	global.cursor_position += 1;
+	if (global.cursor_position < 1)
+		global.cursor_position = 1;
 	return _curr_equation;
 }
 

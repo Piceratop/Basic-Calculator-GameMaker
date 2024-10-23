@@ -3,7 +3,7 @@ global.allow_characters = "()+-.0123456789=C|×÷⁁−⌫▲▶▼◀"
 global.fnt_calculator = font_add_sprite_ext(
 	spr_fnt_calculator,
 	global.allow_characters,
-	true, 3
+	true, 4
 );
 global.border_color = c_black;
 global.fnt_color = c_black;
@@ -82,5 +82,7 @@ global.cursor_position = 1;
 global.equation_max_width = room_width - button_width * 2;
 global.equations = [];
 equations_pos = [room_width - button_width, center_pos[1] - 3.5 * button_width];
+cursor_color = 0;
+alarm[0] = game_get_speed(gamespeed_fps);
 
 // Debugging
