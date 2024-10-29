@@ -11,6 +11,8 @@ var _after_cursor = string_copy(
 var _before_cursor = string_copy(global.current_equation, 1, global.cursor_position - 1);
 if (display_padding + string_width(_after_cursor) + 2 < room_width / 2)
 	_cursor_pixel_position = room_width - (display_padding + string_width(_after_cursor) + 2);
+else if (display_padding + string_width(_before_cursor) + 2 < room_width / 2)
+	_cursor_pixel_position = display_padding + string_width(_before_cursor) + 2;
 if (cursor_color == 1)
 	draw_rectangle(
 		_cursor_pixel_position - 1,
