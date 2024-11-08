@@ -5,6 +5,7 @@ global.fnt_calculator = font_add_sprite_ext(
 	global.allow_characters,
 	true, 4
 );
+global.back_color = c_white;
 global.border_color = c_black;
 global.fnt_color = c_black;
 
@@ -36,14 +37,14 @@ for (
 	global.math_decoding_map[? _v] = _k;
 }
 
-function Operator(_label, _priority, _eval_function) constructor {
+function operator(_label, _priority, _eval_function) constructor {
 	label = _label;
 	priority = _priority;
 	eval_function = _eval_function;
 }
 
 global.operator_map = ds_map_create();
-global.operator_map[? global.math_encoding_map[? "+"]] = new Operator("+", 1, ds_list_add);
+global.operator_map[? global.math_encoding_map[? "+"]] = new operator("+", 1, ds_list_add);
 
 // Initialize variables
 button_width = 52;
