@@ -44,7 +44,10 @@ function operator(_label, _priority, _eval_function) constructor {
 }
 
 global.operator_map = ds_map_create();
-global.operator_map[? global.math_encoding_map[? "+"]] = new operator("+", 1, ds_list_add);
+global.operator_map[? global.math_encoding_map[? "+"]] = new operator("+", 1, add);
+global.operator_map[? global.math_encoding_map[? "-"]] = new operator("-", 1, subtract);
+global.operator_map[? global.math_encoding_map[? "×"]] = new operator("×", 2, multiply);
+global.operator_map[? global.math_encoding_map[? "÷"]] = new operator("÷", 2, divide);
 
 // Initialize variables
 button_width = 52;
