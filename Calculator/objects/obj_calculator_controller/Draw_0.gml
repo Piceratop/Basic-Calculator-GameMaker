@@ -26,21 +26,26 @@ if (cursor_color == 1)
 draw_text(_cursor_pixel_position + 2, equations_pos[1], _after_cursor);
 draw_set_halign(fa_right);
 if (_cursor_pixel_position + string_width(_after_cursor) >= equations_pos[0]) {
-	draw_set_color(global.back_color);
-	draw_rectangle(
-		equations_pos[0] - string_width("▶"),
-		equations_pos[1],
-		room_width,
-		equations_pos[1] - string_height("▶"),
-		false
+	draw_rectangle_color(
+		equations_pos[0] - string_width("▶"), equations_pos[1],
+		room_width,	equations_pos[1] - string_height("▶"),
+		global.back_color, global.back_color, global.back_color, global.back_color, false
 	);
-	draw_set_color(global.fnt_color);
 	draw_text(equations_pos[0], equations_pos[1], "▶");
 }
 draw_text(_cursor_pixel_position + 2, equations_pos[1], _before_cursor);
+draw_set_halign(fa_left);
+if (_cursor_pixel_position - string_width(_before_cursor) <= display_padding) {
+	draw_rectangle_color(
+		display_padding + string_width("◀"), equations_pos[1],
+		-2,	equations_pos[1] - string_height("◀"),
+		global.back_color, global.back_color, global.back_color, global.back_color, false
+	);
+	draw_text(display_padding, equations_pos[1], "◀");
+}
 
 
 // Show debug message on screen
-draw_set_halign(fa_left);
+
 //draw_text(10, 40, display_padding + string_width(_after_cursor));
 //draw_text(10, 30, global.cursor_position);
