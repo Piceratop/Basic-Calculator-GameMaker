@@ -636,7 +636,7 @@ function evaluate_equation(_equation) {
 			ds_stack_push(_number_stack, _current_component);
 		} else {
 			_current_component = global.operator_map[@ _current_component[| 0]];
-
+			
 		}
 	}
 }

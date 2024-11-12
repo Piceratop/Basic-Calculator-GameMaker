@@ -37,17 +37,18 @@ for (
 	global.math_decoding_map[? _v] = _k;
 }
 
-function operator(_label, _priority, _eval_function) constructor {
+function operator(_label, _eval_function, _position, _priority) constructor {
 	label = _label;
-	priority = _priority;
 	eval_function = _eval_function;
+	position = _position;
+	priority = _priority;
 }
 
 global.operator_map = ds_map_create();
-global.operator_map[? global.math_encoding_map[? "+"]] = new operator("+", 1, add);
-global.operator_map[? global.math_encoding_map[? "-"]] = new operator("-", 1, subtract);
-global.operator_map[? global.math_encoding_map[? "×"]] = new operator("×", 2, multiply);
-global.operator_map[? global.math_encoding_map[? "÷"]] = new operator("÷", 2, divide);
+global.operator_map[? global.math_encoding_map[? "+"]] = new operator("+", add, "mid", 1);
+global.operator_map[? global.math_encoding_map[? "-"]] = new operator("-", subtract, "mid", 1);
+global.operator_map[? global.math_encoding_map[? "×"]] = new operator("×", multiply, "mid", 2);
+global.operator_map[? global.math_encoding_map[? "÷"]] = new operator("÷", divide, "mid", 2);
 
 // Initialize variables
 button_width = 52;
