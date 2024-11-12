@@ -397,6 +397,7 @@ test_cases_8 = [
 
 test_evaluate_equation = function() {
 	show_debug_message("Evaluate equation");
-
+	
 }
 test_evaluate_equation();
+

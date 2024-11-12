@@ -628,9 +628,15 @@ function subtract(_a, _b, _is_normalized=false) {
  */
 
 function evaluate_equation(_equation) {
-	var _current_operation = undefined;
-	var _number_stack = ds_list_create();
+	var _operator_stack = ds_stack_create();
+	var _number_stack = ds_stack_create();
 	for (var _i = 0; _i < ds_list_size(_equation); _i++) {
-		
+		var _current_component = _equation[_i];
+		if (_current_component[| 0] <= 11) {
+			ds_stack_push(_number_stack, _current_component);
+		} else {
+			_current_component = global.operator_map[@ _current_component[| 0]];
+
+		}
 	}
 }
