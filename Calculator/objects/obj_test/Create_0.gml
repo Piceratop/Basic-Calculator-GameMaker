@@ -367,11 +367,15 @@ test_divide = function() {
 
 // Parse equation
 test_cases_7 = [
+	"5−7",
 	"1024",
-	"-10.24",
 	"10+24",
+	"3+4×2",
+	"-10.24",
 	"-10×24",
-	"(1−2)×(3+4)"
+	"5+6+7×8",
+	"55.5÷0.7",
+	"(1−2)×(3+4)",
 ];
 
 test_parse_equation = function() {
@@ -386,18 +390,25 @@ test_parse_equation = function() {
 }
 //test_parse_equation();
 
-// Evaluate equation
-test_cases_8 = [
-	[ [ 1, 0, 2, 4 ] ],
-	[ [ 11, 1, 0, 10, 2, 4 ] ],
-	[ [ 1, 0 ], [ 12 ], [ 2, 4 ] ],
-	[ [ 11, 1, 0 ], [ 14 ], [ 2, 4 ] ],
-	[ [ 16 ], [ 1 ], [ 13 ], [ 2 ], [ 17 ], [ 14 ], [ 16 ], [ 3 ], [ 12 ], [ 4 ], [ 17 ] ]
-]
-
+// Evaluate equations
 test_evaluate_equation = function() {
 	show_debug_message("Evaluate equation");
-	
+	for (var _i = 0; _i < array_length(test_cases_7); _i++) {
+		var _time = get_timer();
+		var _eq_list = parse_equation(test_cases_7[_i]);
+		for (var _k = 0; _k < 1000; _k++) {
+			var _ans_list = evaluate_equation(_eq_list);
+			ds_list_destroy(_ans_list);
+		}
+		show_debug_message(get_timer() - _time);
+		var _ans_list = evaluate_equation(_eq_list);
+		show_debug_message(stringify_ds_list(_ans_list));
+		ds_list_destroy(_ans_list);
+		for (var _j = 0; _j < ds_list_size(_eq_list); _j++)
+			ds_list_destroy(_eq_list[| _j]);
+		ds_list_destroy(_eq_list);
+	}
 }
+
 test_evaluate_equation();
 
