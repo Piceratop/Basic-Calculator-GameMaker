@@ -630,60 +630,70 @@ function subtract(_a, _b, _is_normalized=false) {
 function evaluate_equation(_equation) {
 	var _operator_stack = ds_stack_create();
 	var _number_stack = ds_stack_create();
-	for (var _i = 0; _i < ds_list_size(_equation); _i++) {
-		var _current_component = _equation[| _i];
-		if (_current_component[| 0] <= 11) {
-			var _current_number = ds_list_create();
-			ds_list_copy(_current_number, _current_component);
-			ds_stack_push(_number_stack, _current_number);
-		} else if (_current_component[| 0] == global.math_encoding_map[? "("]) {
-			ds_stack_push(_operator_stack, global.math_encoding_map[? "("]);
-		} else if (_current_component[| 0] == global.math_encoding_map[? ")"]) {
-			while (ds_stack_top(_operator_stack) != global.math_encoding_map[? "("]) {
-				var _executing_operator = ds_stack_pop(_operator_stack);
-				if (_executing_operator[? "input_count"] == 2) {
-					var _b = ds_stack_pop(_number_stack);
-					var _a = ds_stack_pop(_number_stack);
-					var _c = _executing_operator[? "function"](_a, _b);
-					ds_list_destroy(_a);
-					ds_list_destroy(_b);
-					ds_stack_push(_number_stack, _c);
+	var _ans_list;
+	try {
+		for (var _i = 0; _i < ds_list_size(_equation); _i++) {
+			var _current_component = _equation[| _i];
+			if (_current_component[| 0] <= 11) {
+				var _current_number = ds_list_create();
+				ds_list_copy(_current_number, _current_component);
+				ds_stack_push(_number_stack, _current_number);
+			} else if (_current_component[| 0] == global.math_encoding_map[? "("]) {
+				ds_stack_push(_operator_stack, global.math_encoding_map[? "("]);
+			} else if (_current_component[| 0] == global.math_encoding_map[? ")"]) {
+				while (ds_stack_top(_operator_stack) != global.math_encoding_map[? "("]) {
+					var _executing_operator = ds_stack_pop(_operator_stack);
+					if (_executing_operator[? "input_count"] == 2) {
+						var _b = ds_stack_pop(_number_stack);
+						var _a = ds_stack_pop(_number_stack);
+						var _c = _executing_operator[? "function"](_a, _b);
+						ds_list_destroy(_a);
+						ds_list_destroy(_b);
+						ds_stack_push(_number_stack, _c);
+					}
 				}
-			}
-			ds_stack_pop(_operator_stack);
-		} else {
-			var _current_operator = global.operator_map[? _current_component[| 0]];
-			while (
-				!ds_stack_empty(_operator_stack) and 
-				ds_stack_top(_operator_stack) != global.math_encoding_map[? "("] and 
-				ds_stack_top(_operator_stack)[? "priority"] >= _current_operator[? "priority"]
-			) {
-				var _executing_operator = ds_stack_pop(_operator_stack);
-				if (_executing_operator[? "input_count"] == 2) {
-					var _a = ds_stack_pop(_number_stack);
-					var _b = ds_stack_pop(_number_stack);
-					var _c = _executing_operator[? "function"](_a, _b);
-					ds_list_destroy(_a);
-					ds_list_destroy(_b);
-					ds_stack_push(_number_stack, _c);
+				ds_stack_pop(_operator_stack);
+			} else {
+				var _current_operator = global.operator_map[? _current_component[| 0]];
+				while (
+					!ds_stack_empty(_operator_stack) and 
+					ds_stack_top(_operator_stack) != global.math_encoding_map[? "("] and 
+					ds_stack_top(_operator_stack)[? "priority"] >= _current_operator[? "priority"]
+				) {
+					var _executing_operator = ds_stack_pop(_operator_stack);
+					if (_executing_operator[? "input_count"] == 2) {
+						var _a = ds_stack_pop(_number_stack);
+						var _b = ds_stack_pop(_number_stack);
+						var _c = _executing_operator[? "function"](_a, _b);
+						ds_list_destroy(_a);
+						ds_list_destroy(_b);
+						ds_stack_push(_number_stack, _c);
+					}
 				}
+				ds_stack_push(_operator_stack, _current_operator);
 			}
-			ds_stack_push(_operator_stack, _current_operator);
 		}
-	}
-	while (!ds_stack_empty(_operator_stack)) {
-		var _executing_operator = ds_stack_pop(_operator_stack);
-		if (_executing_operator[? "input_count"] == 2) {
-			var _b = ds_stack_pop(_number_stack);
-			var _a = ds_stack_pop(_number_stack);
-			var _c = _executing_operator[? "function"](_a, _b);
-			ds_list_destroy(_a);
-			ds_list_destroy(_b);
-			ds_stack_push(_number_stack, _c);
+		while (!ds_stack_empty(_operator_stack)) {
+			var _executing_operator = ds_stack_pop(_operator_stack);
+			if (_executing_operator[? "input_count"] == 2) {
+				var _b = ds_stack_pop(_number_stack);
+				var _a = ds_stack_pop(_number_stack);
+				var _c = _executing_operator[? "function"](_a, _b);
+				ds_list_destroy(_a);
+				ds_list_destroy(_b);
+				ds_stack_push(_number_stack, _c);
+			}
 		}
+		_ans_list = ds_stack_pop(_number_stack);
+	} catch (_exception) {
+		_ans_list = ds_list_create();
+		ds_list_add(_ans_list, -1);
 	}
-	var _ans = ds_stack_pop(_number_stack);
 	ds_stack_destroy(_operator_stack);
+	while (ds_stack_size(_number_stack) > 0) {
+		var _current_component = ds_stack_pop(_number_stack);
+		ds_list_destroy(_current_component);
+	}
 	ds_stack_destroy(_number_stack);
-	return _ans;
+	return _ans_list;
 }
