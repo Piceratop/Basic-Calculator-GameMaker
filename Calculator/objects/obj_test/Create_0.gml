@@ -327,6 +327,7 @@ test_divide_integer = function () {
 // Division
 test_cases_6 = [
 	[[6], [3]],
+	[[7], [0]],
 	[[1, 2], [4]],
 	[[1, 3], [4]],
 	[[5, 7], [1, 9]],
@@ -350,7 +351,7 @@ test_divide = function() {
 		var _prec = 0;
 		if (array_length(test_cases_6[_i]) > 2) _prec = test_cases_6[_i][2];
 		var _time = get_timer();
-		for (var _k = 0; _k < 10000; _k++) {
+		for (var _k = 0; _k < 1000; _k++) {
 			var _ans_list = divide(_test_list_0, _test_list_1, _prec);
 			ds_list_destroy(_ans_list);
 		}
@@ -367,17 +368,18 @@ test_divide = function() {
 
 // Parse equation
 test_cases_7 = [
-	//"5−7",
-	//"1024",
-	//"10+24",
-	//"3+4×2",
-	//"-10.24",
-	//"-10×24",
-	//"5+6+7×8",
-	//"(-10.24)",
-	//"-(10.24)",
-	//"55.5÷0.7",
-	//"(1−2)×(3+4)",
+	"5−7",
+	"1024",
+	"10+24",
+	"3+4×2",
+	"-10.24",
+	"-10×24",
+	"5+6+7×8",
+	"(-10.24)",
+	"-(10.24)",
+	"55.5÷0.7",
+	"(1−2)×(3+4)",
+	"+−",
 	"12+",
 	"12+×34",
 	"(1−2)×(3+4",
@@ -399,8 +401,8 @@ test_parse_equation = function() {
 test_evaluate_equation = function() {
 	show_debug_message("Evaluate equation");
 	for (var _i = 0; _i < array_length(test_cases_7); _i++) {
-		var _time = get_timer();
 		var _eq_list = parse_equation(test_cases_7[_i]);
+		var _time = get_timer();
 		for (var _k = 0; _k < 5000; _k++) {
 			var _ans_list = evaluate_equation(_eq_list);
 			ds_list_destroy(_ans_list);
@@ -416,4 +418,3 @@ test_evaluate_equation = function() {
 }
 
 test_evaluate_equation();
-

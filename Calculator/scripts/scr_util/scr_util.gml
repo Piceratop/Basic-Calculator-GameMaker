@@ -64,7 +64,7 @@ function parse_equation(_eq_str) {
 	return eq_list;
 }
 
-/// @function				stringify_ds_list(_str)
+/// @function				stringify_ds_list(_list)
 /// @description			This function will represent a ds_list as a string.
 /// @param {Id.DsList}	_list - The input list data structure.
 /// @return {String}
@@ -94,4 +94,16 @@ function string_reverse(_str) {
       _out += string_char_at(_str, _i);
    }
    return _out;
+}
+
+//////////////////// Partial Functions ///////////////////////
+
+function stack_full_remove(_number_stack, _operator_stack) {
+	ds_stack_destroy(_operator_stack);
+	while (ds_stack_size(_number_stack) > 0) {
+		var _current_component = ds_stack_pop(_number_stack);
+		if (typeof(_current_component) != "number")
+			ds_list_destroy(_current_component);
+	}
+	ds_stack_destroy(_number_stack);
 }

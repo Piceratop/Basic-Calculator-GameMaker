@@ -286,6 +286,11 @@ function divide(_a, _b, _decimal_precision = 6, _is_normalized = false) {
 	if (not _is_normalized) {
 		normalize(_a);
 		normalize(_b);
+		if (ds_list_size(_b) == 1 and _b[| 0] == 0) {
+			var _c = ds_list_create();
+			ds_list_add(_c, -1);
+			return _c;
+		}
 		if (_a[| 0] == global.math_encoding_map[? "-"] && _b[| 0] == global.math_encoding_map[? "-"]) {
 			ds_list_delete(_a, 0);
 			ds_list_delete(_b, 0);
@@ -324,16 +329,16 @@ function divide(_a, _b, _decimal_precision = 6, _is_normalized = false) {
 	if (_dec_shift < _decimal_precision) {
 		var _shift_a = _decimal_precision - _dec_shift;
 		self_shift_decimal(_a, _shift_a);
-		_ans_list = int_divide_v1(_a, _b);
+		_ans_list = int_divide_v2(_a, _b);
 		self_shift_decimal(_a, -_shift_a, true);
 	} else if (_dec_shift > _decimal_precision) {
 		var _c = ds_list_create();
 		for (var _i = 0; _i < ds_list_size(_a) - _dec_shift + _decimal_precision; _i++)
 			ds_list_add(_c, _a[| _i]);
-		_ans_list = int_divide_v1(_c, _b);
+		_ans_list = int_divide_v2(_c, _b);
 		ds_list_destroy(_c);
 	} else {
-		_ans_list = int_divide_v1(_a, _b);
+		_ans_list = int_divide_v2(_a, _b);
 	}
 	_dec_shift = _decimal_precision;
 
@@ -344,14 +349,14 @@ function divide(_a, _b, _decimal_precision = 6, _is_normalized = false) {
 }
 
 /**
- * @function				int_divide_v1(_a, _b, _precision)
- *	@description			Divides two integers with a specified level of precision.
+ * @function				int_divide_v2(_a, _b)
+ *	@description			This function will divide two integers and return the truncated integer quotient.
  * @param {Id.DsList}	_a - The dividend.
  * @param {Id.DsList}	_b - The divisor.
  * @returns {Id.DsList}
  */
 
-function int_divide_v1(_a, _b) {
+function int_divide_v2(_a, _b) {
 	var _ans_list = ds_list_create();
 	if (compare(_a, _b, true) == -1) {
 		ds_list_add(_ans_list, 0);
@@ -359,31 +364,39 @@ function int_divide_v1(_a, _b) {
 	}
 	var _da = ds_list_size(_a);
 	var _db = ds_list_size(_b);
-	var _leftover_a = ds_list_create();
-	var _check_sum = ds_list_create();
-	ds_list_add(_check_sum, 0);
+	var _bb = ds_list_size(_b) > 1 ? _b[| 0] * 10 + _b[| 1] : _b[| 0];
+	var _leftover_a = ds_list_create();	
 	for (var _i = 0; _i < _da; _i++) {
 		ds_list_add(_leftover_a, _a[| _i]);
-		for (var _j = 0; _j < 10; _j++) {
-			var _cs = add(_check_sum, _b, true);
-			if (compare(_cs, _leftover_a) == 1) {
-				if (ds_list_size(_ans_list) != 0 or _j != 0) {
-					ds_list_add(_ans_list, _j);
-				}
-				var _t = subtract(_leftover_a, _check_sum, true);
-				ds_list_destroy(_leftover_a);
-				_leftover_a = _t;
-				ds_list_destroy_multiple(_cs, _check_sum);
-				_check_sum = ds_list_create();
-				ds_list_add(_check_sum, 0);
-				break;
-			} else {
-				ds_list_destroy(_check_sum);
-				_check_sum = _cs;
-			}
+		if (ds_list_size(_leftover_a) < ds_list_size(_b)) {
+			ds_list_add(_ans_list, 0);
+			continue;
 		}
+		var _ba;
+		if (ds_list_size(_leftover_a) > ds_list_size(_b))
+			_ba = (
+				ds_list_size(_leftover_a) > 2
+				? _leftover_a[| 0] * 100 + _leftover_a[| 1] * 10 + _leftover_a[| 2]
+				: _leftover_a[| 0] * 10 + _leftover_a[| 1]
+			);
+		else
+			_ba = ds_list_size(_leftover_a) > 1 ? _leftover_a[| 0] * 10 + _leftover_a[| 1] : _leftover_a[| 0];
+		var _c = ds_list_create();
+		ds_list_add(_c, _ba div _bb);
+		var _d = multiply(_c, _b, true);
+		if (compare(_d, _leftover_a) == 1) {
+			var _f = subtract(_d, _b, true);
+			ds_list_destroy(_d);
+			_d = _f;
+			_c[| 0] = _c[| 0] - 1;
+		}
+		ds_list_add(_ans_list, _c[| 0]);
+		ds_list_destroy(_c);
+		_c = subtract(_leftover_a, _d, true);
+		ds_list_destroy_multiple(_leftover_a, _d);
+		_leftover_a = _c;
 	}
-	ds_list_destroy_multiple(_check_sum, _leftover_a);
+	ds_list_destroy(_leftover_a);
 	return _ans_list;
 }
 
@@ -525,6 +538,7 @@ function multiply(_a, _b, _is_normalized=false) {
 		if (_dec_pos_b != -1)
 			ds_list_insert(_b, _dec_pos_b, global.math_encoding_map[? "."]);
 	}
+	normalize(_ans_list);
 	return _ans_list;
 }
 
@@ -622,7 +636,7 @@ function subtract(_a, _b, _is_normalized=false) {
 
 /**
  * @function				evaluate_equation(_a, _b, _is_normalized)
- * @description			Subtract two real numbers.
+ * @description			This function will subtract two real numbers represented as Id.DsList.
  * @param {Id.DsList}	_equation - The equation represented in a list.
  * @returns {Id.DsList}
  */
@@ -631,69 +645,82 @@ function evaluate_equation(_equation) {
 	var _operator_stack = ds_stack_create();
 	var _number_stack = ds_stack_create();
 	var _ans_list;
-	try {
-		for (var _i = 0; _i < ds_list_size(_equation); _i++) {
-			var _current_component = _equation[| _i];
-			if (_current_component[| 0] <= 11) {
-				var _current_number = ds_list_create();
-				ds_list_copy(_current_number, _current_component);
-				ds_stack_push(_number_stack, _current_number);
-			} else if (_current_component[| 0] == global.math_encoding_map[? "("]) {
-				ds_stack_push(_operator_stack, global.math_encoding_map[? "("]);
-			} else if (_current_component[| 0] == global.math_encoding_map[? ")"]) {
-				while (ds_stack_top(_operator_stack) != global.math_encoding_map[? "("]) {
-					var _executing_operator = ds_stack_pop(_operator_stack);
-					if (_executing_operator[? "input_count"] == 2) {
-						var _b = ds_stack_pop(_number_stack);
-						var _a = ds_stack_pop(_number_stack);
-						var _c = _executing_operator[? "function"](_a, _b);
-						ds_list_destroy(_a);
-						ds_list_destroy(_b);
-						ds_stack_push(_number_stack, _c);
-					}
+
+	for (var _i = 0; _i < ds_list_size(_equation); _i++) {
+		var _current_component = _equation[| _i];
+		if (_current_component[| 0] <= 11) {
+			var _current_number = ds_list_create();
+			ds_list_copy(_current_number, _current_component);
+			ds_stack_push(_number_stack, _current_number);
+		} else if (_current_component[| 0] == global.math_encoding_map[? "("]) {
+			ds_stack_push(_operator_stack, global.math_encoding_map[? "("]);
+		} else if (_current_component[| 0] == global.math_encoding_map[? ")"]) {
+			while (typeof(ds_stack_top(_operator_stack)) == "ref") {
+				var _executing_operator = ds_stack_pop(_operator_stack);
+				// Low arguments error check
+				if (ds_stack_size(_number_stack) < _executing_operator[? "input_count"]) {
+					stack_full_remove(_number_stack, _operator_stack);
+					_ans_list = ds_list_create();
+					ds_list_add(_ans_list, -1);
+					return _ans_list;
 				}
-				ds_stack_pop(_operator_stack);
-			} else {
-				var _current_operator = global.operator_map[? _current_component[| 0]];
-				while (
-					!ds_stack_empty(_operator_stack) and 
-					ds_stack_top(_operator_stack) != global.math_encoding_map[? "("] and 
-					ds_stack_top(_operator_stack)[? "priority"] >= _current_operator[? "priority"]
-				) {
-					var _executing_operator = ds_stack_pop(_operator_stack);
-					if (_executing_operator[? "input_count"] == 2) {
-						var _a = ds_stack_pop(_number_stack);
-						var _b = ds_stack_pop(_number_stack);
-						var _c = _executing_operator[? "function"](_a, _b);
-						ds_list_destroy(_a);
-						ds_list_destroy(_b);
-						ds_stack_push(_number_stack, _c);
-					}
+				if (_executing_operator[? "input_count"] == 2) {
+					var _b = ds_stack_pop(_number_stack);
+					var _a = ds_stack_pop(_number_stack);
+					var _c = _executing_operator[? "function"](_a, _b);
+					ds_list_destroy(_a);
+					ds_list_destroy(_b);
+					ds_stack_push(_number_stack, _c);
 				}
-				ds_stack_push(_operator_stack, _current_operator);
 			}
-		}
-		while (!ds_stack_empty(_operator_stack)) {
-			var _executing_operator = ds_stack_pop(_operator_stack);
-			if (_executing_operator[? "input_count"] == 2) {
-				var _b = ds_stack_pop(_number_stack);
-				var _a = ds_stack_pop(_number_stack);
-				var _c = _executing_operator[? "function"](_a, _b);
-				ds_list_destroy(_a);
-				ds_list_destroy(_b);
-				ds_stack_push(_number_stack, _c);
+			ds_stack_pop(_operator_stack);
+		} else {
+			var _current_operator = global.operator_map[? _current_component[| 0]];
+			while (
+				!ds_stack_empty(_operator_stack) and typeof(ds_stack_top(_operator_stack)) == "ref" and 
+				ds_stack_top(_operator_stack)[? "priority"] >= _current_operator[? "priority"]
+			) {
+				
+				var _executing_operator = ds_stack_pop(_operator_stack);
+				// Low arguments error check
+				if (ds_stack_size(_number_stack) < _executing_operator[? "input_count"]) {
+					stack_full_remove(_number_stack, _operator_stack);
+					_ans_list = ds_list_create();
+					ds_list_add(_ans_list, -1);
+					return _ans_list;
+				}
+				if (_executing_operator[? "input_count"] == 2) {
+					var _a = ds_stack_pop(_number_stack);
+					var _b = ds_stack_pop(_number_stack);
+					var _c = _executing_operator[? "function"](_a, _b);
+					ds_list_destroy(_a);
+					ds_list_destroy(_b);
+					ds_stack_push(_number_stack, _c);
+				}
 			}
+			ds_stack_push(_operator_stack, _current_operator);
 		}
-		_ans_list = ds_stack_pop(_number_stack);
-	} catch (_exception) {
-		_ans_list = ds_list_create();
-		ds_list_add(_ans_list, -1);
 	}
-	ds_stack_destroy(_operator_stack);
-	while (ds_stack_size(_number_stack) > 0) {
-		var _current_component = ds_stack_pop(_number_stack);
-		ds_list_destroy(_current_component);
+	while (!ds_stack_empty(_operator_stack)) {
+		var _executing_operator = ds_stack_pop(_operator_stack);
+		if (typeof(ds_stack_top(_operator_stack)) == "number"
+			or ds_stack_size(_number_stack) < _executing_operator[? "input_count"]) {
+			stack_full_remove(_number_stack, _operator_stack);
+			_ans_list = ds_list_create();
+			ds_list_add(_ans_list, -1);
+			return _ans_list;
+		}
+		if (_executing_operator[? "input_count"] == 2) {
+			var _b = ds_stack_pop(_number_stack);
+			var _a = ds_stack_pop(_number_stack);
+			var _c = _executing_operator[? "function"](_a, _b);
+			ds_list_destroy(_a);
+			ds_list_destroy(_b);
+			ds_stack_push(_number_stack, _c);
+		}
 	}
-	ds_stack_destroy(_number_stack);
+	_ans_list = ds_stack_pop(_number_stack);
+
+	stack_full_remove(_number_stack, _operator_stack);
 	return _ans_list;
 }
