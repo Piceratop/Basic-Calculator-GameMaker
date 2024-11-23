@@ -64,16 +64,16 @@ function parse_equation(_eq_str) {
 	return eq_list;
 }
 
-/// @function				stringify_ds_list(_list)
+/// @function				ds_list_stringify(_list)
 /// @description			This function will represent a ds_list as a string.
 /// @param {Id.DsList}	_list - The input list data structure.
 /// @return {String}
 
-function stringify_ds_list(_list) {
+function ds_list_stringify(_list) {
 	var _ans = "[ ";
 	for (var _i = 0; _i < ds_list_size(_list); _i++) {
 		if (ds_list_is_list(_list, _i)) 
-			_ans += stringify_ds_list(_list[| _i]);
+			_ans += ds_list_stringify(_list[| _i]);
 		else _ans += string(_list[| _i]);
 		if (_i != ds_list_size(_list) - 1) _ans += ", ";
 	}

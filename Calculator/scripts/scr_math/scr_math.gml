@@ -1,13 +1,37 @@
 /**
  * @function						normalize(_m)
- * @description					Normalizes the input value by removing trailing zeros and ensuring consistent formatting.
+ * @description					This function will normalize the input value by removing trailing zeros and ensuring consistent formatting.
+ *										Also, it will return [ -1 ] if the input cannot be normalized.
  * @param {Id.DsList<Real>}	_n - The input value to normalize.
  * @returns {Undefined}
  */
 
 function normalize(_n) {
+	/*
+	 * Count the number of decimal point symbol in the number.
+	 * Return unnormalizable if there are 2 decimal points or more.
+	 * Mix into the loop is also a check for invalid negative sign position.
+	 */
+	var _count_decimal = 0;
+	for (var _i = 0; _i < ds_list_size(_n); _i++) {
+		if (_n[| _i] == global.math_encoding_map[? "."]) {
+			_count_decimal++;
+			if (_count_decimal > 1) {
+				ds_list_clear(_n);
+				ds_list_add(_n, -1);
+				return;
+			}
+		} else if (_n[| _i] == global.math_encoding_map[? "-"] and _i > 0 and _n[| _i - 1] != global.math_encoding_map[? "-"]) {
+			ds_list_clear(_n);
+			ds_list_add(_n, -1);
+			return;
+		}
+	}
+	
+
+	
 	var _i = ds_list_size(_n) - 1;
-	if (ds_list_find_index(_n, global.math_encoding_map[? "."]) != -1)
+	if (_count_decimal == 0)
 		for (; _n[| _i] == 0; _i--)
 			ds_list_delete(_n, _i);
 	if (_n[| _i] == global.math_encoding_map[? "."])
@@ -690,11 +714,17 @@ function evaluate_equation(_equation) {
 					return _ans_list;
 				}
 				if (_executing_operator[? "input_count"] == 2) {
-					var _a = ds_stack_pop(_number_stack);
 					var _b = ds_stack_pop(_number_stack);
+					var _a = ds_stack_pop(_number_stack);
 					var _c = _executing_operator[? "function"](_a, _b);
 					ds_list_destroy(_a);
 					ds_list_destroy(_b);
+					if (_c[| 0] == -1) {
+						stack_full_remove(_number_stack, _operator_stack);
+						_ans_list = ds_list_create();
+						ds_list_add(_ans_list, -1);
+						return _ans_list;
+					}
 					ds_stack_push(_number_stack, _c);
 				}
 			}
@@ -716,6 +746,12 @@ function evaluate_equation(_equation) {
 			var _c = _executing_operator[? "function"](_a, _b);
 			ds_list_destroy(_a);
 			ds_list_destroy(_b);
+			if (_c[| 0] == -1) {
+				stack_full_remove(_number_stack, _operator_stack);
+				_ans_list = ds_list_create();
+				ds_list_add(_ans_list, -1);
+				return _ans_list;
+			}
 			ds_stack_push(_number_stack, _c);
 		}
 	}

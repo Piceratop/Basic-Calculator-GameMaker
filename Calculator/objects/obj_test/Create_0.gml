@@ -1,6 +1,8 @@
 // Normalize
 test_cases = [
 	[0],
+	[5, 10, 2, 10, 2],
+	[5, 11, 2, 2, 2],
 	[9, 5, 10, 0, 0, 0, 0, 0],
 	[11, 11, 11, 9, 8, 10, 2],
 	[11, 11, 11, 11, 9, 8, 10, 2],
@@ -18,15 +20,13 @@ test_normalize = function () {
 		var _test_list = ds_list_create();
 		for (var _j = 0; _j < array_length(test_cases[_i]); _j++)
 			ds_list_add(_test_list, test_cases[_i, _j]);
-		var _time = get_timer();
 		normalize(_test_list);
-		show_debug_message(get_timer() - _time);
-		print_ds_list(_test_list);
+		show_debug_message(ds_list_stringify(_test_list));
 		ds_list_destroy(_test_list);
 	}
 	show_debug_message("");
 }
-
+test_normalize();
 
 // Absolute Value
 test_absolute_value = function () {
@@ -174,7 +174,7 @@ test_add = function () {
 		}
 		show_debug_message(get_timer() - _time);
 		var _ans_list = add(_test_list_0, _test_list_1);
-		show_debug_message(stringify_ds_list(_ans_list));
+		show_debug_message(ds_list_stringify(_ans_list));
 		ds_list_destroy(_test_list_0);
 		ds_list_destroy(_test_list_1);
 		ds_list_destroy(_ans_list);
@@ -202,7 +202,7 @@ test_subtract = function() {
 		}
 		show_debug_message(get_timer() - _time);
 		var _ans_list = subtract(_test_list_0, _test_list_1);
-		show_debug_message(stringify_ds_list(_ans_list));
+		show_debug_message(ds_list_stringify(_ans_list));
 		ds_list_destroy(_test_list_0);
 		ds_list_destroy(_test_list_1);
 		ds_list_destroy(_ans_list);
@@ -248,10 +248,10 @@ test_multiply_integer = function () {
 		}
 		show_debug_message(get_timer() - _time);
 		var _ans_list = int_multiply_v1(_test_list_0, _test_list_1);
-		show_debug_message(stringify_ds_list(_ans_list));
+		show_debug_message(ds_list_stringify(_ans_list));
 		ds_list_destroy(_ans_list);
 		_ans_list = int_multiply_v2(_test_list_0, _test_list_1);
-		show_debug_message(stringify_ds_list(_ans_list));
+		show_debug_message(ds_list_stringify(_ans_list));
 		ds_list_destroy(_ans_list);
 		ds_list_destroy(_test_list_0);
 		ds_list_destroy(_test_list_1);
@@ -279,7 +279,7 @@ test_multiply = function() {
 		}
 		show_debug_message(get_timer() - _time);
 		var _ans_list = multiply(_test_list_0, _test_list_1);
-		show_debug_message(stringify_ds_list(_ans_list));
+		show_debug_message(ds_list_stringify(_ans_list));
 		ds_list_destroy(_test_list_0);
 		ds_list_destroy(_test_list_1);
 		ds_list_destroy(_ans_list);
@@ -315,7 +315,7 @@ test_divide_integer = function () {
 		}
 		show_debug_message(get_timer() - _time);
 		var _ans_list = int_divide_v1(_test_list_0, _test_list_1);
-		show_debug_message(stringify_ds_list(_ans_list));
+		show_debug_message(ds_list_stringify(_ans_list));
 		ds_list_destroy(_ans_list);
 		ds_list_destroy(_test_list_0);
 		ds_list_destroy(_test_list_1);
@@ -357,7 +357,7 @@ test_divide = function() {
 		}
 		show_debug_message(get_timer() - _time);
 		var _ans_list = divide(_test_list_0, _test_list_1, _prec);
-		show_debug_message(stringify_ds_list(_ans_list));
+		show_debug_message(ds_list_stringify(_ans_list));
 		ds_list_destroy(_ans_list);
 		ds_list_destroy(_test_list_0);
 		ds_list_destroy(_test_list_1);
@@ -375,21 +375,24 @@ test_cases_7 = [
 	"-10.24",
 	"-10×24",
 	"5+6+7×8",
+	"5−6−7−8",
 	"(-10.24)",
 	"-(10.24)",
 	"55.5÷0.7",
 	"(1−2)×(3+4)",
 	"+−",
 	"12+",
+	"40÷0",
 	"12+×34",
-	"(1−2)×(3+4",
+	"40÷0×12",
+ 
 ];
 
 test_parse_equation = function() {
 	show_debug_message("Parse equation");
 	for (var _i = 0; _i < array_length(test_cases_7); _i++) {
 		var _eq_list = parse_equation(test_cases_7[_i]);
-		show_debug_message(stringify_ds_list(_eq_list));
+		show_debug_message(ds_list_stringify(_eq_list));
 		for (var _j = 0; _j < ds_list_size(_eq_list); _j++)
 			ds_list_destroy(_eq_list[| _j]);
 		ds_list_destroy(_eq_list);
@@ -402,14 +405,14 @@ test_evaluate_equation = function() {
 	show_debug_message("Evaluate equation");
 	for (var _i = 0; _i < array_length(test_cases_7); _i++) {
 		var _eq_list = parse_equation(test_cases_7[_i]);
-		var _time = get_timer();
-		for (var _k = 0; _k < 5000; _k++) {
-			var _ans_list = evaluate_equation(_eq_list);
-			ds_list_destroy(_ans_list);
-		}
-		show_debug_message(get_timer() - _time);
+		//var _time = get_timer();
+		//for (var _k = 0; _k < 5000; _k++) {
+		//	var _ans_list = evaluate_equation(_eq_list);
+		//	ds_list_destroy(_ans_list);
+		//}
+		//show_debug_message(get_timer() - _time);
 		var _ans_list = evaluate_equation(_eq_list);
-		show_debug_message(stringify_ds_list(_ans_list));
+		show_debug_message(ds_list_stringify(_ans_list));
 		ds_list_destroy(_ans_list);
 		for (var _j = 0; _j < ds_list_size(_eq_list); _j++)
 			ds_list_destroy(_eq_list[| _j]);
@@ -417,4 +420,4 @@ test_evaluate_equation = function() {
 	}
 }
 
-test_evaluate_equation();
+//test_evaluate_equation();
