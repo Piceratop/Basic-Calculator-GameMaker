@@ -20,13 +20,19 @@ test_normalize = function () {
 		var _test_list = ds_list_create();
 		for (var _j = 0; _j < array_length(test_cases[_i]); _j++)
 			ds_list_add(_test_list, test_cases[_i, _j]);
+		for (var _k = 0; _k < 10000; _k++) {
+			var _ans_list = ds_list_create();
+			ds_list_copy(_ans_list, _test_list);
+			normalize(_ans_list);
+			ds_list_destroy(_ans_list);
+		}
 		normalize(_test_list);
 		show_debug_message(ds_list_stringify(_test_list));
 		ds_list_destroy(_test_list);
 	}
 	show_debug_message("");
 }
-test_normalize();
+//test_normalize();
 
 // Absolute Value
 test_absolute_value = function () {
@@ -36,15 +42,15 @@ test_absolute_value = function () {
 		for (var _j = 0; _j < array_length(test_cases[_i]); _j++)
 			ds_list_add(_test_list, test_cases[_i, _j]);
 		var _time = get_timer();
-		for (var _k = 0; _k < 10000; _k++) {
+		for (var _k = 0; _k < 5000; _k++) {
 			var _ans_list = absolute_value(_test_list);
 			ds_list_destroy(_ans_list);
 		}
 		show_debug_message(get_timer() - _time);
 		var _ans_list = absolute_value(_test_list);
 		self_absolute_value(_test_list);
-		print_ds_list(_ans_list);
-		print_ds_list(_test_list);
+		show_debug_message(ds_list_stringify(_ans_list));
+		show_debug_message(ds_list_stringify(_test_list));
 		ds_list_destroy(_test_list);
 		ds_list_destroy(_ans_list);
 	}
@@ -60,15 +66,15 @@ test_inverse = function () {
 		for (var _j = 0; _j < array_length(test_cases[_i]); _j++)
 			ds_list_add(_test_list, test_cases[_i, _j]);
 		var _time = get_timer();
-		for (var _k = 0; _k < 10000; _k++) {
+		for (var _k = 0; _k < 5000; _k++) {
 			var _ans_list = inverse(_test_list);
 			ds_list_destroy(_ans_list);
 		}
 		show_debug_message(get_timer() - _time);
 		var _ans_list = inverse(_test_list);
 		self_inverse(_test_list);
-		print_ds_list(_ans_list);
-		print_ds_list(_test_list);
+		show_debug_message(ds_list_stringify(_ans_list));
+		show_debug_message(ds_list_stringify(_test_list));
 		ds_list_destroy(_test_list);
 		ds_list_destroy(_ans_list);
 	}
@@ -93,15 +99,15 @@ test_shift_decimal = function () {
 		for (var _j = 0; _j < array_length(test_cases_2[_i][0]); _j++)
 			ds_list_add(_test_list, test_cases_2[_i][0][_j]);
 		var _time = get_timer();
-		for (var _k = 0; _k < 10000; _k++) {
+		for (var _k = 0; _k < 5000; _k++) {
 			var _ans_list = shift_decimal(_test_list, test_cases_2[_i][1]);
 			ds_list_destroy(_ans_list);
 		}
 		show_debug_message(get_timer() - _time);
 		var _ans_list = shift_decimal(_test_list, test_cases_2[_i][1]);
 		self_shift_decimal(_test_list, test_cases_2[_i][1]);
-		print_ds_list(_ans_list);
-		print_ds_list(_test_list);
+		show_debug_message(ds_list_stringify(_ans_list));
+		show_debug_message(ds_list_stringify(_test_list));
 		ds_list_destroy(_test_list);
 		ds_list_destroy(_ans_list);
 	}
@@ -378,14 +384,20 @@ test_cases_7 = [
 	"5−6−7−8",
 	"(-10.24)",
 	"-(10.24)",
+	"---10.24",
 	"55.5÷0.7",
 	"(1−2)×(3+4)",
 	"+−",
 	"12+",
+	"(12+",
 	"40÷0",
+	"(12+)",
+	"3-789",
+	"1.2.2",
 	"12+×34",
 	"40÷0×12",
- 
+	"(1−2)×(3+4",
+	"1.2.2+1.2.2",
 ];
 
 test_parse_equation = function() {
@@ -405,12 +417,12 @@ test_evaluate_equation = function() {
 	show_debug_message("Evaluate equation");
 	for (var _i = 0; _i < array_length(test_cases_7); _i++) {
 		var _eq_list = parse_equation(test_cases_7[_i]);
-		//var _time = get_timer();
-		//for (var _k = 0; _k < 5000; _k++) {
-		//	var _ans_list = evaluate_equation(_eq_list);
-		//	ds_list_destroy(_ans_list);
-		//}
-		//show_debug_message(get_timer() - _time);
+		var _time = get_timer();
+		for (var _k = 0; _k < 5000; _k++) {
+			var _ans_list = evaluate_equation(_eq_list);
+			ds_list_destroy(_ans_list);
+		}
+		show_debug_message(get_timer() - _time);
 		var _ans_list = evaluate_equation(_eq_list);
 		show_debug_message(ds_list_stringify(_ans_list));
 		ds_list_destroy(_ans_list);

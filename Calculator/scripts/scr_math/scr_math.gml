@@ -28,14 +28,17 @@ function normalize(_n) {
 		}
 	}
 	
-
-	
+	/* 
+	 * Remove excessive zeros at the end after the decimal point of a decimal number.
+	 * After which, remove dangling decimal points if it exists.
+	 */
 	var _i = ds_list_size(_n) - 1;
-	if (_count_decimal == 0)
+	if (_count_decimal > 0)
 		for (; _n[| _i] == 0; _i--)
 			ds_list_delete(_n, _i);
 	if (_n[| _i] == global.math_encoding_map[? "."])
 		ds_list_delete(_n, _i);
+		
 	while (_n[| 0] == global.math_encoding_map[? "-"] and _n[| 1] == global.math_encoding_map[? "-"]) {
 		ds_list_delete(_n, 0);
 		ds_list_delete(_n, 0);
@@ -666,6 +669,9 @@ function subtract(_a, _b, _is_normalized=false) {
  */
 
 function evaluate_equation(_equation) {
+	/* 
+	 * Create two stacks for easier hierarchy comparision and equation evaluation.
+	 */
 	var _operator_stack = ds_stack_create();
 	var _number_stack = ds_stack_create();
 	var _ans_list;
@@ -675,27 +681,20 @@ function evaluate_equation(_equation) {
 		if (_current_component[| 0] <= 11) {
 			var _current_number = ds_list_create();
 			ds_list_copy(_current_number, _current_component);
+			normalize(_current_number);
 			ds_stack_push(_number_stack, _current_number);
 		} else if (_current_component[| 0] == global.math_encoding_map[? "("]) {
 			ds_stack_push(_operator_stack, global.math_encoding_map[? "("]);
 		} else if (_current_component[| 0] == global.math_encoding_map[? ")"]) {
 			while (typeof(ds_stack_top(_operator_stack)) == "ref") {
 				var _executing_operator = ds_stack_pop(_operator_stack);
-				// Low arguments error check
 				if (ds_stack_size(_number_stack) < _executing_operator[? "input_count"]) {
-					stack_full_remove(_number_stack, _operator_stack);
-					_ans_list = ds_list_create();
-					ds_list_add(_ans_list, -1);
+					_ans_list = return_invalid_when_evaluating_equation(_number_stack, _operator_stack);
 					return _ans_list;
 				}
-				if (_executing_operator[? "input_count"] == 2) {
-					var _b = ds_stack_pop(_number_stack);
-					var _a = ds_stack_pop(_number_stack);
-					var _c = _executing_operator[? "function"](_a, _b);
-					ds_list_destroy(_a);
-					ds_list_destroy(_b);
-					ds_stack_push(_number_stack, _c);
-				}
+				var _c = evaluate_with_error_check(_number_stack, _operator_stack, _executing_operator[? "function"], _executing_operator[? "input_count"]);
+				if (_c[| 0] == -1) return _c;
+				ds_stack_push(_number_stack, _c);
 			}
 			ds_stack_pop(_operator_stack);
 		} else {
@@ -704,29 +703,14 @@ function evaluate_equation(_equation) {
 				!ds_stack_empty(_operator_stack) and typeof(ds_stack_top(_operator_stack)) == "ref" and 
 				ds_stack_top(_operator_stack)[? "priority"] >= _current_operator[? "priority"]
 			) {
-				
 				var _executing_operator = ds_stack_pop(_operator_stack);
-				// Low arguments error check
 				if (ds_stack_size(_number_stack) < _executing_operator[? "input_count"]) {
-					stack_full_remove(_number_stack, _operator_stack);
-					_ans_list = ds_list_create();
-					ds_list_add(_ans_list, -1);
+					_ans_list = return_invalid_when_evaluating_equation(_number_stack, _operator_stack);
 					return _ans_list;
 				}
-				if (_executing_operator[? "input_count"] == 2) {
-					var _b = ds_stack_pop(_number_stack);
-					var _a = ds_stack_pop(_number_stack);
-					var _c = _executing_operator[? "function"](_a, _b);
-					ds_list_destroy(_a);
-					ds_list_destroy(_b);
-					if (_c[| 0] == -1) {
-						stack_full_remove(_number_stack, _operator_stack);
-						_ans_list = ds_list_create();
-						ds_list_add(_ans_list, -1);
-						return _ans_list;
-					}
-					ds_stack_push(_number_stack, _c);
-				}
+				var _c = evaluate_with_error_check(_number_stack, _operator_stack, _executing_operator[? "function"], _executing_operator[? "input_count"]);
+				if (_c[| 0] == -1) return _c;
+				ds_stack_push(_number_stack, _c);
 			}
 			ds_stack_push(_operator_stack, _current_operator);
 		}
@@ -735,25 +719,12 @@ function evaluate_equation(_equation) {
 		var _executing_operator = ds_stack_pop(_operator_stack);
 		if (typeof(ds_stack_top(_operator_stack)) == "number"
 			or ds_stack_size(_number_stack) < _executing_operator[? "input_count"]) {
-			stack_full_remove(_number_stack, _operator_stack);
-			_ans_list = ds_list_create();
-			ds_list_add(_ans_list, -1);
+			_ans_list = return_invalid_when_evaluating_equation(_number_stack, _operator_stack);
 			return _ans_list;
 		}
-		if (_executing_operator[? "input_count"] == 2) {
-			var _b = ds_stack_pop(_number_stack);
-			var _a = ds_stack_pop(_number_stack);
-			var _c = _executing_operator[? "function"](_a, _b);
-			ds_list_destroy(_a);
-			ds_list_destroy(_b);
-			if (_c[| 0] == -1) {
-				stack_full_remove(_number_stack, _operator_stack);
-				_ans_list = ds_list_create();
-				ds_list_add(_ans_list, -1);
-				return _ans_list;
-			}
-			ds_stack_push(_number_stack, _c);
-		}
+		var _c = evaluate_with_error_check(_number_stack, _operator_stack, _executing_operator[? "function"], _executing_operator[? "input_count"]);
+		if (_c[| 0] == -1) return _c;
+		ds_stack_push(_number_stack, _c);
 	}
 	_ans_list = ds_stack_pop(_number_stack);
 
