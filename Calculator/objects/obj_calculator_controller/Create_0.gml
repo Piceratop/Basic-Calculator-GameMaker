@@ -14,7 +14,6 @@ draw_set_halign(fa_center);
 draw_set_valign(fa_middle);
 draw_set_font(global.fnt_calculator);
 
-
 global.math_encoding_map = ds_map_create();
 for (var _i = 0; _i < 10; _i++)
 	global.math_encoding_map[? string(_i)] = _i;
@@ -33,7 +32,7 @@ for (
 	!is_undefined(_k);
 	_k = ds_map_find_next(global.math_encoding_map, _k)
 ) {
-	var _v = global.math_decoding_map[? _k];
+	var _v = global.math_encoding_map[? _k];
 	global.math_decoding_map[? _v] = _k;
 }
 
@@ -52,6 +51,8 @@ global.operator_map[? global.math_encoding_map[? "+"]] = operator("+", add, 2, "
 global.operator_map[? global.math_encoding_map[? "−"]] = operator("−", subtract, 2, "mid", 1);
 global.operator_map[? global.math_encoding_map[? "×"]] = operator("×", multiply, 2, "mid", 2);
 global.operator_map[? global.math_encoding_map[? "÷"]] = operator("÷", divide, 2, "mid", 2);
+
+global.equations = [];
 
 // Initialize variables
 button_width = 52;
@@ -88,7 +89,6 @@ instance_create_layer(center_pos[0], center_pos[1] - 3 * button_width, "Button",
 global.current_equation = "";
 global.cursor_position = 1;
 global.equation_max_width = room_width - button_width * 2;
-global.equations = [];
 cursor_color = 0;
 display_padding = button_width;
 equations_pos = [room_width - button_width, center_pos[1] - 3.5 * button_width];

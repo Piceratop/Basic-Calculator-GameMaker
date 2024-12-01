@@ -1,3 +1,12 @@
+function load_answer() {
+	var _equation_list = parse_equation(global.current_equation);
+	var _ans_list = evaluate_equation(_equation_list);
+	var _ans_str = parse_number(_ans_list);
+	ds_list_destroy_multiple(_ans_list, _equation_list);
+	array_push(global.equations, [global.current_equation, _ans_str]);
+	global.current_equation = "";
+}
+
 function input_equation(_curr_equation, _label, _pos) {
 	switch (_label) {
 		case "⌫":

@@ -1,14 +1,15 @@
-/*
+/**
  * @function				ds_list_destroy_multiple()
  * @description			This function will destroy all given lists.
  * @return {undefined}
  */
+
 function ds_list_destroy_multiple() {
 	for (var _i = 0; _i < argument_count; _i++)
 		ds_list_destroy(argument[_i]);
 }
 
-/*
+/**
  * @function				ds_list_reverse(_list)
  * @description			This function will reverse and reassign to the given list.
  * @param {Id.DsList}	_list - List to be reversed
@@ -23,10 +24,27 @@ function ds_list_reverse(_list) {
 	}
 }
 
-/*
- * @function				parse_equation()
- * @description			This function will convert a string into a 
- *								mathematical expression represented by a list.
+/**
+ * @function				parse_number(_n)
+ * @description			This function will convert a number represented as a list into one as a string.
+ * @param {Id.DsList}	_n - The input ds_list
+ * @return {String}
+ */
+
+function parse_number(_n) {
+	if (_n[| 0] == -1)
+		return "Error.";
+	var _ans_str = "";
+	for (var _i = 0; _i < ds_list_size(_n); _i++) {
+		var _curr_digit = _n[| _i];
+		_ans_str += global.math_decoding_map[? _curr_digit];
+	}
+	return _ans_str;
+}
+
+/**
+ * @function				parse_equation(_eq_str)
+ * @description			This function will convert a string into a mathematical expression represented as a list.
  * @param {String}		_eq_str - The input string
  * @return {Id.DsList}
  */
@@ -64,10 +82,12 @@ function parse_equation(_eq_str) {
 	return eq_list;
 }
 
-/// @function				ds_list_stringify(_list)
-/// @description			This function will represent a ds_list as a string.
-/// @param {Id.DsList}	_list - The input list data structure.
-/// @return {String}
+/**
+ * @function				ds_list_stringify(_list)
+ * @description			This function will represent a ds_list as a string.
+ * @param {Id.DsList}	_list - The input list data structure.
+ * @returns {String}
+ */
 
 function ds_list_stringify(_list) {
 	var _ans = "[ ";

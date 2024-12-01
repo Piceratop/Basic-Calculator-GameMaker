@@ -424,7 +424,7 @@ test_evaluate_equation = function() {
 		}
 		show_debug_message(get_timer() - _time);
 		var _ans_list = evaluate_equation(_eq_list);
-		show_debug_message(ds_list_stringify(_ans_list));
+		show_debug_message(parse_number(_ans_list));
 		ds_list_destroy(_ans_list);
 		for (var _j = 0; _j < ds_list_size(_eq_list); _j++)
 			ds_list_destroy(_eq_list[| _j]);
