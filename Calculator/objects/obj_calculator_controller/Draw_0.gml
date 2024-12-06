@@ -1,6 +1,24 @@
 draw_set_valign(fa_bottom);
-draw_set_halign(fa_left);
 draw_set_color(global.fnt_color);
+
+// Display the past equations
+draw_set_halign(fa_right);
+
+for (var _i = min(array_length(global.equations), 4) - 1; _i >= 0; _i--) {
+	draw_text(
+		equations_pos[0],
+		equations_pos[1] - 2 * (array_length(global.equations) - _i) * string_height("1"),
+		global.equations[_i][0]
+	);
+	draw_text(
+		equations_pos[0],
+		equations_pos[1] - (2 * (array_length(global.equations) - _i) - 1) * string_height("1"),
+		"=" + global.equations[_i][1]
+	);
+}
+
+// Display the equation that the user is typing
+draw_set_halign(fa_left);
 
 var _cursor_pixel_position = room_width / 2;
 var _after_cursor = string_copy(

@@ -1,4 +1,7 @@
 function load_answer() {
+	// Ignore blank input
+	if (global.current_equation == "") return;
+	
 	var _equation_list = parse_equation(global.current_equation);
 	var _ans_list = evaluate_equation(_equation_list);
 	var _ans_str = parse_number(_ans_list);

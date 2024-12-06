@@ -33,7 +33,7 @@ function ds_list_reverse(_list) {
 
 function parse_number(_n) {
 	if (_n[| 0] == -1)
-		return "Error.";
+		return "Error";
 	var _ans_str = "";
 	for (var _i = 0; _i < ds_list_size(_n); _i++) {
 		var _curr_digit = _n[| _i];

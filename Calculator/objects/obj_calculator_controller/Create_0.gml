@@ -1,5 +1,5 @@
 // Initialize global components
-global.allow_characters = "()+-.0123456789=C|×÷⁁−⌫▲▶▼◀"
+global.allow_characters = "()+-.0123456789=CEor|×÷⁁−⌫▲▶▼◀"
 global.fnt_calculator = font_add_sprite_ext(
 	spr_fnt_calculator,
 	global.allow_characters,

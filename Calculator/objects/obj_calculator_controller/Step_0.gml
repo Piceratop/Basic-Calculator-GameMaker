@@ -11,7 +11,6 @@ if (keyboard_check_pressed(vk_anykey)) {
 		navigate_equations("◀");
 	else if (keyboard_lastchar == "=") {
 		load_answer();
-		show_debug_message(global.equations);
 	}
 	else if (
 		(ord(keyboard_lastchar) >= ord("0") and ord(keyboard_lastchar) <= ord("9")
