@@ -9,9 +9,8 @@ if (keyboard_check_pressed(vk_anykey)) {
 		navigate_equations("▶");
 	else if (keyboard_lastkey == vk_left)
 		navigate_equations("◀");
-	else if (keyboard_lastchar == "=") {
+	else if (keyboard_lastchar == "=")
 		load_answer();
-	}
 	else if (
 		(ord(keyboard_lastchar) >= ord("0") and ord(keyboard_lastchar) <= ord("9")
 		or array_contains([".", "+", "-", "*", "/"], keyboard_lastchar))

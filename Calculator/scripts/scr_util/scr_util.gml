@@ -101,7 +101,7 @@ function ds_list_stringify(_list) {
 	return _ans;
 }
 
-/*
+/**
  * @function				string_reverse(_str)
  * @description			Returns a given string with the characters in reverse order.
  * @param {string}		_str - string to be reversed

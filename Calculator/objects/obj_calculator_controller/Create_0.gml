@@ -89,7 +89,7 @@ instance_create_layer(center_pos[0], center_pos[1] - 3 * button_width, "Button",
 global.current_equation = "";
 global.cursor_position = 1;
 global.equation_max_width = room_width - button_width * 2;
-cursor_color = 0;
+cursor_alpha = 0;
 display_padding = button_width;
 equations_pos = [room_width - button_width, center_pos[1] - 3.5 * button_width];
 alarm[0] = game_get_speed(gamespeed_fps);
