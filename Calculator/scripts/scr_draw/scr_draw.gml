@@ -39,7 +39,7 @@ function draw_enclosed_text(_left_pos, _right_pos, _y, _padding, _str, _cursor_p
 	draw_set_halign(fa_right);
 	if (_cursor_pixel_position + string_width(_after_cursor) >= _right_pos - _padding) {
 		draw_rectangle_color(
-			_right_pos - _padding - string_width("▶"), _y,
+			_right_pos - _padding - string_width("▶") - 2, _y,
 			room_width,	_y - string_height("▶"),
 			global.back_color, global.back_color, global.back_color, global.back_color, false
 		);

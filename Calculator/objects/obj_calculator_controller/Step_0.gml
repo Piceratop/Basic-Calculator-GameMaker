@@ -9,6 +9,10 @@ if (keyboard_check_pressed(vk_anykey)) {
 		navigate_equations("▶");
 	else if (keyboard_lastkey == vk_left)
 		navigate_equations("◀");
+	else if (keyboard_lastkey == vk_up)
+		navigate_equations("▲");
+	else if (keyboard_lastkey == vk_down)
+		navigate_equations("▼");
 	else if (keyboard_lastchar == "=")
 		load_answer();
 	else if (
