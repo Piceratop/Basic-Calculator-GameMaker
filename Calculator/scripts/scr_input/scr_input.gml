@@ -23,6 +23,7 @@ function load_answer() {
 		]
 	);
 	global.current_equation = "";
+	global.cursor_position = 1;
 }
 
 function input_equation(_curr_equation, _label, _pos) {
