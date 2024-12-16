@@ -2,9 +2,10 @@
 
 if (
 	keyboard_check_pressed(vk_anykey) and
-	not array_contains([vk_alt, vk_control, vk_shift], keyboard_lastkey)
+	not array_contains([vk_alt, vk_lalt, vk_ralt, vk_control, vk_lcontrol, vk_rcontrol, vk_shift, vk_lshift, vk_rshift], keyboard_lastkey)
 ) {
 	alarm[0] = game_get_speed(gamespeed_fps);
+	cursor_alpha = 1;
 	if (keyboard_lastkey == vk_backspace) {
 		global.current_equation = input_equation(
 			global.current_equation, "⌫", global.cursor_position

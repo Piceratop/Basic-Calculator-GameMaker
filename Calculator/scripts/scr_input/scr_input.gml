@@ -66,10 +66,17 @@ function navigate_equations(_label) {
 			);
 			return;
 		case "◀":
-			global.cursor_position = max(
-				global.cursor_position - 1,
-				1
-			);
+			if (global.current_equation_id == 0)
+				global.cursor_position = max(
+					global.cursor_position - 1,
+					1
+				);
+			else if (round(global.current_equation_id) == global.current_equation_id) {
+				global.equations[array_length(global.equations) - global.current_equation_id][0] = max(
+					global.equations[array_length(global.equations) - global.current_equation_id][0] - 1,
+					1
+				)
+			}
 			return;
 		case "▼":
 			global.current_equation_id = min(
