@@ -58,6 +58,7 @@ function input_equation(_curr_equation, _label, _pos) {
  */
 
 function navigate_equations(_label) {
+	var _equation_pos = array_length(global.equations) + global.current_equation_id;
 	switch (_label) {
 		case "▲":
 			global.current_equation_id = max(
@@ -71,12 +72,10 @@ function navigate_equations(_label) {
 					global.cursor_position - 1,
 					1
 				);
-			else if (round(global.current_equation_id) == global.current_equation_id) {
-				global.equations[array_length(global.equations) - global.current_equation_id][0] = max(
-					global.equations[array_length(global.equations) - global.current_equation_id][0] - 1,
-					1
-				)
-			}
+			else if (round(global.current_equation_id) == global.current_equation_id)
+				global.equations[_equation_pos][2] = max(global.equations[_equation_pos][2] - 1, 1);
+			else
+				global.equations[_equation_pos][3] = max(global.equations[_equation_pos][3] - 1, 1);
 			return;
 		case "▼":
 			global.current_equation_id = min(
@@ -85,10 +84,21 @@ function navigate_equations(_label) {
 			);
 			return;
 		case "▶":
-			global.cursor_position = min(
-				global.cursor_position + 1,
-				string_length(global.current_equation) + 1
-			);
+			if (global.current_equation_id == 0)
+				global.cursor_position = min(
+					global.cursor_position + 1,
+					string_length(global.current_equation) + 1
+				);
+			else if (round(global.current_equation_id) == global.current_equation_id) {
+				global.equations[_equation_pos][2] = min(
+					global.equations[_equation_pos][2] + 1,
+					string_length(global.equations[_equation_pos][0]) + 1
+				);
+			} else
+				global.equations[_equation_pos][3] = min(
+					global.equations[_equation_pos][3] + 1,
+					string_length(global.equations[_equation_pos][1]) + 1
+				);
 			return;
 	}
 }
