@@ -309,7 +309,7 @@ function compare(_a, _b, _is_normalized = false) {
  * @returns {Id.DsList}
  */
 
-function divide(_a, _b, _decimal_precision = 6, _is_normalized = false) {
+function divide(_a, _b, _decimal_precision = 10, _is_normalized = false) {
 	if (not _is_normalized) {
 		normalize(_a);
 		normalize(_b);
@@ -409,7 +409,7 @@ function int_divide_v2(_a, _b) {
 		else
 			_ba = ds_list_size(_leftover_a) > 1 ? _leftover_a[| 0] * 10 + _leftover_a[| 1] : _leftover_a[| 0];
 		var _c = ds_list_create();
-		ds_list_add(_c, _ba div _bb);
+		ds_list_add(_c, min(_ba div _bb, 9));
 		var _d = multiply(_c, _b, true);
 		if (compare(_d, _leftover_a) == 1) {
 			var _f = subtract(_d, _b, true);

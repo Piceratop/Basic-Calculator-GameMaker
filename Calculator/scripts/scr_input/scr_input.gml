@@ -61,6 +61,7 @@ function navigate_equations(_label) {
 	var _equation_pos = array_length(global.equations) + global.current_equation_id;
 	switch (_label) {
 		case "▲":
+			if (global.current_equation_id <= -3) return;
 			global.current_equation_id = max(
 				global.current_equation_id - 0.5,
 				- array_length(global.equations)
