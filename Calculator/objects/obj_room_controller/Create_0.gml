@@ -24,8 +24,10 @@ if (room == rm_main) {
 			surface_resize(application_surface, size_x, size_y);		
 			break;
 		default:
-			window_set_size(540, 960);
-			window_center();
+			if (size_y > 960) {
+				window_set_size(540, 960);
+				window_center();
+			}
 	}
 }
 room_goto(rm_menu);
