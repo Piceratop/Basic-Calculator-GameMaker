@@ -49,7 +49,6 @@
     {"id":{"name":"scr_draw","path":"scripts/scr_draw/scr_draw.yy",},},
     {"id":{"name":"scr_input","path":"scripts/scr_input/scr_input.yy",},},
     {"id":{"name":"scr_math","path":"scripts/scr_math/scr_math.yy",},},
-    {"id":{"name":"scr_save","path":"scripts/scr_save/scr_save.yy",},},
     {"id":{"name":"scr_util","path":"scripts/scr_util/scr_util.yy",},},
     {"id":{"name":"spr_button","path":"sprites/spr_button/spr_button.yy",},},
     {"id":{"name":"spr_display_border","path":"sprites/spr_display_border/spr_display_border.yy",},},

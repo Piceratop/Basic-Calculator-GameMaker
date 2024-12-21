@@ -121,6 +121,8 @@ test_cases_3 = [
 	[[1], [1]],
 	[[1], [2]],
 	[[2], [1]],
+   [[1, 8], [3]],
+   [[3], [1, 8]],
 	[[2, 3, 5], [8, 0, 0]],
 	[[1, 4, 7, 8], [1, 3, 4, 5, 6]],
 	[[2, 4, 9, 6, 6, 2, 7, 3], [6, 3, 7, 0, 6, 5, 0, 9]],
@@ -129,6 +131,8 @@ test_cases_3 = [
 	[[1, 1, 1, 1, 1, 1, 1, 1, 10, 1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1, 10, 1, 1, 1, 1, 1, 1, 1, 1]],
 	[[0], [11, 0]],
 	[[1], [11, 0]],
+	[[0], [11, 1, 1]],
+   [[11, 1, 8], [3]],
 	[[11, 1], [11, 2]],
 	[[11, 0], [11, 1]],
 	[[11, 1, 0, 10, 2], [11, 1, 0, 10, 2]],
@@ -162,7 +166,7 @@ test_compare = function () {
 }
 
 // Add
-test_add = function () {
+test_add = function (_repeat=false) {
 	show_debug_message("Add");
 	for (var _i = 0; _i < array_length(test_cases_3); _i++) {
 		var _test_list_0 = ds_list_create();
@@ -173,14 +177,17 @@ test_add = function () {
 		for (var _j = 0; _j < array_length(test_cases_3[_i][1]); _j++) {
 			ds_list_add(_test_list_1, test_cases_3[_i][1][_j]);	
 		}
-		var _time = get_timer();
-		for (var _k = 0; _k < 10000; _k++) {
-			var _ans_list = add(_test_list_0, _test_list_1);
-			ds_list_destroy(_ans_list);
-		}
-		show_debug_message(get_timer() - _time);
-		var _ans_list = add(_test_list_0, _test_list_1);
-		show_debug_message(ds_list_stringify(_ans_list));
+      if (_repeat) {
+   		var _time = get_timer();
+   		for (var _k = 0; _k < 10000; _k++) {
+   			var _ans_list = add(_test_list_0, _test_list_1);
+   			ds_list_destroy(_ans_list);
+   		}
+         show_debug_message(get_timer() - _time); 
+      }
+      show_debug_message($"{parse_number(_test_list_0)} + {parse_number(_test_list_1)}");
+      var _ans_list = add(_test_list_0, _test_list_1);
+		show_debug_message(parse_number(_ans_list));
 		ds_list_destroy(_test_list_0);
 		ds_list_destroy(_test_list_1);
 		ds_list_destroy(_ans_list);
@@ -190,9 +197,10 @@ test_add = function () {
 //test_add();
 
 // Subtract
-test_subtract = function() {
+test_subtract = function(_repeat=false) {
 	show_debug_message("Subtract");
 	for (var _i = 0; _i < array_length(test_cases_3); _i++) {
+		show_debug_message("");
 		var _test_list_0 = ds_list_create();
 		var _test_list_1 = ds_list_create();
 		for (var _j = 0; _j < array_length(test_cases_3[_i][0]); _j++) {
@@ -201,21 +209,24 @@ test_subtract = function() {
 		for (var _j = 0; _j < array_length(test_cases_3[_i][1]); _j++) {
 			ds_list_add(_test_list_1, test_cases_3[_i][1][_j]);	
 		}
-		var _time = get_timer();
-		for (var _k = 0; _k < 10000; _k++) {
-			var _ans_list = subtract(_test_list_0, _test_list_1);
-			ds_list_destroy(_ans_list);
+		if(_repeat) {
+			var _time = get_timer();
+			for (var _k = 0; _k < 10000; _k++) {
+				var _ans_list = subtract(_test_list_0, _test_list_1);
+				ds_list_destroy(_ans_list);
+			}
+			show_debug_message(get_timer() - _time);
 		}
-		show_debug_message(get_timer() - _time);
+      show_debug_message($"{parse_number(_test_list_0)} − {parse_number(_test_list_1)}");
 		var _ans_list = subtract(_test_list_0, _test_list_1);
-		show_debug_message(ds_list_stringify(_ans_list));
+		show_debug_message(parse_number(_ans_list));
 		ds_list_destroy(_test_list_0);
 		ds_list_destroy(_test_list_1);
 		ds_list_destroy(_ans_list);
 	}
 	show_debug_message("");
 }
-//test_subtract();
+test_subtract();
 
 // Multiply (Integer)
 test_cases_4 = [
@@ -371,7 +382,7 @@ test_divide = function() {
 	}
 	show_debug_message("");
 }
-test_divide();
+//test_divide();
 
 // Parse equation
 test_cases_7 = [

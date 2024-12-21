@@ -630,7 +630,7 @@ function subtract(_a, _b, _is_normalized=false) {
 			if (_ds < 0) {
 				_ds += 10;
 				_borrow = 1;
-			} else _borrow = 1;
+			} else _borrow = 0;
 			ds_list_add(_ans_list, _ds);
 		}
 		ds_list_add(_ans_list, global.math_encoding_map[? "-"]);

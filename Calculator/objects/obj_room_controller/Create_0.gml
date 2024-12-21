@@ -1,5 +1,5 @@
 // Initialize the global compunents
-application_surface_enable(false);
+
 
 global.allow_characters = "()+-.0123456789=CEaclortu|×÷⁁−⌫▲▶▼◀"
 global.fnt_calculator = font_add_sprite_ext(
@@ -21,8 +21,8 @@ size_y = display_get_height();
 if (room == rm_main) {
 	switch(os_type) {
 		case os_android:
+			application_surface_enable(false);
 			room_set_height(rm_calculator, 360 * size_y / size_x);
-			//surface_resize(application_surface, size_x, size_y);		
 			break;
 		default:
 			if (size_y > 960) {
