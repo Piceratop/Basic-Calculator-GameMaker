@@ -60,7 +60,7 @@
   "option_android_proguard_minifying":false,
   "option_android_proguard_shrinking":false,
   "option_android_scale":0,
-  "option_android_screen_depth":1,
+  "option_android_screen_depth":0,
   "option_android_sleep_margin":4,
   "option_android_splashscreen_background_colour":255,
   "option_android_splash_screens_landscape":"${base_options_dir}/android/splash/landscape.png",

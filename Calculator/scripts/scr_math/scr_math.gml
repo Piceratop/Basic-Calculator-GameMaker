@@ -1,3 +1,5 @@
+///@feather ignore GM1045
+
 /**
  * @function						normalize(_m)
  * @description					This function will normalize the input value by removing trailing zeros and ensuring consistent formatting.
@@ -399,7 +401,7 @@ function int_divide_v2(_a, _b) {
 			ds_list_add(_ans_list, 0);
 			continue;
 		}
-		var _ba;
+		var _ba = 0;
 		if (ds_list_size(_leftover_a) > ds_list_size(_b))
 			_ba = (
 				ds_list_size(_leftover_a) > 2
@@ -501,7 +503,7 @@ function int_multiply_v2(_a, _b) {
 	ds_list_destroy(_w1);
 	self_shift_decimal(_z0, 2 * _bm_shift);
 	self_shift_decimal(_z1, _bm_shift);
-	var _w1 = add(_z2, _z1, true);
+	_w1 = add(_z2, _z1, true);
 	ds_list_destroy(_z2);
 	ds_list_destroy(_z1);
 	var _ans_list = add(_w1, _z0, true);
