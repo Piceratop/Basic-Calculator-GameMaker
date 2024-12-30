@@ -30,7 +30,7 @@ for (var _row = 0; _row < no_row; _row++) {
 
 // Text Display
 instance_create_layer(center_pos[0], center_pos[1] - 3 * button_width, "Button", obj_display_border);
-global.current_equation = "";
+global.current_equation = ds_list_create();
 global.current_equation_id = 0;
 global.cursor_position = 1;
 global.equation_max_width = room_width - button_width * 2;

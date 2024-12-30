@@ -38,4 +38,10 @@ global.operator_map[? global.math_encoding_map[? "−"]] = operator("−", subtr
 global.operator_map[? global.math_encoding_map[? "×"]] = operator("×", multiply, 2, "mid", 2);
 global.operator_map[? global.math_encoding_map[? "÷"]] = operator("÷", divide, 2, "mid", 2);
 
-global.equations = [];
+global.equations = json_load("save.bin");
+
+show_debug_message(global.equations);
+
+if (is_undefined(global.equations)) {
+   global.equations = [];
+}
