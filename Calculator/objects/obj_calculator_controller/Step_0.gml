@@ -12,7 +12,7 @@ if (
 		if (global.current_equation_id == 0)
 			global.cursor_position = navigate_equations("▶", global.cursor_position, ds_list_size(global.current_equation));
 		else {
-		
+			
 		}
 	} else if (keyboard_lastkey == vk_left) {
 		if (global.current_equation_id == 0) {
@@ -21,9 +21,9 @@ if (
 			
 		}
 	} else if (keyboard_lastkey == vk_up)
-		navigate_equations("▲", global.current_equation_id, array_length(global.equations));
+		global.current_equation_id = navigate_equations("▲", global.current_equation_id, array_length(global.equations));
 	else if (keyboard_lastkey == vk_down)
-		navigate_equations("▼", global.current_equation_id, array_length(global.equations));
+		global.current_equation_id = navigate_equations("▼", global.current_equation_id, array_length(global.equations));
 	else if (keyboard_lastchar == "=" or keyboard_lastkey == vk_enter)
 		load_answer();
 	else if (

@@ -3,7 +3,8 @@ function load_answer() {
 	 * Ignore blank input.
 	 */
 	if (ds_list_size(global.current_equation) == 0) return;
-	var _ans_list = evaluate_equation(global.current_equation);
+	var _equation_list = parse_equation_from_list(global.current_equation);
+	var _ans_list = evaluate_equation(_equation_list);
 	
 	/**
 	 * Insert an array in the order:
@@ -13,7 +14,7 @@ function load_answer() {
 	array_push(
 		global.equations, 
 		[
-			global.current_equation, _ans_list,
+			_equation_list, _ans_list,
 			ds_list_size(global.current_equation),
 			ds_list_size(_ans_list)
 		]

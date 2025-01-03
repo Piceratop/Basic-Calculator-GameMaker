@@ -83,6 +83,35 @@ function parse_equation(_eq_str) {
 }
 
 /**
+ * @function				parse_equation_from_list(_list)
+ * @description			This function will convert a normal list into a mathematical expression 
+ *								represented as a list.
+ * @param {Id.DsList}		_list - The input list
+ * @return {Id.DsList}
+ */
+
+function parse_equation_from_list(_list) {
+	eq_list = ds_list_create();
+	eq_list_id = 0;
+	curr_eq_comp = ds_list_create();
+
+	var _is_number = true;
+	for (var _i = 0; _i < ds_list_size(_list); _i++) {
+		var _curr_comp = _list[| _i];
+		if (_is_number xor _curr_comp <= global.math_encoding_map[? "-"]) {
+			_is_number = not _is_number;
+			eq_list_id = _refresh_curr_eq_comp(curr_eq_comp, eq_list, eq_list_id);
+		}
+		ds_list_add(curr_eq_comp, _curr_comp);
+		if (not _is_number)
+			eq_list_id = _refresh_curr_eq_comp(curr_eq_comp, eq_list, eq_list_id);
+	}
+	eq_list_id = _refresh_curr_eq_comp(curr_eq_comp, eq_list, eq_list_id);
+	ds_list_destroy(curr_eq_comp);
+	return eq_list;
+}
+
+/**
  * @function				ds_list_stringify(_list)
  * @description			This function will represent a ds_list as a string.
  * @param {Id.DsList}	_list - The input list data structure.
@@ -151,4 +180,14 @@ function stack_full_remove(_number_stack, _operator_stack) {
 			ds_list_destroy(_current_component);
 	}
 	ds_stack_destroy(_number_stack);
+}
+
+function _refresh_curr_eq_comp(_curr_eq_comp, _eq_list, _eq_list_id) {
+	if (ds_list_size(_curr_eq_comp) > 0) {
+		ds_list_add(_eq_list, _curr_eq_comp);
+		ds_list_mark_as_list(_eq_list, _eq_list_id);
+		_curr_eq_comp = ds_list_create();
+		_eq_list_id++;
+	}
+	return _eq_list_id;
 }

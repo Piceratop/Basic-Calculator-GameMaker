@@ -26,7 +26,7 @@ var _bottom_position = center_pos[1] - 3.5 * button_width;
 // Display the equation that the user is typing
 draw_enclosed_text(
 	0, room_width, _bottom_position, display_padding, 
-	parse_number(global.current_equation), global.cursor_position + 1, 
+	parse_number(global.current_equation), global.cursor_position, 
 	real(global.current_equation_id == 0) * cursor_alpha
 );
 

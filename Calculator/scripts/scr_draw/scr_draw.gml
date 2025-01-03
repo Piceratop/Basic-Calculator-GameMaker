@@ -18,8 +18,8 @@ function draw_enclosed_text(_left_pos, _right_pos, _y, _padding, _str, _cursor_p
 	 * Align left if the left part of the string is too short. Align right similiarly.
 	 */
 	var _cursor_pixel_position = (_left_pos + _right_pos) / 2;
-	var _after_cursor = string_copy(_str, _cursor_pos, string_length(_str) - _cursor_pos + 1);
-	var _before_cursor = string_copy(_str, 1, _cursor_pos - 1);
+	var _after_cursor = string_copy(_str, _cursor_pos + 1, string_length(_str) - _cursor_pos + 2);
+	var _before_cursor = string_copy(_str, 1, _cursor_pos);
 	if (string_width(_str) >= _right_pos - _left_pos - 2 * _padding) {
 		if (string_width(_before_cursor) + 2 < (_right_pos - _left_pos) / 2 - _padding)
 			_cursor_pixel_position = _left_pos + _padding + string_width(_before_cursor) + 2;
