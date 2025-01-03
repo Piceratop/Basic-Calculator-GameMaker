@@ -7,12 +7,20 @@ if (
 	alarm[0] = game_get_speed(gamespeed_fps);
 	cursor_alpha = 1;
 	if (keyboard_lastkey == vk_backspace) {
-		input_equation(global.current_equation, "⌫", global.cursor_position);
-	} else if (keyboard_lastkey == vk_right)
-		navigate_equations("▶", global.cursor_position, ds_list_size(global.current_equation));
-	else if (keyboard_lastkey == vk_left)
-		navigate_equations("◀", global.cursor_position, ds_list_size(global.current_equation));
-	else if (keyboard_lastkey == vk_up)
+		global.cursor_position = input_equation(global.current_equation, "⌫", global.cursor_position);
+	} else if (keyboard_lastkey == vk_right) {
+		if (global.current_equation_id == 0)
+			global.cursor_position = navigate_equations("▶", global.cursor_position, ds_list_size(global.current_equation));
+		else {
+		
+		}
+	} else if (keyboard_lastkey == vk_left) {
+		if (global.current_equation_id == 0) {
+			global.cursor_position = navigate_equations("◀", global.cursor_position, ds_list_size(global.current_equation));
+		} else {
+			
+		}
+	} else if (keyboard_lastkey == vk_up)
 		navigate_equations("▲", global.current_equation_id, array_length(global.equations));
 	else if (keyboard_lastkey == vk_down)
 		navigate_equations("▼", global.current_equation_id, array_length(global.equations));
@@ -26,11 +34,11 @@ if (
 			"(", ")"
 		], keyboard_lastchar)
 	) {
-		input_equation(global.current_equation, keyboard_lastchar, global.cursor_position);
+		global.cursor_position = input_equation(global.current_equation, keyboard_lastchar, global.cursor_position);
 	}
 }
 
 // Debugging
-if (keyboard_check_pressed(vk_anykey)) {
-	show_debug_message(ds_list_stringify(global.current_equation));
-}
+//if (keyboard_check_pressed(vk_anykey)) {
+//	show_debug_message(ds_list_stringify(global.current_equation));
+//}
