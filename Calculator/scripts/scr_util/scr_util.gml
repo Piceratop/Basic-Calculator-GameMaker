@@ -49,7 +49,7 @@ function parse_number(_n) {
  * @return {Id.DsList}
  */
  
-function parse_equation(_eq_str) {
+function parse_equation_from_string(_eq_str) {
 	eq_list = ds_list_create();
 	eq_list_id = 0;
 	curr_eq_comp = ds_list_create();
@@ -91,24 +91,23 @@ function parse_equation(_eq_str) {
  */
 
 function parse_equation_from_list(_list) {
-	eq_list = ds_list_create();
-	eq_list_id = 0;
-	curr_eq_comp = ds_list_create();
+	var _eq_list = ds_list_create();
+	var _curr_eq_comp = ds_list_create();
 
 	var _is_number = true;
 	for (var _i = 0; _i < ds_list_size(_list); _i++) {
 		var _curr_comp = _list[| _i];
 		if (_is_number xor _curr_comp <= global.math_encoding_map[? "-"]) {
 			_is_number = not _is_number;
-			eq_list_id = _refresh_curr_eq_comp(curr_eq_comp, eq_list, eq_list_id);
+			_curr_eq_comp = _refresh_curr_eq_comp(_curr_eq_comp, _eq_list);
 		}
-		ds_list_add(curr_eq_comp, _curr_comp);
+		ds_list_add(_curr_eq_comp, _curr_comp);
 		if (not _is_number)
-			eq_list_id = _refresh_curr_eq_comp(curr_eq_comp, eq_list, eq_list_id);
+			_curr_eq_comp = _refresh_curr_eq_comp(_curr_eq_comp, _eq_list);
 	}
-	eq_list_id = _refresh_curr_eq_comp(curr_eq_comp, eq_list, eq_list_id);
-	ds_list_destroy(curr_eq_comp);
-	return eq_list;
+	_curr_eq_comp = _refresh_curr_eq_comp(_curr_eq_comp, _eq_list);
+	ds_list_destroy(_curr_eq_comp);
+	return _eq_list;
 }
 
 /**
@@ -182,12 +181,11 @@ function stack_full_remove(_number_stack, _operator_stack) {
 	ds_stack_destroy(_number_stack);
 }
 
-function _refresh_curr_eq_comp(_curr_eq_comp, _eq_list, _eq_list_id) {
+function _refresh_curr_eq_comp(_curr_eq_comp, _eq_list) {
 	if (ds_list_size(_curr_eq_comp) > 0) {
 		ds_list_add(_eq_list, _curr_eq_comp);
-		ds_list_mark_as_list(_eq_list, _eq_list_id);
+		ds_list_mark_as_list(_eq_list, ds_list_size(_eq_list) - 1);
 		_curr_eq_comp = ds_list_create();
-		_eq_list_id++;
 	}
-	return _eq_list_id;
+	return _curr_eq_comp;
 }

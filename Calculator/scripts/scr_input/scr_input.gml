@@ -14,7 +14,7 @@ function load_answer() {
 	array_push(
 		global.equations, 
 		[
-			_equation_list, _ans_list,
+			parse_number(global.current_equation), parse_number(_ans_list),
 			ds_list_size(global.current_equation),
 			ds_list_size(_ans_list)
 		]
@@ -34,7 +34,6 @@ function load_answer() {
  * @param {Id.DsList}	_curr_equation - The equation to be modified
  * @param {String}		_label - The symbol needs to be inserted.
  * @param {Real}			_pos - The position of the going-to-be-modified equation.
- * @return {Real} 
  */
 
 function input_equation(_curr_equation, _label, _pos) {
@@ -59,7 +58,6 @@ function input_equation(_curr_equation, _label, _pos) {
  * @param {String}		_label - The navigation button pressed
  * @param {Real}			_pos - The current cursor position
  * @param {Real}			_pos_limit - The upper limit of _cursor_pos
- * @return {Real}	 
  */
 
 function navigate_equations(_label, _pos, _pos_limit) {

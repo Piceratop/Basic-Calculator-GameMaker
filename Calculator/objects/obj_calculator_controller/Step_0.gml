@@ -39,6 +39,14 @@ if (
 }
 
 // Debugging
-//if (keyboard_check_pressed(vk_anykey)) {
-//	show_debug_message(ds_list_stringify(global.current_equation));
-//}
+if (keyboard_check_pressed(vk_anykey)) {
+	if (keyboard_lastchar == "P" || keyboard_lastchar == "p") {
+		var _save_file = json_load("save.bin");
+		show_debug_message(_save_file);
+	}
+
+	if (keyboard_lastchar == "D" || keyboard_lastchar == "d") {
+		global.equations = [];
+		json_save("save.bin", []);
+	}
+}
