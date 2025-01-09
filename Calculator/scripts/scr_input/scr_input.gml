@@ -14,14 +14,16 @@ function load_answer() {
 	array_push(
 		global.equations, 
 		[
-			parse_number(global.current_equation), parse_number(_ans_list),
+			ds_list_write(global.current_equation), ds_list_write(_ans_list),
 			ds_list_size(global.current_equation),
 			ds_list_size(_ans_list)
 		]
 	);
+	
 	// Remove the oldest one if the save is too long.
-	if (array_length(global.equations) > 5)
+	if (array_length(global.equations) > 5) {
 		array_delete(global.equations, 0, 1);
+	}
 	
    json_save("save.bin", global.equations);
 	global.current_equation = ds_list_create();

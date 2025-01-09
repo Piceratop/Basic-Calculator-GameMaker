@@ -1,3 +1,6 @@
+
+// ================ Math Functions ================
+
 // Normalize
 test_cases = [
 	[0],
@@ -32,7 +35,6 @@ test_normalize = function () {
 	}
 	show_debug_message("");
 }
-//test_normalize();
 
 // Absolute Value
 test_absolute_value = function () {
@@ -80,7 +82,6 @@ test_inverse = function () {
 	}
 	show_debug_message("");
 }
-//test_inverse();
 
 // Shift Decimal
 test_cases_2 = [
@@ -113,7 +114,6 @@ test_shift_decimal = function () {
 	}
 	show_debug_message("");
 }
-//test_shift_decimal();
 
 // Compare
 test_cases_3 = [
@@ -194,7 +194,6 @@ test_add = function (_repeat=false) {
 	}
 	show_debug_message("");
 }
-//test_add();
 
 // Subtract
 test_subtract = function(_repeat=false) {
@@ -226,7 +225,6 @@ test_subtract = function(_repeat=false) {
 	}
 	show_debug_message("");
 }
-test_subtract();
 
 // Multiply (Integer)
 test_cases_4 = [
@@ -275,7 +273,6 @@ test_multiply_integer = function () {
 	}
 	show_debug_message("");
 }
-//test_multiply_integer();
 
 // Multiply
 test_multiply = function() {
@@ -303,7 +300,6 @@ test_multiply = function() {
 	}
 	show_debug_message("");
 }
-//test_multiply();
 
 // Division (Integer)
 test_cases_5 = [
@@ -339,7 +335,6 @@ test_divide_integer = function () {
 	}
 	show_debug_message("");
 }
-//test_divide_integer();
 
 // Division
 test_cases_6 = [
@@ -382,7 +377,6 @@ test_divide = function() {
 	}
 	show_debug_message("");
 }
-//test_divide();
 
 // Parse equation
 test_cases_7 = [
@@ -422,7 +416,6 @@ test_parse_equation = function() {
 		ds_list_destroy(_eq_list);
 	}
 }
-//test_parse_equation();
 
 // Evaluate equations
 test_evaluate_equation = function() {
@@ -444,4 +437,59 @@ test_evaluate_equation = function() {
 	}
 }
 
+
+//test_normalize();
+//test_inverse();
+//test_shift_decimal();
+//test_compare();
+//test_add();
+//test_subtract();
+//test_multiply_integer();
+//test_multiply();
+//test_divide_integer();
+//test_divide();
+//test_parse_equation();
 //test_evaluate_equation();
+
+// ================ DS List Functions ================
+
+// Convert to DS List from Array
+
+test_cases_ds_list_convert_from_array = [
+	[],
+	[1, 2, "de"],
+	[global.math_encoding_map],
+	[["abc"], global.operator_map],
+]
+
+test_ds_list_convert_from_array = function() {
+	show_debug_message("Convert to DS List from Array");
+	for (var _i = 0; _i < array_length(test_cases_ds_list_convert_from_array); _i++) {
+		var _ans_list = ds_list_convert_from_array(test_cases_ds_list_convert_from_array[_i]);
+		show_debug_message(ds_list_stringify(_ans_list));
+		ds_list_destroy(_ans_list);
+		show_debug_message("");
+	}
+}
+
+// DS List Write All
+
+test_cases_ds_list_write_all = [
+	[],
+	[1, 2, "de"],
+	[["abc"]],
+]
+
+test_ds_list_write_all = function() {
+	show_debug_message("DS List Write All");
+	for (var _i = 0; _i < array_length(test_cases_ds_list_write_all); _i++) {
+		var _test_list = ds_list_convert_from_array(test_cases_ds_list_write_all[_i]);
+		var _ans = ds_list_write_all(_test_list);
+		show_debug_message(_ans);
+		ds_list_destroy(_test_list);
+		show_debug_message("");
+	}
+}
+
+test_ds_list_convert_from_array();
+test_ds_list_write_all();

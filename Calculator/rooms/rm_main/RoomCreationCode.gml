@@ -40,8 +40,6 @@ global.operator_map[? global.math_encoding_map[? "÷"]] = operator("÷", divide,
 
 global.equations = json_load("save.bin");
 
-show_debug_message(global.equations);
-
 if (is_undefined(global.equations)) {
    global.equations = [];
 }
