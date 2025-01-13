@@ -18,6 +18,20 @@ function ds_list_convert_from_array(_array) {
 }
 
 /**
+ * @function				ds_list_destroy_all(_list)
+ * @description			This function will destroy the list and all of its sublist elements.
+ * @param {Id.DsList}	_list - The list to be destroyed.
+ */
+ 
+function ds_list_destroy_all(_list) {
+	for (var _i = 0; _i < ds_list_size(_list); _i++) {
+		if (typeof(_list[| _i]) == "ref" and ds_exists(_list[| _i], ds_type_list))
+			ds_list_destroy_all(_list[| _i]);
+	}
+	ds_list_destroy(_list);
+}
+
+/**
  * @function				ds_list_destroy_multiple()
  * @description			This function will destroy all given lists.
  */
@@ -29,13 +43,24 @@ function ds_list_destroy_multiple() {
 
 /**
  * @function				ds_list_read_all(_list)
- * @description			This function will read the list and all of its sub list using the normal
+ * @description			This function will NOT read the list and all of its sub list using the normal
 								ds_list_read function.
- * @param {String}		_list_str - List to be read.
+ * @param {Id.DsList}	_return_list - The id where the list is going to be written.
+ * @param {String}		_list_str - The stringified list to be read.
  */
 
-function ds_list_read_all(_list_str) {
-	var _return_list = ds_list_create();	
+function ds_list_read_all(_return_list, _list_str) {
+	//ds_list_read(_return_list, _list_str);
+	//for (var _i = 0; _i < ds_list_size(_return_list); _i++)
+	//	if (typeof(_return_list[| _i] == "string"))
+	//		if (string_pos("2F01", _return_list[_i]) == 0) {
+	//			var _list_element = ds_list_create();
+	//			if (_return_list[| _i] == "2F01000000000000") {
+	//				_return_list[| _i] = _list_element;
+	//			} else {
+					
+	//			}
+	//		}
 }
 
 /**
@@ -91,30 +116,30 @@ function ds_list_stringify(_list) {
 }
 
 /**
- * @function				parse_number(_n)
- * @description			This function will convert a number represented as a list into one as a string.
+ * @function				parse_equation_from_single_list_to_string(_n)
+ * @description			This function will convert a mathematical expression represented as a list 
+ *								into one as a string.
  * @param {Id.DsList}	_n - The input ds_list
  */
 
-function parse_number(_n) {
+function parse_equation_from_single_list_to_string(_n) {
 	if (_n[| 0] == -1)
 		return "Error";
 	var _ans_str = "";
-	for (var _i = 0; _i < ds_list_size(_n); _i++) {
-		var _curr_digit = _n[| _i];
-		_ans_str += global.math_decoding_map[? _curr_digit];
-	}
+	for (var _i = 0; _i < ds_list_size(_n); _i++)
+		_ans_str += global.math_decoding_map[? _n[| _i]];
 	return _ans_str;
 }
 
 /**
- * @function				parse_equation(_eq_str)
- * @description			This function will convert a string into a mathematical expression represented as a list.
+ * @function				parse_equation_from_string_to_list(_eq_str)
+ * @description			This function will convert a string into a mathematical expression represented 
+ *								as a list.
  * @param {String}		_eq_str - The input string
  * @return {Id.DsList}
  */
  
-function parse_equation_from_string(_eq_str) {
+function parse_equation_from_string_to_list(_eq_str) {
 	eq_list = ds_list_create();
 	eq_list_id = 0;
 	curr_eq_comp = ds_list_create();
@@ -148,14 +173,14 @@ function parse_equation_from_string(_eq_str) {
 }
 
 /**
- * @function				parse_equation_from_list(_list)
+ * @function				parse_equation_from_list_to_list(_list)
  * @description			This function will convert a normal list into a mathematical expression 
  *								represented as a list.
- * @param {Id.DsList}		_list - The input list
+ * @param {Id.DsList}	_list - The input list
  * @return {Id.DsList}
  */
 
-function parse_equation_from_list(_list) {
+function parse_equation_from_list_to_list(_list) {
 	var _eq_list = ds_list_create();
 	var _curr_eq_comp = ds_list_create();
 

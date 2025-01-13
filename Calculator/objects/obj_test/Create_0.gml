@@ -477,11 +477,13 @@ test_ds_list_convert_from_array = function() {
 test_cases_ds_list_write_all = [
 	[],
 	[1, 2, "de"],
+	[[]],
 	[["abc"]],
+	["2F01000000000000"],
 ]
 
 test_ds_list_write_all = function() {
-	show_debug_message("DS List Write All");
+	show_debug_message("DS List Write All\n");
 	for (var _i = 0; _i < array_length(test_cases_ds_list_write_all); _i++) {
 		var _test_list = ds_list_convert_from_array(test_cases_ds_list_write_all[_i]);
 		var _ans = ds_list_write_all(_test_list);
@@ -491,5 +493,5 @@ test_ds_list_write_all = function() {
 	}
 }
 
-test_ds_list_convert_from_array();
-test_ds_list_write_all();
+//test_ds_list_convert_from_array();
+//test_ds_list_write_all();

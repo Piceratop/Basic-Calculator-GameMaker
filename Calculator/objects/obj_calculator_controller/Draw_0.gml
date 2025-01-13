@@ -4,29 +4,28 @@ var _bottom_position = center_pos[1] - 3.5 * button_width;
 
 // Display the past equations
 
-//draw_set_halign(fa_right);
-
-//for (var _i = array_length(global.equations) - 1; _i >= 0; _i--) {
-//	draw_enclosed_text(
-//		0, room_width,
-//		_bottom_position - 2 * (array_length(global.equations) - _i) * string_height("1"),
-//		display_padding,
-//		global.equations[_i][0], global.equations[_i][2],
-//		real(_i - array_length(global.equations) == global.current_equation_id) * cursor_alpha
-//	);
-//	draw_enclosed_text(
-//		0, room_width,
-//		_bottom_position - (2 * (array_length(global.equations) - _i) - 1) * string_height("1"),
-//		display_padding,
-//		global.equations[_i][1], global.equations[_i][3],
-//		real(_i - array_length(global.equations) + 0.5 == global.current_equation_id) * cursor_alpha
-//	);
-//}
+for (var _i = array_length(global.equations) - 1; _i >= 0; _i--) {
+	draw_enclosed_text(
+		0, room_width,
+		_bottom_position - 2 * (array_length(global.equations) - _i) * string_height("1"),
+		display_padding,
+		global.equations[_i][0], global.equations[_i][2],
+		real(array_length(global.equations) - _i  == global.current_equation_id) * cursor_alpha
+	);
+	draw_enclosed_text(
+		0, room_width,
+		_bottom_position - (2 * (array_length(global.equations) - _i) - 1) * string_height("1"),
+		display_padding,
+		global.equations[_i][1], global.equations[_i][3],
+		real(array_length(global.equations) - _i - 0.5 == global.current_equation_id) * cursor_alpha
+	);
+}
 
 // Display the equation that the user is typing
 draw_enclosed_text(
 	0, room_width, _bottom_position, display_padding, 
-	parse_number(global.current_equation), global.cursor_position, 
+	parse_equation_from_single_list_to_string(global.current_equation),
+	global.cursor_position, 
 	real(global.current_equation_id == 0) * cursor_alpha
 );
 
