@@ -41,13 +41,13 @@ if (
 // Debugging
 if (keyboard_check_pressed(vk_anykey)) {
 	if (keyboard_lastchar == "P" || keyboard_lastchar == "p") {
-		for (var _i = 0; _i < array_length(global.equations); _i++)
-			show_debug_message($"{ds_list_stringify(global.equations[_i][1])}");
+		for (var _i = 0; _i < 10; _i++)
+		if (ds_exists(_i, ds_type_list)) {
+			show_debug_message($"{_i} {ds_list_stringify(_i)}");
+		}
 	}
-
-	if (keyboard_lastchar == "D" || keyboard_lastchar == "d") {
-		global.displaying_equations = [];
-		global.equations = [];
-		json_save("save.bin", []);
+	if (keyboard_lastchar == "Q" || keyboard_lastchar == "q") {
+		show_debug_message($"{global.equations}");
+	
 	}
 }
