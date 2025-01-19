@@ -14,7 +14,7 @@ function load_answer() {
 	 * answer's cursor position.
 	 */
 	array_push(
-		global.equations, 
+		global.displaying_equations, 
 		[
 			parse_equation_from_single_list_to_string(global.current_equation), 
 			parse_equation_from_single_list_to_string(_ans_list),
@@ -22,13 +22,27 @@ function load_answer() {
 			ds_list_size(_ans_list)
 		]
 	);
+	array_push(
+		global.equations,
+		[
+			global.current_equation, _ans_list,
+			ds_list_size(global.current_equation), ds_list_size(_ans_list)
+		]
+	);
+		
 	
 	// Remove the oldest one if the save is too long.
-	if (array_length(global.equations) > 5) {
+	while (array_length(global.displaying_equations) > 5) {
+		var _a = global.equations[0][0];
+		var _b = global.equations[0][1];
 		array_delete(global.equations, 0, 1);
+		ds_list_destroy_multiple(_a, _b);
+		array_delete(global.displaying_equations, 0, 1);
+
 	}
 	
-   json_save("save.bin", global.equations);
+	
+   json_save("save.bin", global.displaying_equations);
 	global.current_equation = ds_list_create();
 	global.cursor_position = 0;
 }

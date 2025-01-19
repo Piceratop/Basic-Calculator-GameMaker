@@ -38,8 +38,28 @@ global.operator_map[? global.math_encoding_map[? "−"]] = operator("−", subtr
 global.operator_map[? global.math_encoding_map[? "×"]] = operator("×", multiply, 2, "mid", 2);
 global.operator_map[? global.math_encoding_map[? "÷"]] = operator("÷", divide, 2, "mid", 2);
 
-global.equations = json_load("save.bin");
+global.displaying_equations = json_load("save.bin");
 
-if (is_undefined(global.equations)) {
-   global.equations = [];
+if (is_undefined(global.displaying_equations)) {
+   global.displaying_equations = [];
+}
+
+global.equations = [];
+
+for (var _i = 0; _i < array_length(global.displaying_equations); _i++) {
+	var _curr = global.displaying_equations[_i];
+	if (_curr[1] == "Error") {
+		var _error_list = ds_list_create();
+		ds_list_add(_error_list, -1);
+		array_push(global.equations, [
+			parse_equation_from_string_to_single_list(_curr[0]),
+			_error_list, _curr[2], _curr[3]
+		]);
+	} else {
+		array_push(global.equations, [
+			parse_equation_from_string_to_single_list(_curr[0]),
+			parse_equation_from_string_to_single_list(_curr[1]),
+			_curr[2], _curr[3]
+		]);
+	}
 }

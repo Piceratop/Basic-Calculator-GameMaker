@@ -41,11 +41,12 @@ if (
 // Debugging
 if (keyboard_check_pressed(vk_anykey)) {
 	if (keyboard_lastchar == "P" || keyboard_lastchar == "p") {
-		var _save_file = json_load("save.bin");
-		show_debug_message(_save_file);
+		for (var _i = 0; _i < array_length(global.equations); _i++)
+			show_debug_message($"{ds_list_stringify(global.equations[_i][1])}");
 	}
 
 	if (keyboard_lastchar == "D" || keyboard_lastchar == "d") {
+		global.displaying_equations = [];
 		global.equations = [];
 		json_save("save.bin", []);
 	}

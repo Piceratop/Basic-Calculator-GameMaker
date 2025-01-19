@@ -173,6 +173,20 @@ function parse_equation_from_string_to_list(_eq_str) {
 }
 
 /**
+ * @function				parse_equation_from_string_to_single_list(_eq_str)
+ * @description			This function will convert a string into a simple list.
+ * @param {String}		_eq_str - The input string
+ * @return {Id.DsList}
+ */
+ 
+function parse_equation_from_string_to_single_list(_eq_str) {
+	eq_list = ds_list_create();
+	for (var _i = 1; _i <= string_length(_eq_str); _i++)
+		ds_list_add(eq_list, global.math_encoding_map[? string_char_at(_eq_str, _i)]);
+	return eq_list;
+}
+
+/**
  * @function				parse_equation_from_list_to_list(_list)
  * @description			This function will convert a normal list into a mathematical expression 
  *								represented as a list.

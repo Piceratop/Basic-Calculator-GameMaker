@@ -9,14 +9,16 @@ for (var _i = array_length(global.equations) - 1; _i >= 0; _i--) {
 		0, room_width,
 		_bottom_position - 2 * (array_length(global.equations) - _i) * string_height("1"),
 		display_padding,
-		global.equations[_i][0], global.equations[_i][2],
+		parse_equation_from_single_list_to_string(global.equations[_i][0]),
+		global.equations[_i][2],
 		real(array_length(global.equations) - _i  == global.current_equation_id) * cursor_alpha
 	);
 	draw_enclosed_text(
 		0, room_width,
 		_bottom_position - (2 * (array_length(global.equations) - _i) - 1) * string_height("1"),
 		display_padding,
-		global.equations[_i][1], global.equations[_i][3],
+		parse_equation_from_single_list_to_string(global.equations[_i][1]),
+		global.equations[_i][3],
 		real(array_length(global.equations) - _i - 0.5 == global.current_equation_id) * cursor_alpha
 	);
 }
