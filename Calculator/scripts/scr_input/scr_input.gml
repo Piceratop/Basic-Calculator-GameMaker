@@ -32,7 +32,7 @@ function load_answer() {
 		
 	
 	// Remove the oldest one if the save is too long.
-	while (array_length(global.displaying_equations) > 1) {
+	while (array_length(global.displaying_equations) > 5) {
 		var _a = global.equations[0][0];
 		var _b = global.equations[0][1];
 		array_delete(global.equations, 0, 1);

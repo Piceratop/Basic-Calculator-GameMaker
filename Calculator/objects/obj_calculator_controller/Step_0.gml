@@ -6,19 +6,31 @@ if (
 ) {
 	alarm[0] = game_get_speed(gamespeed_fps);
 	cursor_alpha = 1;
+	var _l = array_length(global.equations);
+	var _ci = ceil(global.current_equation_id);
+	var _id = _l - _ci;
 	if (keyboard_lastkey == vk_backspace) {
 		global.cursor_position = input_equation(global.current_equation, "⌫", global.cursor_position);
-	} else if (keyboard_lastkey == vk_right) {
+	} else if (keyboard_lastkey == vk_right || keyboard_lastkey == vk_left) {
+		var _direction = (keyboard_lastkey == vk_right) ? "▶" : "◀";
 		if (global.current_equation_id == 0)
-			global.cursor_position = navigate_equations("▶", global.cursor_position, ds_list_size(global.current_equation));
-		else {
-			
-		}
-	} else if (keyboard_lastkey == vk_left) {
-		if (global.current_equation_id == 0) {
-			global.cursor_position = navigate_equations("◀", global.cursor_position, ds_list_size(global.current_equation));
+			global.cursor_position = navigate_equations(
+				_direction,
+				global.cursor_position,
+				ds_list_size(global.current_equation)
+			);
+		else if (_ci == global.current_equation_id) {
+			global.equations[_id][2] = navigate_equations(
+				_direction,
+				global.equations[_id][2],
+				ds_list_size(global.equations[_id][0])
+			);
 		} else {
-			
+			global.equations[_id][3] = navigate_equations(
+				_direction,
+				global.equations[_id][3],
+				ds_list_size(global.equations[_id][1])
+			);
 		}
 	} else if (keyboard_lastkey == vk_up)
 		global.current_equation_id = navigate_equations("▲", global.current_equation_id, array_length(global.equations));
@@ -35,19 +47,5 @@ if (
 		], keyboard_lastchar)
 	) {
 		global.cursor_position = input_equation(global.current_equation, keyboard_lastchar, global.cursor_position);
-	}
-}
-
-// Debugging
-if (keyboard_check_pressed(vk_anykey)) {
-	if (keyboard_lastchar == "P" || keyboard_lastchar == "p") {
-		for (var _i = 0; _i < 10; _i++)
-		if (ds_exists(_i, ds_type_list)) {
-			show_debug_message($"{_i} {ds_list_stringify(_i)}");
-		}
-	}
-	if (keyboard_lastchar == "Q" || keyboard_lastchar == "q") {
-		show_debug_message($"{global.equations}");
-	
 	}
 }
