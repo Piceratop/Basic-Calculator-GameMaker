@@ -18,7 +18,7 @@ function load_answer() {
 		[
 			parse_equation_from_single_list_to_string(global.current_equation), 
 			parse_equation_from_single_list_to_string(_ans_list),
-			ds_list_size(global.current_equation),
+			0,
 			ds_list_size(_ans_list)
 		]
 	);
@@ -26,7 +26,7 @@ function load_answer() {
 		global.equations,
 		[
 			global.current_equation, _ans_list,
-			ds_list_size(global.current_equation), ds_list_size(_ans_list)
+			0, ds_list_size(_ans_list)
 		]
 	);
 		

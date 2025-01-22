@@ -8,4 +8,7 @@ if (keyboard_check_pressed(vk_anykey)) {
 	if (keyboard_lastchar == "Q" || keyboard_lastchar == "q") {
 		show_debug_message($"{global.equations}");
 	}
+	if (keyboard_lastchar == "D" || keyboard_lastchar == "d") {
+		
+	}
 }

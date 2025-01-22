@@ -11,7 +11,8 @@ for (var _i = array_length(global.equations) - 1; _i >= 0; _i--) {
 		display_padding,
 		parse_equation_from_single_list_to_string(global.equations[_i][0]),
 		global.equations[_i][2],
-		real(array_length(global.equations) - _i  == global.current_equation_id) * cursor_alpha
+		real(array_length(global.equations) - _i  == global.current_equation_id) * cursor_alpha,
+		"left"
 	);
 	draw_enclosed_text(
 		0, room_width,
@@ -19,7 +20,8 @@ for (var _i = array_length(global.equations) - 1; _i >= 0; _i--) {
 		display_padding,
 		parse_equation_from_single_list_to_string(global.equations[_i][1]),
 		global.equations[_i][3],
-		real(array_length(global.equations) - _i - 0.5 == global.current_equation_id) * cursor_alpha
+		real(array_length(global.equations) - _i - 0.5 == global.current_equation_id) * cursor_alpha,
+		"right"
 	);
 }
 
@@ -28,7 +30,8 @@ draw_enclosed_text(
 	0, room_width, _bottom_position, display_padding, 
 	parse_equation_from_single_list_to_string(global.current_equation),
 	global.cursor_position, 
-	real(global.current_equation_id == 0) * cursor_alpha
+	real(global.current_equation_id == 0) * cursor_alpha,
+	"left"
 );
 
 // Show debug message on screen

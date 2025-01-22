@@ -9,10 +9,14 @@
  * @param {String}	_str - The text to be drawn
  * @param {Real}		_cursor_pos - The position of the cursor relative to the start of the text (in character)
  * @param {Real}		_cursor_alpha - The alpha of the cursor
+ * @param {String}	_align - The alignment of the text, default is right alignment.
  * @return {Undefined} 
  */
 
-function draw_enclosed_text(_left_pos, _right_pos, _y, _padding, _str, _cursor_pos, _cursor_alpha) {
+function draw_enclosed_text(
+	_left_pos, _right_pos, _y, _padding,
+	_str, _cursor_pos, _cursor_alpha, _align="right"
+) {
 	/**
 	 * Set the cursor position. Its default position is the center.
 	 * Align left if the left part of the string is too short. Align right similiarly.
@@ -25,7 +29,15 @@ function draw_enclosed_text(_left_pos, _right_pos, _y, _padding, _str, _cursor_p
 			_cursor_pixel_position = _left_pos + _padding + string_width(_before_cursor) + 2;
 		if (string_width(_after_cursor) + 2 < (_right_pos - _left_pos) / 2 - _padding)
 			_cursor_pixel_position = _right_pos - (_padding + string_width(_after_cursor) + 2);
-	} else _cursor_pixel_position = _right_pos - (_padding + string_width(_after_cursor) + 2);
+	} else {
+		switch(_align) {
+			case "left":
+				_cursor_pixel_position = _left_pos + _padding + string_width(_before_cursor) + 2;
+				break;
+			default:
+				_cursor_pixel_position = _right_pos - (_padding + string_width(_after_cursor) + 2);
+		}
+	}
 	
 	/**
 	 * Draw the cursor.
