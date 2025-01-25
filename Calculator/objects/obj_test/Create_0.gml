@@ -380,30 +380,31 @@ test_divide = function() {
 
 // Parse equation
 test_cases_7 = [
-	"5−7",
-	"1024",
-	"10+24",
-	"3+4×2",
-	"-10.24",
-	"-10×24",
-	"5+6+7×8",
-	"5−6−7−8",
-	"(-10.24)",
-	"-(10.24)",
-	"---10.24",
-	"55.5÷0.7",
-	"(1−2)×(3+4)",
-	"+−",
-	"12+",
-	"(12+",
-	"40÷0",
-	"(12+)",
-	"3-789",
-	"1.2.2",
-	"12+×34",
-	"40÷0×12",
-	"(1−2)×(3+4",
-	"1.2.2+1.2.2",
+	//"5−7",
+	//"1024",
+	//"10+24",
+	//"3+4×2",
+	//"-10.24",
+	//"-10×24",
+	//"5+6+7×8",
+	//"5−6−7−8",
+	//"(-10.24)",
+	//"-(10.24)",
+	//"---10.24",
+	//"55.5÷0.7",
+	//"(1−2)×(3+4)",
+	//"+−",
+	//"12+",
+	//"(12+",
+	//"40÷0",
+	//"(12+)",
+	//"3-789",
+	//"1.2.2",
+	//"12+×34",
+	//"40÷0×12",
+	"(1−2)(3+4)",
+	//"(1−2)×(3+4",
+	//"1.2.2+1.2.2",
 ];
 
 test_parse_equation = function() {
@@ -421,7 +422,7 @@ test_parse_equation = function() {
 test_evaluate_equation = function() {
 	show_debug_message("Evaluate equation");
 	for (var _i = 0; _i < array_length(test_cases_7); _i++) {
-		var _eq_list = parse_equation(test_cases_7[_i]);
+		var _eq_list = parse_equation_from_string_to_list(test_cases_7[_i]);
 		var _time = get_timer();
 		for (var _k = 0; _k < 5000; _k++) {
 			var _ans_list = evaluate_equation(_eq_list);
@@ -429,7 +430,7 @@ test_evaluate_equation = function() {
 		}
 		show_debug_message(get_timer() - _time);
 		var _ans_list = evaluate_equation(_eq_list);
-		show_debug_message(parse_number(_ans_list));
+		show_debug_message(ds_list_stringify(_ans_list));
 		ds_list_destroy(_ans_list);
 		for (var _j = 0; _j < ds_list_size(_eq_list); _j++)
 			ds_list_destroy(_eq_list[| _j]);
@@ -449,7 +450,7 @@ test_evaluate_equation = function() {
 //test_divide_integer();
 //test_divide();
 //test_parse_equation();
-//test_evaluate_equation();
+test_evaluate_equation();
 
 // ================ DS List Functions ================
 

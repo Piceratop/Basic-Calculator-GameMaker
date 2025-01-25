@@ -38,14 +38,29 @@ if (
 		global.current_equation_id = navigate_equations("▼", global.current_equation_id, array_length(global.equations));
 	else if (keyboard_lastchar == "=" or keyboard_lastkey == vk_enter)
 		load_answer();
+	else if (keyboard_lastchar == "*")
+		global.cursor_position = input_equation(
+			global.current_equation,
+			"×",
+			global.cursor_position
+		)
+	else if (keyboard_lastchar = "/")
+		global.cursor_position = input_equation(
+			global.current_equation,
+			"÷",
+			global.cursor_position
+		)
 	else if (
 		array_contains([
 			"0", "1", "2", "3", "4",
 			"5", "6", "7", "8", "9", 
-			".", "+", "-", "*", "/",
-			"(", ")"
+			".", "+", "-", "(", ")"
 		], keyboard_lastchar)
 	) {
-		global.cursor_position = input_equation(global.current_equation, keyboard_lastchar, global.cursor_position);
+		global.cursor_position = input_equation(
+			global.current_equation,
+			keyboard_lastchar,
+			global.cursor_position
+		);
 	}
 }

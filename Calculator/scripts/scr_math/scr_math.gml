@@ -728,8 +728,13 @@ function evaluate_equation(_equation) {
 		if (_c[| 0] == -1) return _c;
 		ds_stack_push(_number_stack, _c);
 	}
+	
+	if (ds_stack_size(_number_stack) > 1) {
+		_ans_list = return_invalid_when_evaluating_equation(_number_stack, _operator_stack);
+		return _ans_list;
+	}
+	
 	_ans_list = ds_stack_pop(_number_stack);
-
 	stack_full_remove(_number_stack, _operator_stack);
 	return _ans_list;
 }

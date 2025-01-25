@@ -1,4 +1,4 @@
-// Initialize global components
+// Symbols mapping
 
 global.math_encoding_map = ds_map_create();
 for (var _i = 0; _i < 10; _i++)
@@ -11,6 +11,8 @@ global.math_encoding_map[? "+"] = 14;
 global.math_encoding_map[? "−"] = 15;
 global.math_encoding_map[? "×"] = 16;
 global.math_encoding_map[? "÷"] = 17;
+global.math_encoding_map[? "Error"] = -1
+global.math_encoding_map[? "Ans"] = -2
 
 global.math_decoding_map = ds_map_create();
 for (
@@ -38,6 +40,8 @@ global.operator_map[? global.math_encoding_map[? "−"]] = operator("−", subtr
 global.operator_map[? global.math_encoding_map[? "×"]] = operator("×", multiply, 2, "mid", 2);
 global.operator_map[? global.math_encoding_map[? "÷"]] = operator("÷", divide, 2, "mid", 2);
 
+// Get saved data
+
 global.displaying_equations = json_load("save.bin");
 
 if (is_undefined(global.displaying_equations)) {
@@ -56,10 +60,27 @@ for (var _i = 0; _i < array_length(global.displaying_equations); _i++) {
 			_error_list, _curr[2], _curr[3]
 		]);
 	} else {
-		array_push(global.equations, [
-			parse_equation_from_string_to_single_list(_curr[0]),
-			parse_equation_from_string_to_single_list(_curr[1]),
-			_curr[2], _curr[3]
-		]);
+	array_push(global.equations, [
+		parse_equation_from_string_to_single_list(_curr[0]),
+		parse_equation_from_string_to_single_list(_curr[1]),
+		_curr[2], _curr[3]
+	]);
 	}
 }
+
+// Font and drawing alignments
+
+global.allow_characters = "()+-.0123456789=ACEaclnorstu|×÷⁁−⌫▲▶▼◀"
+global.fnt_calculator = font_add_sprite_ext(
+	spr_fnt_calculator,
+	global.allow_characters,
+	true, 4
+);
+global.back_color = c_white;
+global.border_color = c_black;
+global.fnt_color = c_black;
+
+draw_set_color(global.fnt_color);
+draw_set_halign(fa_center);
+draw_set_valign(fa_middle);
+draw_set_font(global.fnt_calculator);
