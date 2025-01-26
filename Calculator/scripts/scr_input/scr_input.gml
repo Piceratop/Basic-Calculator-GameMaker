@@ -4,9 +4,15 @@ function load_answer() {
 	 */
 	if (ds_list_size(global.current_equation) == 0) return;
 	
+	/**
+	 * Evaluate the equation, and if the evaluation succeeds, store it in the Ans variable.
+	 */
 	var _equation_list = parse_equation_from_list_to_list(global.current_equation);
 	var _ans_list = evaluate_equation(_equation_list);
 	ds_list_destroy_all(_equation_list);
+	
+	if (_ans_list[| 0] != -1)
+		ds_list_copy(global.Ans, _ans_list);
 	
 	/**
 	 * Insert an array in the order:
@@ -39,7 +45,6 @@ function load_answer() {
 		ds_list_destroy_multiple(_a, _b);
 		array_delete(global.displaying_equations, 0, 1);
 	}
-	
 	
    json_save("save.bin", global.displaying_equations);
 	global.current_equation = ds_list_create();

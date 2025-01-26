@@ -4,12 +4,13 @@ draw_set_color(global.fnt_color);
 // Display past equations
 
 for (var _i = array_length(global.equations) - 1; _i >= 0; _i--) {
+	var _cursor_position = 0;
 	draw_enclosed_text(
 		0, room_width,
 		equations_pos[1] - 2 * (array_length(global.equations) - _i) * string_height("1"),
 		display_padding,
 		parse_equation_from_single_list_to_string(global.equations[_i][0]),
-		global.equations[_i][2],
+		get_before_cursor_char_count(global.equations[_i][0], global.equations[_i][2]),
 		real(array_length(global.equations) - _i  == global.current_equation_id) * cursor_alpha,
 		"left"
 	);
@@ -18,7 +19,7 @@ for (var _i = array_length(global.equations) - 1; _i >= 0; _i--) {
 		equations_pos[1] - (2 * (array_length(global.equations) - _i) - 1) * string_height("1"),
 		display_padding,
 		parse_equation_from_single_list_to_string(global.equations[_i][1]),
-		global.equations[_i][3],
+		get_before_cursor_char_count(global.equations[_i][1], global.equations[_i][3]),
 		real(array_length(global.equations) - _i - 0.5 == global.current_equation_id) * cursor_alpha,
 		"right"
 	);
@@ -28,7 +29,7 @@ for (var _i = array_length(global.equations) - 1; _i >= 0; _i--) {
 draw_enclosed_text(
 	0, room_width, equations_pos[1], display_padding, 
 	parse_equation_from_single_list_to_string(global.current_equation),
-	global.cursor_position, 
+	get_before_cursor_char_count(global.current_equation, global.cursor_position),
 	real(global.current_equation_id == 0) * cursor_alpha,
 	"left"
 );

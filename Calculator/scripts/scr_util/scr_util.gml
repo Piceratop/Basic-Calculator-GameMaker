@@ -201,6 +201,12 @@ function parse_equation_from_list_to_list(_list) {
 	var _is_number = true;
 	for (var _i = 0; _i < ds_list_size(_list); _i++) {
 		var _curr_comp = _list[| _i];
+		if (_curr_comp == -2) {
+			_curr_eq_comp = _refresh_curr_eq_comp(_curr_eq_comp, _eq_list);
+			ds_list_copy(_curr_eq_comp, global.Ans);
+			_curr_eq_comp = _refresh_curr_eq_comp(_curr_eq_comp, _eq_list);
+			continue;
+		}
 		if (_is_number xor _curr_comp <= global.math_encoding_map[? "-"]) {
 			_is_number = not _is_number;
 			_curr_eq_comp = _refresh_curr_eq_comp(_curr_eq_comp, _eq_list);
@@ -211,6 +217,8 @@ function parse_equation_from_list_to_list(_list) {
 	}
 	_curr_eq_comp = _refresh_curr_eq_comp(_curr_eq_comp, _eq_list);
 	ds_list_destroy(_curr_eq_comp);
+	for (var _i = 0; _i < ds_list_size(_eq_list); _i++)
+		ds_list_mark_as_list(_eq_list, _i);
 	return _eq_list;
 }
 
@@ -269,7 +277,6 @@ function stack_full_remove(_number_stack, _operator_stack) {
 function _refresh_curr_eq_comp(_curr_eq_comp, _eq_list) {
 	if (ds_list_size(_curr_eq_comp) > 0) {
 		ds_list_add(_eq_list, _curr_eq_comp);
-		ds_list_mark_as_list(_eq_list, ds_list_size(_eq_list) - 1);
 		_curr_eq_comp = ds_list_create();
 	}
 	return _curr_eq_comp;

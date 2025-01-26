@@ -43,4 +43,11 @@ display_padding = (room_width - 5 * full_button_width) / 2;
 equations_pos = [room_width - full_button_width, center_pos[1] - 3.5 * full_button_height];
 alarm[0] = game_get_speed(gamespeed_fps);
 
-// Debugging
+// Util function
+
+function get_before_cursor_char_count(_eq_list, _pos) {
+	var _str_pos = 0;
+	for (var _i = 0; _i < _pos; _i++)
+		_str_pos += string_length(global.math_decoding_map[? _eq_list[| _i]]);
+	return _str_pos;
+}

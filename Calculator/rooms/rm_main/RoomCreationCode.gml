@@ -48,6 +48,16 @@ if (is_undefined(global.displaying_equations)) {
    global.displaying_equations = [];
 }
 
+for (var _i = 0; _i < array_length(global.displaying_equations); _i++) {
+	if (string_pos("Ans", global.displaying_equations[_i][0]) != 0) {
+		array_delete(global.displaying_equations, _i, 1);
+		_i--;
+	}
+}
+
+
+json_save("save.bin", global.displaying_equations);
+
 global.equations = [];
 
 for (var _i = 0; _i < array_length(global.displaying_equations); _i++) {
@@ -67,6 +77,8 @@ for (var _i = 0; _i < array_length(global.displaying_equations); _i++) {
 	]);
 	}
 }
+
+global.Ans = global.equations[array_length(global.equations) - 1][1]
 
 // Font and drawing alignments
 

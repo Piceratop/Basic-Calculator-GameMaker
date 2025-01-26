@@ -1,4 +1,3 @@
-
 // ================ Math Functions ================
 
 // Normalize
