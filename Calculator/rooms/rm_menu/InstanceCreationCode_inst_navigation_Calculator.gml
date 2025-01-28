@@ -1,2 +1,2 @@
 label = "Calculator";
-x = 180; y = 160;
+x = room_width / 2; y = 160;

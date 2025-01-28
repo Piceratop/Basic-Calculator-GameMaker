@@ -48,19 +48,25 @@ if (is_undefined(global.displaying_equations)) {
    global.displaying_equations = [];
 }
 
-for (var _i = 0; _i < array_length(global.displaying_equations); _i++) {
+for (
+	var _i = 0, _c = 0;
+	_i < array_length(global.displaying_equations) and _c < 10;
+	_i++) { 
 	if (string_pos("Ans", global.displaying_equations[_i][0]) != 0) {
 		array_delete(global.displaying_equations, _i, 1);
 		_i--;
-	}
+		continue;
+	} 
+	_c++;
 }
-
+show_debug_message(global.displaying_equations);
 
 json_save("save.bin", global.displaying_equations);
 
 global.equations = [];
 
-for (var _i = 0; _i < array_length(global.displaying_equations); _i++) {
+for (
+	var _i = 0; _i < array_length(global.displaying_equations); _i++) {
 	var _curr = global.displaying_equations[_i];
 	if (_curr[1] == "Error") {
 		var _error_list = ds_list_create();
@@ -78,8 +84,12 @@ for (var _i = 0; _i < array_length(global.displaying_equations); _i++) {
 	}
 }
 
-global.Ans = global.equations[array_length(global.equations) - 1][1]
-
+if (array_length(global.equations) > 0)
+	global.Ans = global.equations[array_length(global.equations) - 1][1]
+else {
+	global.Ans = ds_list_create();
+	ds_list_add(global.Ans, 0);
+}
 // Font and drawing alignments
 
 global.allow_characters = "()+-.0123456789=ACEaclnorstu|×÷⁁−⌫▲▶▼◀"
@@ -96,3 +106,37 @@ draw_set_color(global.fnt_color);
 draw_set_halign(fa_center);
 draw_set_valign(fa_middle);
 draw_set_font(global.fnt_calculator);
+
+// Room scaling
+
+global.rooms = [rm_main, rm_menu, rm_calculator];
+global.base_height = 640;
+global.base_width = 360;
+global.rm_height = window_get_height();
+//global.rm_width = global.rm_height * global.base_width / global.base_height;
+global.rm_width = 360;
+
+if (room == rm_main) {
+	switch(os_type) {
+		case os_android:
+			for (var _i = 0; _i < array_length(global.rooms); _i++) {
+				room_set_height(
+					global.rooms[_i], 
+					global.rm_width * display_get_height() / display_get_width()
+				);
+			}
+			break;
+		default:
+			for (var _i = 0; _i < array_length(global.rooms); _i++) {
+				room_set_height(global.rooms[_i], global.rm_height);
+				room_set_width(global.rooms[_i], global.rm_width);
+			}
+			break;
+	}
+}
+
+surface_resize(application_surface, global.rm_width, global.rm_height);
+
+// Room navigation
+
+room_goto(rm_menu);

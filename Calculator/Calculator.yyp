@@ -42,7 +42,6 @@
     {"id":{"name":"obj_display_border","path":"objects/obj_display_border/obj_display_border.yy",},},
     {"id":{"name":"obj_menu_controller","path":"objects/obj_menu_controller/obj_menu_controller.yy",},},
     {"id":{"name":"obj_navigation_button","path":"objects/obj_navigation_button/obj_navigation_button.yy",},},
-    {"id":{"name":"obj_room_controller","path":"objects/obj_room_controller/obj_room_controller.yy",},},
     {"id":{"name":"obj_test","path":"objects/obj_test/obj_test.yy",},},
     {"id":{"name":"rm_calculator","path":"rooms/rm_calculator/rm_calculator.yy",},},
     {"id":{"name":"rm_main","path":"rooms/rm_main/rm_main.yy",},},
