@@ -36,6 +36,7 @@
   },
   "name":"Calculator",
   "resources":[
+    {"id":{"name":"obj_back_button","path":"objects/obj_back_button/obj_back_button.yy",},},
     {"id":{"name":"obj_button","path":"objects/obj_button/obj_button.yy",},},
     {"id":{"name":"obj_calculator_controller","path":"objects/obj_calculator_controller/obj_calculator_controller.yy",},},
     {"id":{"name":"obj_debugging","path":"objects/obj_debugging/obj_debugging.yy",},},
@@ -51,6 +52,7 @@
     {"id":{"name":"scr_math","path":"scripts/scr_math/scr_math.yy",},},
     {"id":{"name":"scr_save","path":"scripts/scr_save/scr_save.yy",},},
     {"id":{"name":"scr_util","path":"scripts/scr_util/scr_util.yy",},},
+    {"id":{"name":"spr_back_button","path":"sprites/spr_back_button/spr_back_button.yy",},},
     {"id":{"name":"spr_button","path":"sprites/spr_button/spr_button.yy",},},
     {"id":{"name":"spr_display_border","path":"sprites/spr_display_border/spr_display_border.yy",},},
     {"id":{"name":"spr_fnt_calculator","path":"sprites/spr_fnt_calculator/spr_fnt_calculator.yy",},},

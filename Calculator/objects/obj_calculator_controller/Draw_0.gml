@@ -25,7 +25,15 @@ for (var _i = array_length(global.equations) - 1; _i >= 0; _i--) {
 	);
 }
 
+// Removing top overflow
+
+var _cc = draw_get_color();
+draw_set_color(global.back_color);
+draw_rectangle(0, 0, room_width, 64, false);
+draw_set_color(_cc);
+
 // Display the equation that the user is typing
+
 draw_enclosed_text(
 	0, room_width, equations_pos[1], display_padding, 
 	parse_equation_from_single_list_to_string(global.current_equation),
