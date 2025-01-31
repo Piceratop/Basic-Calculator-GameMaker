@@ -59,7 +59,6 @@ for (
 	} 
 	_c++;
 }
-show_debug_message(global.displaying_equations);
 
 json_save("save.bin", global.displaying_equations);
 
@@ -90,9 +89,16 @@ else {
 	global.Ans = ds_list_create();
 	ds_list_add(global.Ans, 0);
 }
+
+// Setup stores for input equations
+
+global.current_equation = ds_list_create();
+global.current_equation_id = 0;
+global.cursor_position = 0;
+
 // Font and drawing alignments
 
-global.allow_characters = "()+-.0123456789=ACEaclnorstu|×÷⁁−⌫▲▶▼◀"
+global.allow_characters = "()+-.0123456789=ACEacelnorstuv|×÷⁁−⌫▲▶▼◀"
 global.fnt_calculator = font_add_sprite_ext(
 	spr_fnt_calculator,
 	global.allow_characters,
@@ -109,12 +115,17 @@ draw_set_font(global.fnt_calculator);
 
 // Room scaling
 
-global.rooms = [rm_main, rm_menu, rm_calculator];
+global.rooms = [rm_main, rm_menu, rm_calculator, rm_converter];
 global.base_height = 640;
 global.base_width = 360;
 global.rm_height = window_get_height();
 //global.rm_width = global.rm_height * global.base_width / global.base_height;
 global.rm_width = 360;
+
+for (var _i = 0; _i < array_length(global.rooms); _i++) {
+	layer_set_target_room(global.rooms[_i]);
+	layer_background_blend(layer_background_get_id(layer_get_id("Background")), global.back_color);
+}
 
 if (room == rm_main) {
 	switch(os_type) {
@@ -124,6 +135,14 @@ if (room == rm_main) {
 					global.rooms[_i], 
 					global.rm_width * display_get_height() / display_get_width()
 				);
+			}
+			break;
+		case os_gxgames:
+			for (var _i = 0; _i < array_length(global.rooms); _i++) {
+				//room_set_height(
+				//	global.rooms[_i], 
+				//	global.rm_height * global.base_width / global.base_height
+				//);
 			}
 			break;
 		default:

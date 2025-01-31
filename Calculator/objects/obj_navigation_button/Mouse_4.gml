@@ -1,1 +1,1 @@
-room_goto(navigation_destination[? label]);
+room_goto(struct_get_from_hash(navigation_destination, variable_get_hash(label)));
