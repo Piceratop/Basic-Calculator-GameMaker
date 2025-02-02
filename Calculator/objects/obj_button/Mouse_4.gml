@@ -1,4 +1,4 @@
-obj_calculator_controller.cursor_alpha = 1;
+global.cursor_alpha = 1;
 
 if (label == "=") {
 	load_answer();

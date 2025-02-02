@@ -5,7 +5,7 @@ if (
 	not array_contains([vk_alt, vk_lalt, vk_ralt, vk_control, vk_lcontrol, vk_rcontrol, vk_shift, vk_lshift, vk_rshift], keyboard_lastkey)
 ) {
 	alarm[0] = game_get_speed(gamespeed_fps);
-	cursor_alpha = 1;
+	global.cursor_alpha = 1;
 	var _l = array_length(global.equations);
 	var _ci = ceil(global.current_equation_id);
 	var _id = _l - _ci;

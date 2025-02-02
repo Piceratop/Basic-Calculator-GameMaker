@@ -96,7 +96,7 @@ global.current_equation = ds_list_create();
 global.current_equation_id = 0;
 global.cursor_position = 0;
 
-// Font and drawing alignments
+// Font and drawing elements
 
 global.allow_characters = "()+-.0123456789=ACEacelnorstuv|×÷⁁−⌫▲▶▼◀"
 global.fnt_calculator = font_add_sprite_ext(
@@ -112,6 +112,8 @@ draw_set_color(global.fnt_color);
 draw_set_halign(fa_center);
 draw_set_valign(fa_middle);
 draw_set_font(global.fnt_calculator);
+
+global.cursor_alpha = 1;
 
 // Room scaling
 
