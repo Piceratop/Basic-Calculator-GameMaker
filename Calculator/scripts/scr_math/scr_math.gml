@@ -16,14 +16,14 @@ function normalize(_n) {
 	 */
 	var _count_decimal = 0;
 	for (var _i = 0; _i < ds_list_size(_n); _i++) {
-		if (_n[| _i] == global.math_encoding_map[? "."]) {
+		if (_n[| _i] == global.math_encodings[? "."]) {
 			_count_decimal++;
 			if (_count_decimal > 1) {
 				ds_list_clear(_n);
 				ds_list_add(_n, -1);
 				return;
 			}
-		} else if (_n[| _i] == global.math_encoding_map[? "-"] and _i > 0 and _n[| _i - 1] != global.math_encoding_map[? "-"]) {
+		} else if (_n[| _i] == global.math_encodings[? "-"] and _i > 0 and _n[| _i - 1] != global.math_encodings[? "-"]) {
 			ds_list_clear(_n);
 			ds_list_add(_n, -1);
 			return;
@@ -38,20 +38,20 @@ function normalize(_n) {
 	if (_count_decimal > 0)
 		for (; _n[| _i] == 0; _i--)
 			ds_list_delete(_n, _i);
-	if (_n[| _i] == global.math_encoding_map[? "."])
+	if (_n[| _i] == global.math_encodings[? "."])
 		ds_list_delete(_n, _i);
 		
-	while (_n[| 0] == global.math_encoding_map[? "-"] and _n[| 1] == global.math_encoding_map[? "-"]) {
+	while (_n[| 0] == global.math_encodings[? "-"] and _n[| 1] == global.math_encodings[? "-"]) {
 		ds_list_delete(_n, 0);
 		ds_list_delete(_n, 0);
 	}
 	var _start = 0;
-	if (_n[| 0] == global.math_encoding_map[? "-"]) _start = 1;
+	if (_n[| 0] == global.math_encodings[? "-"]) _start = 1;
 	while (ds_list_size(_n) > _start and _n[| _start] == 0)
 		ds_list_delete(_n, _start);
 	if (ds_list_size(_n) == 0) ds_list_add(_n, 0);
-	if (ds_list_size(_n) == 1 and (_n[| 0] == global.math_encoding_map[? "."] or _n[| 0] == global.math_encoding_map[? "-"])) _n[| 0] = 0;
-	if (_n[| _start] == global.math_encoding_map[? "."]) ds_list_insert(_n, _start, 0);
+	if (ds_list_size(_n) == 1 and (_n[| 0] == global.math_encodings[? "."] or _n[| 0] == global.math_encodings[? "-"])) _n[| 0] = 0;
+	if (_n[| _start] == global.math_encodings[? "."]) ds_list_insert(_n, _start, 0);
 }
 
 /**
@@ -66,7 +66,7 @@ function absolute_value(_n, _is_normalized = false) {
 	if (not _is_normalized) normalize(_n);
 	var _ans_list = ds_list_create();
 	ds_list_copy(_ans_list, _n);
-	if (_ans_list[| 0] == global.math_encoding_map[? "-"]) ds_list_delete(_ans_list, 0);
+	if (_ans_list[| 0] == global.math_encodings[? "-"]) ds_list_delete(_ans_list, 0);
 	return _ans_list;
 }
 
@@ -80,7 +80,7 @@ function absolute_value(_n, _is_normalized = false) {
 
 function self_absolute_value(_self, _is_normalized = false) {
 	if (not _is_normalized) normalize(_self);
-	if (_self[| 0] == global.math_encoding_map[? "-"]) ds_list_delete(_self, 0);
+	if (_self[| 0] == global.math_encodings[? "-"]) ds_list_delete(_self, 0);
 }
 
 /**
@@ -97,10 +97,10 @@ function inverse(_n, _is_normalized = false) {
 	if (not _is_normalized) normalize(_n);
 	var _ans_list = ds_list_create();
 	ds_list_copy(_ans_list, _n);
-	if (_ans_list[| 0] == global.math_encoding_map[? "-"])
+	if (_ans_list[| 0] == global.math_encodings[? "-"])
 		ds_list_delete(_ans_list, 0);
 	else if (ds_list_size(_ans_list) > 1 or _ans_list[| 0] != 0)
-		ds_list_insert(_ans_list, 0, global.math_encoding_map[? "-"]);
+		ds_list_insert(_ans_list, 0, global.math_encodings[? "-"]);
 	return _ans_list;
 }
 
@@ -116,8 +116,8 @@ function inverse(_n, _is_normalized = false) {
 
 function self_inverse(_self, _is_normalized = false) {
 	if (not _is_normalized) normalize(_self);
-	if (_self[| 0] == global.math_encoding_map[? "-"]) ds_list_delete(_self, 0);
-	else if (ds_list_size(_self) > 1 or _self[| 0] != 0)	ds_list_insert(_self, 0, global.math_encoding_map[? "-"]);
+	if (_self[| 0] == global.math_encodings[? "-"]) ds_list_delete(_self, 0);
+	else if (ds_list_size(_self) > 1 or _self[| 0] != 0)	ds_list_insert(_self, 0, global.math_encodings[? "-"]);
 }
 
 /**
@@ -135,7 +135,7 @@ function shift_decimal(_n, _shift, _is_normalized = false) {
 	if (not _is_normalized) normalize(_n);
 	var _ans_list = ds_list_create();
 	ds_list_copy(_ans_list, _n);
-	var _dn = ds_list_find_index(_ans_list, global.math_encoding_map[? "."]);
+	var _dn = ds_list_find_index(_ans_list, global.math_encodings[? "."]);
 	if (_dn == -1) {
 		_dn = ds_list_size(_ans_list);
 	} else {
@@ -143,11 +143,11 @@ function shift_decimal(_n, _shift, _is_normalized = false) {
 	}
 	var _decimal_new_pos = _dn + _shift;
 	if (_decimal_new_pos > 0 and _decimal_new_pos < ds_list_size(_ans_list)) {
-		ds_list_insert(_ans_list, _decimal_new_pos, global.math_encoding_map[? "."]);
+		ds_list_insert(_ans_list, _decimal_new_pos, global.math_encodings[? "."]);
 	} else if (_decimal_new_pos <= 0) {
 		for (; _decimal_new_pos < 0; _decimal_new_pos++)
 			ds_list_insert(_ans_list, 0, 0);
-		ds_list_insert(_ans_list, 0, global.math_encoding_map[? "."]);
+		ds_list_insert(_ans_list, 0, global.math_encodings[? "."]);
 		ds_list_insert(_ans_list, 0, 0);
 	} else {
 		for (_decimal_new_pos = _decimal_new_pos - ds_list_size(_ans_list); _decimal_new_pos > 0; _decimal_new_pos--)
@@ -169,16 +169,16 @@ function shift_decimal(_n, _shift, _is_normalized = false) {
  
 function self_shift_decimal(_self, _shift, _is_normalized = false) {
 	if (not _is_normalized) normalize(_self);
-	var _dn = ds_list_find_index(_self, global.math_encoding_map[? "."]);
+	var _dn = ds_list_find_index(_self, global.math_encodings[? "."]);
 	if (_dn == -1) _dn = ds_list_size(_self);
 	else ds_list_delete(_self, _dn);
 	var _decimal_new_pos = _dn + _shift;
 	if (_decimal_new_pos > 0 and _decimal_new_pos < ds_list_size(_self))
-		ds_list_insert(_self, _decimal_new_pos, global.math_encoding_map[? "."]);
+		ds_list_insert(_self, _decimal_new_pos, global.math_encodings[? "."]);
 	else if (_decimal_new_pos <= 0) {
 		for (; _decimal_new_pos < 0; _decimal_new_pos++)
 			ds_list_insert(_self, 0, 0);
-		ds_list_insert(_self, 0, global.math_encoding_map[? "."]);
+		ds_list_insert(_self, 0, global.math_encodings[? "."]);
 		ds_list_insert(_self, 0, 0);
 	} else for (_decimal_new_pos = _decimal_new_pos - ds_list_size(_self); _decimal_new_pos > 0; _decimal_new_pos--)
 		ds_list_insert(_self, ds_list_size(_self), 0);
@@ -198,31 +198,31 @@ function add(_a, _b, _is_normalized = false) {
 	if (not _is_normalized) {
 		normalize(_a);
 		normalize(_b);
-		if (_a[| 0] == global.math_encoding_map[? "-"] and _b[| 0] == global.math_encoding_map[? "-"]) {
+		if (_a[| 0] == global.math_encodings[? "-"] and _b[| 0] == global.math_encodings[? "-"]) {
 			ds_list_delete(_a, 0);
 			ds_list_delete(_b, 0);
 			var _c = add(_a, _b, true);
-			ds_list_insert(_a, 0, global.math_encoding_map[? "-"]);
-			ds_list_insert(_b, 0, global.math_encoding_map[? "-"]);
-			ds_list_insert(_c, 0, global.math_encoding_map[? "-"]);
+			ds_list_insert(_a, 0, global.math_encodings[? "-"]);
+			ds_list_insert(_b, 0, global.math_encodings[? "-"]);
+			ds_list_insert(_c, 0, global.math_encodings[? "-"]);
 			return _c;
 		}
-		if (_a[| 0] == global.math_encoding_map[? "-"]) {
+		if (_a[| 0] == global.math_encodings[? "-"]) {
 			ds_list_delete(_a, 0);
 			var _c = subtract(_b, _a, true);
-			ds_list_insert(_a, 0, global.math_encoding_map[? "-"]);
+			ds_list_insert(_a, 0, global.math_encodings[? "-"]);
 			return _c;
 		}
-		if (_b[| 0] == global.math_encoding_map[? "-"])  {
+		if (_b[| 0] == global.math_encodings[? "-"])  {
 			ds_list_delete(_b, 0);
 			var _c = subtract(_a, _b, true);
-			ds_list_insert(_b, 0, global.math_encoding_map[? "-"]);
+			ds_list_insert(_b, 0, global.math_encodings[? "-"]);
 			return _c;
 		}
 	}
-	var _dec_pos_a = ds_list_find_index(_a, global.math_encoding_map[? "."]);
+	var _dec_pos_a = ds_list_find_index(_a, global.math_encodings[? "."]);
 	if (_dec_pos_a == -1) _dec_pos_a = ds_list_size(_a);
-	var _dec_pos_b = ds_list_find_index(_b, global.math_encoding_map[? "."]);
+	var _dec_pos_b = ds_list_find_index(_b, global.math_encodings[? "."]);
 	if (_dec_pos_b == -1) _dec_pos_b = ds_list_size(_b);
 	var _ans_list = ds_list_create();
 	var _carry = 0;
@@ -232,7 +232,7 @@ function add(_a, _b, _is_normalized = false) {
 		_i--
 	) {
 		if (_i == 0) {
-			ds_list_add(_ans_list, global.math_encoding_map[? "."]);
+			ds_list_add(_ans_list, global.math_encodings[? "."]);
 			continue;
 		}
 		var _digit_a = _a[| _dec_pos_a + _i];
@@ -266,9 +266,9 @@ function compare(_a, _b, _is_normalized = false) {
 		normalize(_b);
 	}
 	var _is_both_negative = 0;
-	if (_a[| 0] == global.math_encoding_map[? "-"])
+	if (_a[| 0] == global.math_encodings[? "-"])
 		_is_both_negative += 1;
-	if (_b[| 0] == global.math_encoding_map[? "-"])
+	if (_b[| 0] == global.math_encodings[? "-"])
 		_is_both_negative += 2;
 	switch (_is_both_negative) {
 		case 1:
@@ -276,9 +276,9 @@ function compare(_a, _b, _is_normalized = false) {
 		case 2:
 			return 1;
 	}
-	var _dec_pos_a = ds_list_find_index(_a, global.math_encoding_map[? "."]);
+	var _dec_pos_a = ds_list_find_index(_a, global.math_encodings[? "."]);
 	if (_dec_pos_a == -1) _dec_pos_a = ds_list_size(_a);
-	var _dec_pos_b = ds_list_find_index(_b, global.math_encoding_map[? "."]);
+	var _dec_pos_b = ds_list_find_index(_b, global.math_encodings[? "."]);
 	if (_dec_pos_b == -1) _dec_pos_b = ds_list_size(_b);
 	if (_is_both_negative == 3) {
 		if (_dec_pos_a > _dec_pos_b) return -1;
@@ -320,36 +320,36 @@ function divide(_a, _b, _decimal_precision = 10, _is_normalized = false) {
 			ds_list_add(_c, -1);
 			return _c;
 		}
-		if (_a[| 0] == global.math_encoding_map[? "-"] && _b[| 0] == global.math_encoding_map[? "-"]) {
+		if (_a[| 0] == global.math_encodings[? "-"] && _b[| 0] == global.math_encodings[? "-"]) {
 			ds_list_delete(_a, 0);
 			ds_list_delete(_b, 0);
 			var _c = divide(_a, _b, _decimal_precision, true);
-			ds_list_insert(_a, 0, global.math_encoding_map[? "-"]);
-			ds_list_insert(_b, 0, global.math_encoding_map[? "-"]);
+			ds_list_insert(_a, 0, global.math_encodings[? "-"]);
+			ds_list_insert(_b, 0, global.math_encodings[? "-"]);
 			return _c;
 		}
-		if (_a[| 0] == global.math_encoding_map[? "-"]) {
+		if (_a[| 0] == global.math_encodings[? "-"]) {
 			ds_list_delete(_a, 0);
 			var _c = divide(_a, _b, _decimal_precision, true);
-			ds_list_insert(_a, 0, global.math_encoding_map[? "-"]);
-			ds_list_insert(_c, 0, global.math_encoding_map[? "-"]);
+			ds_list_insert(_a, 0, global.math_encodings[? "-"]);
+			ds_list_insert(_c, 0, global.math_encodings[? "-"]);
 			return _c;
 		}
-		if (_b[| 0] == global.math_encoding_map[? "-"]) {
+		if (_b[| 0] == global.math_encodings[? "-"]) {
 			ds_list_delete(_b, 0);
 			var _c = divide(_a, _b, _decimal_precision, true);
-			ds_list_insert(_b, 0, global.math_encoding_map[? "-"]);
-			ds_list_insert(_c, 0, global.math_encoding_map[? "-"]);
+			ds_list_insert(_b, 0, global.math_encodings[? "-"]);
+			ds_list_insert(_c, 0, global.math_encodings[? "-"]);
 			return _c;
 		}
 	}
 	var _dec_shift = 0;
-	var _dec_pos_a = ds_list_find_index(_a, global.math_encoding_map[? "."]);
+	var _dec_pos_a = ds_list_find_index(_a, global.math_encodings[? "."]);
 	if (_dec_pos_a != -1) {
 		_dec_shift = ds_list_size(_a) - 1 - _dec_pos_a;
 		ds_list_delete(_a, _dec_pos_a);
 	}
-	var _dec_pos_b = ds_list_find_index(_b, global.math_encoding_map[? "."]);
+	var _dec_pos_b = ds_list_find_index(_b, global.math_encodings[? "."]);
 	if (_dec_pos_b != -1) {
 		_dec_shift -= ds_list_size(_b) - 1 - _dec_pos_b;
 		ds_list_delete(_b, _dec_pos_b);
@@ -371,8 +371,8 @@ function divide(_a, _b, _decimal_precision = 10, _is_normalized = false) {
 	}
 	_dec_shift = _decimal_precision;
 
-	ds_list_insert(_a, _dec_pos_a, global.math_encoding_map[? "."]);
-	ds_list_insert(_b, _dec_pos_b, global.math_encoding_map[? "."]);
+	ds_list_insert(_a, _dec_pos_a, global.math_encodings[? "."]);
+	ds_list_insert(_b, _dec_pos_b, global.math_encodings[? "."]);
 	self_shift_decimal(_ans_list, -_dec_shift, true);
 	return _ans_list;
 }
@@ -525,36 +525,36 @@ function multiply(_a, _b, _is_normalized=false) {
 	if (not _is_normalized) {
 		normalize(_a);
 		normalize(_b);
-		if (_a[| 0] == global.math_encoding_map[? "-"] and _b[| 0] == global.math_encoding_map[? "-"]) {
+		if (_a[| 0] == global.math_encodings[? "-"] and _b[| 0] == global.math_encodings[? "-"]) {
 			ds_list_delete(_a, 0);
 			ds_list_delete(_b, 0);
 			var _c = multiply(_a, _b, true);
-			ds_list_insert(_a, 0, global.math_encoding_map[? "-"]);
-			ds_list_insert(_b, 0, global.math_encoding_map[? "-"]);
+			ds_list_insert(_a, 0, global.math_encodings[? "-"]);
+			ds_list_insert(_b, 0, global.math_encodings[? "-"]);
 			return _c;
 		}
-		if (_a[| 0] == global.math_encoding_map[? "-"]) {
+		if (_a[| 0] == global.math_encodings[? "-"]) {
 			ds_list_delete(_a, 0);
 			var _c = multiply(_a, _b, true);
-			ds_list_insert(_a, 0, global.math_encoding_map[? "-"]);
-			ds_list_insert(_c, 0, global.math_encoding_map[? "-"]);
+			ds_list_insert(_a, 0, global.math_encodings[? "-"]);
+			ds_list_insert(_c, 0, global.math_encodings[? "-"]);
 			return _c;
 		}
-		if (_b[| 0] == global.math_encoding_map[? "-"]) {
+		if (_b[| 0] == global.math_encodings[? "-"]) {
 			ds_list_delete(_b, 0);
 			var _c = multiply(_a, _b, true);
-			ds_list_insert(_b, 0, global.math_encoding_map[? "-"]);
-			ds_list_insert(_c, 0, global.math_encoding_map[? "-"]);
+			ds_list_insert(_b, 0, global.math_encodings[? "-"]);
+			ds_list_insert(_c, 0, global.math_encodings[? "-"]);
 			return _c;
 		}
 	}
 	var _dec_shift = 0;
-	var _dec_pos_a = ds_list_find_index(_a, global.math_encoding_map[? "."]);
+	var _dec_pos_a = ds_list_find_index(_a, global.math_encodings[? "."]);
 	if (_dec_pos_a != -1) {
 		_dec_shift = ds_list_size(_a) - 1 - _dec_pos_a;
 		ds_list_delete(_a, _dec_pos_a);
 	}
-	var _dec_pos_b = ds_list_find_index(_b, global.math_encoding_map[? "."]);
+	var _dec_pos_b = ds_list_find_index(_b, global.math_encodings[? "."]);
 	if (_dec_pos_b != -1) {
 		_dec_shift += ds_list_size(_b) - 1 - _dec_pos_b;
 		ds_list_delete(_b, _dec_pos_b);
@@ -563,9 +563,9 @@ function multiply(_a, _b, _is_normalized=false) {
 	if (_dec_shift > 0) {
 		self_shift_decimal(_ans_list, -_dec_shift, true);
 		if (_dec_pos_a != -1)
-			ds_list_insert(_a, _dec_pos_a, global.math_encoding_map[? "."]);
+			ds_list_insert(_a, _dec_pos_a, global.math_encodings[? "."]);
 		if (_dec_pos_b != -1)
-			ds_list_insert(_b, _dec_pos_b, global.math_encoding_map[? "."]);
+			ds_list_insert(_b, _dec_pos_b, global.math_encodings[? "."]);
 	}
 	normalize(_ans_list);
 	return _ans_list;
@@ -584,31 +584,31 @@ function subtract(_a, _b, _is_normalized=false) {
 	if (not _is_normalized) {
 		normalize(_a);
 		normalize(_b);
-		if (_a[| 0] == global.math_encoding_map[? "-"] and _b[| 0] == global.math_encoding_map[? "-"]) {
+		if (_a[| 0] == global.math_encodings[? "-"] and _b[| 0] == global.math_encodings[? "-"]) {
 			ds_list_delete(_b, 0);
 			ds_list_delete(_a, 0);
 			var _c = subtract(_b, _a, true);
-			ds_list_insert(_a, 0, global.math_encoding_map[? "-"]);
-			ds_list_insert(_b, 0, global.math_encoding_map[? "-"]);
+			ds_list_insert(_a, 0, global.math_encodings[? "-"]);
+			ds_list_insert(_b, 0, global.math_encodings[? "-"]);
 			return _c;
 		}
-		if (_a[| 0] == global.math_encoding_map[? "-"]) {
+		if (_a[| 0] == global.math_encodings[? "-"]) {
 			ds_list_delete(_a, 0);
 			var _c = add(_a, _b, true);
-			ds_list_insert(_a, 0, global.math_encoding_map[? "-"]);
-			ds_list_insert(_c, 0, global.math_encoding_map[? "-"]);
+			ds_list_insert(_a, 0, global.math_encodings[? "-"]);
+			ds_list_insert(_c, 0, global.math_encodings[? "-"]);
 			return _c;
 		}
-		if (_b[| 0] == global.math_encoding_map[? "-"]) {
+		if (_b[| 0] == global.math_encodings[? "-"]) {
 			ds_list_delete(_b, 0);
 			var _c = add(_a, _b, true);
-			ds_list_insert(_b, 0, global.math_encoding_map[? "-"]);
+			ds_list_insert(_b, 0, global.math_encodings[? "-"]);
 			return _c;
 		}
 	}
-	var _dec_pos_a = ds_list_find_index(_a, global.math_encoding_map[? "."]);
+	var _dec_pos_a = ds_list_find_index(_a, global.math_encodings[? "."]);
 	if (_dec_pos_a == -1) _dec_pos_a = ds_list_size(_a);
-	var _dec_pos_b = ds_list_find_index(_b, global.math_encoding_map[? "."]);
+	var _dec_pos_b = ds_list_find_index(_b, global.math_encodings[? "."]);
 	if (_dec_pos_b == -1) _dec_pos_b = ds_list_size(_b);
 	var _ans_list = ds_list_create();
 	if (compare(_a, _b) == -1) {
@@ -619,7 +619,7 @@ function subtract(_a, _b, _is_normalized=false) {
 			_i--
 		) {
 			if (_i == 0) {
-				ds_list_add(_ans_list, global.math_encoding_map[? "."]);
+				ds_list_add(_ans_list, global.math_encodings[? "."]);
 				continue;
 			}
 			var _digit_a = _a[| _dec_pos_a + _i];
@@ -633,7 +633,7 @@ function subtract(_a, _b, _is_normalized=false) {
 			} else _borrow = 0;
 			ds_list_add(_ans_list, _ds);
 		}
-		ds_list_add(_ans_list, global.math_encoding_map[? "-"]);
+		ds_list_add(_ans_list, global.math_encodings[? "-"]);
 		ds_list_reverse(_ans_list);
 	} else {
 		var _borrow = 0;
@@ -643,7 +643,7 @@ function subtract(_a, _b, _is_normalized=false) {
 			_i--
 		) {
 			if (_i == 0) {
-				ds_list_add(_ans_list, global.math_encoding_map[? "."]);
+				ds_list_add(_ans_list, global.math_encodings[? "."]);
 				continue;
 			}
 			var _digit_a = _a[| _dec_pos_a + _i];
@@ -685,9 +685,9 @@ function evaluate_equation(_equation) {
 			ds_list_copy(_current_number, _current_component);
 			normalize(_current_number);
 			ds_stack_push(_number_stack, _current_number);
-		} else if (_current_component[| 0] == global.math_encoding_map[? "("]) {
-			ds_stack_push(_operator_stack, global.math_encoding_map[? "("]);
-		} else if (_current_component[| 0] == global.math_encoding_map[? ")"]) {
+		} else if (_current_component[| 0] == global.math_encodings[? "("]) {
+			ds_stack_push(_operator_stack, global.math_encodings[? "("]);
+		} else if (_current_component[| 0] == global.math_encodings[? ")"]) {
 			while (typeof(ds_stack_top(_operator_stack)) == "ref") {
 				var _executing_operator = ds_stack_pop(_operator_stack);
 				if (ds_stack_size(_number_stack) < _executing_operator[? "input_count"]) {

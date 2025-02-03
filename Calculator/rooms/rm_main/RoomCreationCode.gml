@@ -1,27 +1,27 @@
 // Symbols mapping
 
-global.math_encoding_map = ds_map_create();
+global.math_encodings = ds_map_create();
 for (var _i = 0; _i < 10; _i++)
-	global.math_encoding_map[? string(_i)] = _i;
-global.math_encoding_map[? "."] = 10;
-global.math_encoding_map[? "-"] = 11;
-global.math_encoding_map[? "("] = 12;
-global.math_encoding_map[? ")"] = 13;
-global.math_encoding_map[? "+"] = 14;
-global.math_encoding_map[? "−"] = 15;
-global.math_encoding_map[? "×"] = 16;
-global.math_encoding_map[? "÷"] = 17;
-global.math_encoding_map[? "Error"] = -1
-global.math_encoding_map[? "Ans"] = -2
+	global.math_encodings[? string(_i)] = _i;
+global.math_encodings[? "."] = 10;
+global.math_encodings[? "-"] = 11;
+global.math_encodings[? "("] = 12;
+global.math_encodings[? ")"] = 13;
+global.math_encodings[? "+"] = 14;
+global.math_encodings[? "−"] = 15;
+global.math_encodings[? "×"] = 16;
+global.math_encodings[? "÷"] = 17;
+global.math_encodings[? "Error"] = -1;
+global.math_encodings[? "Ans"] = -2
 
-global.math_decoding_map = ds_map_create();
+global.math_decodings = ds_map_create();
+
 for (
-	var _k = ds_map_find_first(global.math_encoding_map);
+	var _k = ds_map_find_first(global.math_encodings);
 	!is_undefined(_k);
-	_k = ds_map_find_next(global.math_encoding_map, _k)
+	_k = ds_map_find_next(global.math_encodings, _k)
 ) {
-	var _v = global.math_encoding_map[? _k];
-	global.math_decoding_map[? _v] = _k;
+	global.math_decodings[? global.math_encodings[? _k]] = _k;
 }
 
 function operator(_label, _eval_function, _input_count, _position, _priority) {
@@ -35,47 +35,67 @@ function operator(_label, _eval_function, _input_count, _position, _priority) {
 }
 
 global.operator_map = ds_map_create();
-global.operator_map[? global.math_encoding_map[? "+"]] = operator("+", add, 2, "mid", 1);
-global.operator_map[? global.math_encoding_map[? "−"]] = operator("−", subtract, 2, "mid", 1);
-global.operator_map[? global.math_encoding_map[? "×"]] = operator("×", multiply, 2, "mid", 2);
-global.operator_map[? global.math_encoding_map[? "÷"]] = operator("÷", divide, 2, "mid", 2);
+global.operator_map[? global.math_encodings[? "+"]] = operator("+", add, 2, "mid", 1);
+global.operator_map[? global.math_encodings[? "−"]] = operator("−", subtract, 2, "mid", 1);
+global.operator_map[? global.math_encodings[? "×"]] = operator("×", multiply, 2, "mid", 2);
+global.operator_map[? global.math_encodings[? "÷"]] = operator("÷", divide, 2, "mid", 2);
+
+// Initialize shared datas
+
+global.current_mode = "Menu";
+global.modes = {
+	Converter: {
+		mode_id: 1,
+		room_id: rm_converter,
+	},
+	Menu: {
+		mode_id: -1,
+		room_id: rm_menu,
+	},
+	Standard: {
+		current_equation: ds_list_create(),
+		current_equation_id: 0,
+		current_equation_cursor_position: 0,
+		displaying_equation: json_load("save.bin"),
+		equations: [],
+		mode_id: 0,
+		room_id: rm_standard,
+	},
+}
 
 // Get saved data
 
-global.displaying_equations = json_load("save.bin");
-
-if (is_undefined(global.displaying_equations)) {
-   global.displaying_equations = [];
+if (is_undefined(global.modes.Standard.displaying_equation)) {
+   global.modes.Standard.displaying_equation = [];
 }
 
 for (
 	var _i = 0, _c = 0;
-	_i < array_length(global.displaying_equations) and _c < 10;
-	_i++) { 
-	if (string_pos("Ans", global.displaying_equations[_i][0]) != 0) {
-		array_delete(global.displaying_equations, _i, 1);
+	_i < array_length(global.modes.Standard.displaying_equation) and _c < 10;
+	_i++
+) { 
+	if (string_pos("Ans", global.modes.Standard.displaying_equation[_i][0]) != 0) {
+		array_delete(global.modes.Standard.displaying_equation, _i, 1);
 		_i--;
 		continue;
 	} 
 	_c++;
 }
 
-json_save("save.bin", global.displaying_equations);
-
-global.equations = [];
+json_save("save.bin", global.modes.Standard.displaying_equation);
 
 for (
-	var _i = 0; _i < array_length(global.displaying_equations); _i++) {
-	var _curr = global.displaying_equations[_i];
+	var _i = 0; _i < array_length(global.modes.Standard.displaying_equation); _i++) {
+	var _curr = global.modes.Standard.displaying_equation[_i];
 	if (_curr[1] == "Error") {
 		var _error_list = ds_list_create();
 		ds_list_add(_error_list, -1);
-		array_push(global.equations, [
+		array_push(global.modes.Standard.equations, [
 			parse_equation_from_string_to_single_list(_curr[0]),
 			_error_list, _curr[2], _curr[3]
 		]);
 	} else {
-	array_push(global.equations, [
+	array_push(global.modes.Standard.equations, [
 		parse_equation_from_string_to_single_list(_curr[0]),
 		parse_equation_from_string_to_single_list(_curr[1]),
 		_curr[2], _curr[3]
@@ -83,22 +103,16 @@ for (
 	}
 }
 
-if (array_length(global.equations) > 0)
-	global.Ans = global.equations[array_length(global.equations) - 1][1]
+if (array_length(global.modes.Standard.equations) > 0)
+	global.Ans = global.modes.Standard.equations[array_length(global.modes.Standard.equations) - 1][1]
 else {
 	global.Ans = ds_list_create();
 	ds_list_add(global.Ans, 0);
 }
 
-// Setup stores for input equations
-
-global.current_equation = ds_list_create();
-global.current_equation_id = 0;
-global.cursor_position = 0;
-
 // Font and drawing elements
 
-global.allow_characters = "()+-.0123456789=ACEacelnorstuv|×÷⁁−⌫▲▶▼◀"
+global.allow_characters = "()+-.0123456789=ACESacdelnorstuv|×÷⁁−⌫▲▶▼◀"
 global.fnt_calculator = font_add_sprite_ext(
 	spr_fnt_calculator,
 	global.allow_characters,
@@ -117,7 +131,7 @@ global.cursor_alpha = 1;
 
 // Room scaling
 
-global.rooms = [rm_main, rm_menu, rm_calculator, rm_converter];
+global.rooms = [rm_main, rm_menu, rm_standard, rm_converter];
 global.base_height = 640;
 global.base_width = 360;
 global.rm_height = window_get_height();

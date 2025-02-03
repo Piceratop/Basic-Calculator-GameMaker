@@ -127,7 +127,7 @@ function parse_equation_from_single_list_to_string(_n) {
 		return "Error";
 	var _ans_str = "";
 	for (var _i = 0; _i < ds_list_size(_n); _i++)
-		_ans_str += global.math_decoding_map[? _n[| _i]];
+		_ans_str += global.math_decodings[? _n[| _i]];
 	return _ans_str;
 }
 
@@ -162,7 +162,7 @@ function parse_equation_from_string_to_list(_eq_str) {
 			_is_number = not _is_number;
 			_refresh_curr_ep_comp();
 		}
-		ds_list_add(curr_eq_comp, global.math_encoding_map[? _curr_char]);
+		ds_list_add(curr_eq_comp, global.math_encodings[? _curr_char]);
 		if (not _is_number) {
 			_refresh_curr_ep_comp();
 		}
@@ -182,7 +182,7 @@ function parse_equation_from_string_to_list(_eq_str) {
 function parse_equation_from_string_to_single_list(_eq_str) {
 	eq_list = ds_list_create();
 	for (var _i = 1; _i <= string_length(_eq_str); _i++)
-		ds_list_add(eq_list, global.math_encoding_map[? string_char_at(_eq_str, _i)]);
+		ds_list_add(eq_list, global.math_encodings[? string_char_at(_eq_str, _i)]);
 	return eq_list;
 }
 
@@ -207,7 +207,7 @@ function parse_equation_from_list_to_list(_list) {
 			_curr_eq_comp = _refresh_curr_eq_comp(_curr_eq_comp, _eq_list);
 			continue;
 		}
-		if (_is_number xor _curr_comp <= global.math_encoding_map[? "-"]) {
+		if (_is_number xor _curr_comp <= global.math_encodings[? "-"]) {
 			_is_number = not _is_number;
 			_curr_eq_comp = _refresh_curr_eq_comp(_curr_eq_comp, _eq_list);
 		}

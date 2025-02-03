@@ -1,1 +1,1 @@
-room_goto(struct_get_from_hash(navigation_destination, variable_get_hash(label)));
+room_goto(global.modes[$ label].room_id);

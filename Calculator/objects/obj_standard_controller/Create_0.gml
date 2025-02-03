@@ -30,6 +30,6 @@ alarm[0] = game_get_speed(gamespeed_fps);
 function get_before_cursor_char_count(_eq_list, _pos) {
 	var _str_pos = 0;
 	for (var _i = 0; _i < _pos; _i++)
-		_str_pos += string_length(global.math_decoding_map[? _eq_list[| _i]]);
+		_str_pos += string_length(global.math_decodings[? _eq_list[| _i]]);
 	return _str_pos;
 }

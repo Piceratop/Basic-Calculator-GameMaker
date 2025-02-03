@@ -2,12 +2,12 @@ function load_answer() {
 	/**
 	 * Ignore blank input.
 	 */
-	if (ds_list_size(global.current_equation) == 0) return;
+	if (ds_list_size(global.modes.Standard.current_equation) == 0) return;
 	
 	/**
 	 * Evaluate the equation, and if the evaluation succeeds, store it in the Ans variable.
 	 */
-	var _equation_list = parse_equation_from_list_to_list(global.current_equation);
+	var _equation_list = parse_equation_from_list_to_list(global.modes.Standard.current_equation);
 	var _ans_list = evaluate_equation(_equation_list);
 	ds_list_destroy_all(_equation_list);
 	
@@ -20,35 +20,35 @@ function load_answer() {
 	 * answer's cursor position.
 	 */
 	array_push(
-		global.displaying_equations, 
+		global.modes.Standard.displaying_equation, 
 		[
-			parse_equation_from_single_list_to_string(global.current_equation), 
+			parse_equation_from_single_list_to_string(global.modes.Standard.current_equation), 
 			parse_equation_from_single_list_to_string(_ans_list),
 			0,
 			ds_list_size(_ans_list)
 		]
 	);
 	array_push(
-		global.equations,
+		global.modes.Standard.equations,
 		[
-			global.current_equation, _ans_list,
+			global.modes.Standard.current_equation, _ans_list,
 			0, ds_list_size(_ans_list)
 		]
 	);
 		
 	
 	// Remove the oldest one if the save is too long.
-	while (array_length(global.displaying_equations) > 5) {
-		var _a = global.equations[0][0];
-		var _b = global.equations[0][1];
-		array_delete(global.equations, 0, 1);
+	while (array_length(global.modes.Standard.displaying_equation) > 5) {
+		var _a = global.modes.Standard.equations[0][0];
+		var _b = global.modes.Standard.equations[0][1];
+		array_delete(global.modes.Standard.equations, 0, 1);
 		ds_list_destroy_multiple(_a, _b);
-		array_delete(global.displaying_equations, 0, 1);
+		array_delete(global.modes.Standard.displaying_equation, 0, 1);
 	}
 	
-   json_save("save.bin", global.displaying_equations);
-	global.current_equation = ds_list_create();
-	global.cursor_position = 0;
+   json_save("save.bin", global.modes.Standard.displaying_equation);
+	global.modes.Standard.current_equation = ds_list_create();
+	global.modes.Standard.current_equation_cursor_position = 0;
 }
 
 /**
@@ -70,7 +70,7 @@ function input_equation(_curr_equation, _label, _pos) {
 			}
 			return _pos;
 		default:
-			ds_list_insert(_curr_equation, _pos, global.math_encoding_map[? _label]);
+			ds_list_insert(_curr_equation, _pos, global.math_encodings[? _label]);
 			return _pos + 1;
 	}
 }
