@@ -56,7 +56,7 @@ global.modes = {
 		current_equation: ds_list_create(),
 		current_equation_id: 0,
 		current_equation_cursor_position: 0,
-		displaying_equation: json_load("save.bin"),
+		displaying_equations: json_load("save.bin"),
 		equations: [],
 		mode_id: 0,
 		room_id: rm_standard,
@@ -65,28 +65,27 @@ global.modes = {
 
 // Get saved data
 
-if (is_undefined(global.modes.Standard.displaying_equation)) {
-   global.modes.Standard.displaying_equation = [];
+if (is_undefined(global.modes.Standard.displaying_equations)) {
+   global.modes.Standard.displaying_equations = [];
 }
 
 for (
 	var _i = 0, _c = 0;
-	_i < array_length(global.modes.Standard.displaying_equation) and _c < 10;
+	_i < array_length(global.modes.Standard.displaying_equations) and _c < 10;
 	_i++
 ) { 
-	if (string_pos("Ans", global.modes.Standard.displaying_equation[_i][0]) != 0) {
-		array_delete(global.modes.Standard.displaying_equation, _i, 1);
+	if (string_pos("Ans", global.modes.Standard.displaying_equations[_i][0]) != 0
+	or string_pos("Error", global.modes.Standard.displaying_equations[_i][1]) != 0) {
+		array_delete(global.modes.Standard.displaying_equations, _i, 1);
 		_i--;
-		continue;
-	} 
-	_c++;
+	} else _c++;
 }
 
-json_save("save.bin", global.modes.Standard.displaying_equation);
+json_save("save.bin", global.modes.Standard.displaying_equations);
 
 for (
-	var _i = 0; _i < array_length(global.modes.Standard.displaying_equation); _i++) {
-	var _curr = global.modes.Standard.displaying_equation[_i];
+	var _i = 0; _i < array_length(global.modes.Standard.displaying_equations); _i++) {
+	var _curr = global.modes.Standard.displaying_equations[_i];
 	if (_curr[1] == "Error") {
 		var _error_list = ds_list_create();
 		ds_list_add(_error_list, -1);
@@ -103,12 +102,15 @@ for (
 	}
 }
 
+global.Ans = ds_list_create();
 if (array_length(global.modes.Standard.equations) > 0)
-	global.Ans = global.modes.Standard.equations[array_length(global.modes.Standard.equations) - 1][1]
-else {
-	global.Ans = ds_list_create();
+	ds_list_copy(
+		global.Ans,
+		global.modes.Standard.equations[array_length(global.modes.Standard.equations) - 1][1]
+	);
+else	
 	ds_list_add(global.Ans, 0);
-}
+
 
 // Font and drawing elements
 

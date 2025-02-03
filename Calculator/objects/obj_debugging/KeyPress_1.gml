@@ -5,12 +5,12 @@ if (keyboard_check_pressed(vk_anykey)) {
 			room_goto(rm_menu)
 		case "D":
 		case "d":
-			while (array_length(global.modes.Standard.displaying_equation) > 0) {
+			while (array_length(global.modes.Standard.displaying_equations) > 0) {
 				var _a = global.modes.Standard.equations[0][0];
 				var _b = global.modes.Standard.equations[0][1];
 				array_delete(global.modes.Standard.equations, 0, 1);
 				ds_list_destroy_multiple(_a, _b);
-				array_delete(global.modes.Standard.displaying_equation, 0, 1);
+				array_delete(global.modes.Standard.displaying_equations, 0, 1);
 			}
 		
 			json_save("save.bin", []);
@@ -24,7 +24,9 @@ if (keyboard_check_pressed(vk_anykey)) {
 			break;
 		case "Q":
 		case "q":
-			show_debug_message($"{global.modes.Standard.equations}");
+			for (var _i = array_length(global.modes.Standard.equations) - 1; _i >= 0; _i--) {
+				show_debug_message(ds_list_stringify(global.modes.Standard.equations[_i][1]) + "\n");
+			}
 			break;
 	}
 }

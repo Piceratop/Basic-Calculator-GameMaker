@@ -13,14 +13,14 @@ function load_answer() {
 	
 	if (_ans_list[| 0] != -1)
 		ds_list_copy(global.Ans, _ans_list);
-	
+
 	/**
 	 * Insert an array in the order:
 	 * The equation, its answer, equation's cursor position,
 	 * answer's cursor position.
 	 */
 	array_push(
-		global.modes.Standard.displaying_equation, 
+		global.modes.Standard.displaying_equations, 
 		[
 			parse_equation_from_single_list_to_string(global.modes.Standard.current_equation), 
 			parse_equation_from_single_list_to_string(_ans_list),
@@ -35,18 +35,17 @@ function load_answer() {
 			0, ds_list_size(_ans_list)
 		]
 	);
-		
 	
 	// Remove the oldest one if the save is too long.
-	while (array_length(global.modes.Standard.displaying_equation) > 5) {
+	while (array_length(global.modes.Standard.displaying_equations) > 5) {
 		var _a = global.modes.Standard.equations[0][0];
 		var _b = global.modes.Standard.equations[0][1];
 		array_delete(global.modes.Standard.equations, 0, 1);
 		ds_list_destroy_multiple(_a, _b);
-		array_delete(global.modes.Standard.displaying_equation, 0, 1);
+		array_delete(global.modes.Standard.displaying_equations, 0, 1);
 	}
 	
-   json_save("save.bin", global.modes.Standard.displaying_equation);
+   json_save("save.bin", global.modes.Standard.displaying_equations);
 	global.modes.Standard.current_equation = ds_list_create();
 	global.modes.Standard.current_equation_cursor_position = 0;
 }

@@ -33,3 +33,5 @@ function get_before_cursor_char_count(_eq_list, _pos) {
 		_str_pos += string_length(global.math_decodings[? _eq_list[| _i]]);
 	return _str_pos;
 }
+
+alarm[0] = game_get_speed(gamespeed_fps);
