@@ -70,17 +70,19 @@ function draw_enclosed_text(
 }
 
 /**
- * @function					create_numpad(_x, _y, _layout, _sprite)
- * @description				This function will create the layout of a numpad.
- * @param {Real}				_x - The orthorgonal position of the numpad's center
- * @param {Real}				_y - The vertical position of the numpad's center
- * @param {Array}				_layout - The array layout of the numpad
- * @param {Asset.GMSprite} _sprite - The sprite for the numpad's buttons
+ * @function			create_numpad(_x, _y, _layout, _sprite)
+ * @description		This function will create the layout of a numpad.
+ * @param {Real}		_x - The orthorgonal position of the numpad's center
+ * @param {Real}		_y - The vertical position of the numpad's center
+ * @param {Array}		_layout - The array layout of the numpad
+ * @param {Real}		_w - The width of the button
+ * @param {Real}		_h - The height of the button
+ * @param {Real}		_gap - The gap size between buttons
  */
 
-function create_numpad(_x, _y, _layout, _sprite) {
-	var _full_button_width = sprite_get_width(_sprite) + 4;
-	var _full_button_height = sprite_get_height(_sprite) + 4;
+function create_numpad(_x, _y, _layout, _w, _h = 40, _gap = 4) {
+	var _full_button_width = _w + _gap;
+	var _full_button_height = _h + _gap;
 	var _no_col = array_length(_layout);
 	var _no_row = array_length(_layout[0]);
 	for (var _row = 0; _row < _no_row; _row++) {
@@ -91,7 +93,9 @@ function create_numpad(_x, _y, _layout, _sprite) {
 			"Button",
 			obj_button,
 			{
-				sprite_index: _sprite,
+				sprite_index: spr_box,
+				image_xscale: _w / sprite_get_width(spr_box),
+				image_yscale: _h / sprite_get_height(spr_box),
 				pos_x: _row,
 				pos_y: _col,
 				label: _layout[_col][_row] 

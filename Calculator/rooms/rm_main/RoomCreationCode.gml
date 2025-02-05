@@ -45,6 +45,9 @@ global.operator_map[? global.math_encodings[? "÷"]] = operator("÷", divide, 2,
 global.current_mode = "Menu";
 global.modes = {
 	Converter: {
+		convertee: ds_list_create(),
+		converted: ds_list_create(),
+		cursor_position: 0,
 		mode_id: 1,
 		room_id: rm_converter,
 	},

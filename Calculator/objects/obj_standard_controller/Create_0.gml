@@ -1,11 +1,10 @@
 // Button creation
 
-button_height = sprite_get_height(spr_button);
-button_width = sprite_get_width(spr_button);
-height_gap = 4;
-width_gap = 4;
-full_button_height = button_height + height_gap;
-full_button_width = button_width + width_gap;
+button_height = 40;
+button_width = 60;
+gap = 4;
+full_button_height = button_height + gap;
+full_button_width = button_width + gap;
 center_pos = [room_width / 2, room_height - full_button_height * 3];
 
 button_layout = [
@@ -16,7 +15,7 @@ button_layout = [
 	["0", ".", "-", "=", "Ans"]
 ];
 
-create_numpad(center_pos[0], center_pos[1], button_layout, spr_button);
+create_numpad(center_pos[0], center_pos[1], button_layout, button_width, button_height, gap);
 
 // Text Display
 
@@ -33,5 +32,3 @@ function get_before_cursor_char_count(_eq_list, _pos) {
 		_str_pos += string_length(global.math_decodings[? _eq_list[| _i]]);
 	return _str_pos;
 }
-
-alarm[0] = game_get_speed(gamespeed_fps);

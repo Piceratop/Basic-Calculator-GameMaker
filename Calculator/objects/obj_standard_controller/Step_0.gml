@@ -33,9 +33,17 @@ if (
 			);
 		}
 	} else if (keyboard_lastkey == vk_up)
-		global.modes.Standard.current_equation_id = navigate_equations("▲", global.modes.Standard.current_equation_id, array_length(global.modes.Standard.equations));
+		global.modes.Standard.current_equation_id = navigate_equations(
+			"▲",
+			global.modes.Standard.current_equation_id,
+			array_length(global.modes.Standard.equations)
+		);
 	else if (keyboard_lastkey == vk_down)
-		global.modes.Standard.current_equation_id = navigate_equations("▼", global.modes.Standard.current_equation_id, array_length(global.modes.Standard.equations));
+		global.modes.Standard.current_equation_id = navigate_equations(
+			"▼",
+			global.modes.Standard.current_equation_id,
+			array_length(global.modes.Standard.equations)
+		);
 	else if (keyboard_lastchar == "=" or keyboard_lastkey == vk_enter)
 		load_answer();
 	else if (keyboard_lastchar == "*")
@@ -43,13 +51,13 @@ if (
 			global.modes.Standard.current_equation,
 			"×",
 			global.modes.Standard.current_equation_cursor_position
-		)
+		);
 	else if (keyboard_lastchar = "/")
 		global.modes.Standard.current_equation_cursor_position = input_equation(
 			global.modes.Standard.current_equation,
 			"÷",
 			global.modes.Standard.current_equation_cursor_position
-		)
+		);
 	else if (
 		array_contains([
 			"0", "1", "2", "3", "4",
