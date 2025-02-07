@@ -3,17 +3,20 @@ global.cursor_alpha = 1;
 if (label == "=") {
 	load_answer();
 } else if (ord(label) < ord("▲"))
-	global.modes.Standard.current_equation_cursor_position = input_equation(
-		global.modes.Standard.current_equation,
+	global.modes[$ global.current_mode].cursor_position = input_equation(
+		global.modes[$ global.current_mode].current_equation,
 		label,
-		global.modes.Standard.current_equation_cursor_position
+		global.modes[$ global.current_mode].cursor_position
 	);
 else if (label == "▶" or label == "◀") {
-	if (global.modes.Standard.current_equation_id == 0)
-		global.modes.Standard.current_equation_cursor_position = navigate_equations(
+	if (
+		not struct_exists(global.modes[$ global.current_mode], "current_equation_id")
+		or global.modes[$ global.current_mode].current_equation_id == 0
+	)
+		global.modes[$ global.current_mode].cursor_position = navigate_equations(
 			label,
-			global.modes.Standard.current_equation_cursor_position,
-			ds_list_size(global.modes.Standard.current_equation)
+			global.modes[$ global.current_mode].cursor_position,
+			ds_list_size(global.modes[$ global.current_mode].current_equation)
 		);
 	else {
 		var _l = array_length(global.modes.Standard.equations);

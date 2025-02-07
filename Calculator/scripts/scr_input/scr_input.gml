@@ -47,7 +47,7 @@ function load_answer() {
 	
    json_save("save.bin", global.modes.Standard.displaying_equations);
 	global.modes.Standard.current_equation = ds_list_create();
-	global.modes.Standard.current_equation_cursor_position = 0;
+	global.modes.Standard.cursor_position = 0;
 }
 
 /**

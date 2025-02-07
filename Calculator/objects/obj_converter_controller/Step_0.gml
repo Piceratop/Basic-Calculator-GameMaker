@@ -8,20 +8,20 @@ if (
 	global.cursor_alpha = 1;
 	if (keyboard_lastkey == vk_backspace)
 		global.modes.Converter.cursor_position = input_equation(
-			global.modes.Converter.convertee,
+			global.modes.Converter.current_equation,
 			"⌫",
 			global.modes.Converter.cursor_position);
 	else if (keyboard_lastkey == vk_right)
 		global.modes.Converter.cursor_position = navigate_equations(
 			"▶",
 			global.modes.Converter.cursor_position,
-			ds_list_size(global.modes.Converter.convertee)
+			ds_list_size(global.modes.Converter.current_equation)
 		)
 	else if (keyboard_lastkey == vk_left)
 		global.modes.Converter.cursor_position = navigate_equations(
 			"◀",
 			global.modes.Converter.cursor_position,
-			ds_list_size(global.modes.Converter.convertee)
+			ds_list_size(global.modes.Converter.current_equation)
 		)
 	else if (
 		array_contains([
@@ -31,7 +31,7 @@ if (
 		], keyboard_lastchar)
 	)
 		global.modes.Converter.cursor_position = input_equation(
-			global.modes.Converter.convertee,
+			global.modes.Converter.current_equation,
 			keyboard_lastchar,
 			global.modes.Converter.cursor_position
 		);

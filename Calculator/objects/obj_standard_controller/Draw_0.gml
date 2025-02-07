@@ -47,7 +47,7 @@ draw_enclosed_text(
 	parse_equation_from_single_list_to_string(global.modes.Standard.current_equation),
 	get_before_cursor_char_count(
 		global.modes.Standard.current_equation,
-		global.modes.Standard.current_equation_cursor_position
+		global.modes.Standard.cursor_position
 	),
 	real(global.modes.Standard.current_equation_id == 0) * global.cursor_alpha,
 	"left"

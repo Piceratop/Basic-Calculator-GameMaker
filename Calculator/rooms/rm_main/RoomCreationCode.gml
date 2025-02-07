@@ -45,7 +45,7 @@ global.operator_map[? global.math_encodings[? "÷"]] = operator("÷", divide, 2,
 global.current_mode = "Menu";
 global.modes = {
 	Converter: {
-		convertee: ds_list_create(),
+		current_equation: ds_list_create(),
 		converted: ds_list_create(),
 		cursor_position: 0,
 		mode_id: 1,
@@ -58,7 +58,7 @@ global.modes = {
 	Standard: {
 		current_equation: ds_list_create(),
 		current_equation_id: 0,
-		current_equation_cursor_position: 0,
+		cursor_position: 0,
 		displaying_equations: json_load("save.bin"),
 		equations: [],
 		mode_id: 0,
