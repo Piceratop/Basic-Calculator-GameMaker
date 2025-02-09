@@ -12,3 +12,31 @@ button_layout = [
 alarm[0] = game_get_speed(gamespeed_fps);
 
 create_numpad(room_width / 2, room_height - 3 * full_button_height, button_layout, 100, 40, 4);
+
+// Main display
+
+var _display_top_position = room_width / 4;
+var _box_width = 288;
+var _box_height = 48;
+var _margin = (room_width - _box_width) / 2;
+
+instance_create_layer(
+	room_width / 2, 
+	_display_top_position,
+	"Button",
+	obj_dropdown, 
+	{
+		image_xscale: _box_width / sprite_get_width(spr_border),
+		margin: _margin
+	}
+);
+instance_create_layer(
+	room_width / 2,
+	_display_top_position + _box_height + 8,
+	"Button",
+	obj_converter_box, 
+	{
+		image_xscale: _box_width / sprite_get_width(spr_box),
+		image_yscale: _box_height / sprite_get_height(spr_box)
+	}
+);
