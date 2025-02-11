@@ -117,7 +117,7 @@ else
 
 // Font and drawing elements
 
-global.allow_characters = "()+-.0123456789=ACESacdelnorstuv|×÷⁁−⌫▲▶▼◀"
+global.allow_characters = "()+-.0123456789=ACESTacdegilnorstuv|×÷⁁−⌫▲▶▼◀"
 global.fnt_calculator = font_add_sprite_ext(
 	spr_fnt_calculator,
 	global.allow_characters,
