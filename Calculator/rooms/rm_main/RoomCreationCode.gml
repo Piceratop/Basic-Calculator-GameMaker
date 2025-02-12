@@ -40,14 +40,23 @@ global.operator_map[? global.math_encodings[? "−"]] = operator("−", subtract
 global.operator_map[? global.math_encodings[? "×"]] = operator("×", multiply, 2, "mid", 2);
 global.operator_map[? global.math_encodings[? "÷"]] = operator("÷", divide, 2, "mid", 2);
 
+global.unit_name = ds_map_create();
+global.unit_name[? "m"] = "Meter";
+global.unit_name[? "km"] = "Kilometer";
+global.unit_name[? "mm"] = "Milimeter";
+
 // Initialize shared datas
 
 global.current_mode = "Menu";
 global.modes = {
 	Converter: {
+		convert_mode: "Length",
+		conversion_rate: ds_map_create(),
 		current_equation: ds_list_create(),
 		converted: ds_list_create(),
 		cursor_position: 0,
+		input_unit: "m",
+		output_unit: "m",
 		mode_id: 1,
 		room_id: rm_converter,
 	},
@@ -65,6 +74,14 @@ global.modes = {
 		room_id: rm_standard,
 	},
 }
+
+// Conversion rates input
+
+global.modes.Converter.conversion_rate[? "Length"] = ds_map_create();
+var _lcr = global.modes.Converter.conversion_rate[? "Length"];
+_lcr[? "m"] = parse_equation_from_string_to_single_list("1");
+_lcr[? "mm"] = parse_equation_from_string_to_single_list("1000");
+_lcr[? "km"] = parse_equation_from_string_to_single_list("0.001");
 
 // Get saved data
 
