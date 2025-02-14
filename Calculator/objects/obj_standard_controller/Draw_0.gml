@@ -1,5 +1,4 @@
 draw_set_valign(fa_bottom);
-draw_set_color(global.fnt_color);
 
 // Display past equations
 
@@ -15,6 +14,7 @@ for (var _i = array_length(global.modes.Standard.equations) - 1; _i >= 0; _i--) 
 			global.modes.Standard.equations[_i][2]
 		),
 		real(array_length(global.modes.Standard.equations) - _i  == global.modes.Standard.current_equation_id) * global.cursor_alpha,
+		global.fnt_color,
 		"left"
 	);
 
@@ -29,6 +29,7 @@ for (var _i = array_length(global.modes.Standard.equations) - 1; _i >= 0; _i--) 
 			global.modes.Standard.equations[_i][3]
 		),
 		real(array_length(global.modes.Standard.equations) - _i - 0.5 == global.modes.Standard.current_equation_id) * global.cursor_alpha,
+		global.fnt_color,
 		"right"
 	);
 }
@@ -50,5 +51,6 @@ draw_enclosed_text(
 		global.modes.Standard.cursor_position
 	),
 	real(global.modes.Standard.current_equation_id == 0) * global.cursor_alpha,
+	global.fnt_color,
 	"left"
 );

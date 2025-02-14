@@ -18,7 +18,7 @@ create_numpad(room_width / 2, room_height - 3 * full_button_height, button_layou
 var _display_top_position = room_width / 4;
 var _box_width = 288;
 var _box_height = 48;
-var _choosable_options = global.mode.Converter.conversion_rate[? global.mode.Converter.convert_mode];
+var _choosable_options = global.modes.Converter.conversion_rate[? global.modes.Converter.convert_mode];
 var _margin = (room_width - _box_width) / 2;
 var _dropdown_option = ds_list_create();
 for (
@@ -26,12 +26,12 @@ for (
 	not is_undefined(_k);
 	_k = ds_map_find_next(_choosable_options, _k)
 ) {
-	ds_list_add(_choosable_options, _k);
+	ds_list_add(_dropdown_option, _k);
 }
 var _dropdown_style = {
 	image_xscale: _box_width / sprite_get_width(spr_border),
 	margin: _margin,
-	options: _choosable_options
+	options: _dropdown_option
 };
 
 instance_create_layer(

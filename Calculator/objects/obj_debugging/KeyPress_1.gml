@@ -4,6 +4,9 @@ switch(keyboard_lastchar) {
 	case "b":
 		request = http_get("http://localhost:3000");
 		break;
+	case "C":
+	case "c":
+		break;
 	case "D":
 	case "d":
 		while (array_length(global.modes.Standard.displaying_equations) > 0) {
@@ -17,10 +20,7 @@ switch(keyboard_lastchar) {
 		break;
 	case "P":
 	case "p":
-		for (var _i = 0; _i < 10; _i++)
-		if (ds_exists(_i, ds_type_list)) {
-			show_debug_message($"{_i} {ds_list_stringify(_i)}");
-		}
+		show_debug_message(typeof(c_red));
 		break;
 	case "Q":
 	case "q":

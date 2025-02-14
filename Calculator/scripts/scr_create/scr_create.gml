@@ -9,14 +9,16 @@
  * @param {String}	_str - The text to be drawn
  * @param {Real}		_cursor_pos - The position of the cursor relative to the start of the text (in character)
  * @param {Real}		_cursor_alpha - The alpha of the cursor
+ * @param {Real}		_color - The color of the text
  * @param {String}	_align - The alignment of the text, default is right alignment
  * @return {Undefined} 
  */
 
 function draw_enclosed_text(
 	_left_pos, _right_pos, _y, _padding,
-	_str, _cursor_pos, _cursor_alpha, _align="right"
+	_str, _cursor_pos, _cursor_alpha, _color, _align="right"
 ) {
+	draw_set_color(_color);
 	/**
 	 * Set the cursor position. Its default position is the center.
 	 * Align left if the left part of the string is too short. Align right similiarly.
