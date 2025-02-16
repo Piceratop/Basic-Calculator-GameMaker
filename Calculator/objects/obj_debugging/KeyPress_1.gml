@@ -20,7 +20,7 @@ switch(keyboard_lastchar) {
 		break;
 	case "P":
 	case "p":
-		show_debug_message(typeof(c_red));
+		show_debug_message($"{global.current_object} {noone}");
 		break;
 	case "Q":
 	case "q":

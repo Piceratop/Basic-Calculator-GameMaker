@@ -48,6 +48,8 @@ global.unit_name[? "mm"] = "Milimeter";
 // Initialize shared datas
 
 global.current_mode = "Menu";
+global.current_object = noone;
+
 global.modes = {
 	Converter: {
 		convert_mode: "Length",
@@ -55,6 +57,7 @@ global.modes = {
 		current_equation: ds_list_create(),
 		converted: ds_list_create(),
 		cursor_position: 0,
+		dropdown_options: ds_list_create(),
 		input_unit: "m",
 		output_unit: "m",
 		mode_id: 1,
@@ -82,6 +85,16 @@ var _lcr = global.modes.Converter.conversion_rate[? "Length"];
 _lcr[? "m"] = parse_equation_from_string_to_single_list("1");
 _lcr[? "mm"] = parse_equation_from_string_to_single_list("1000");
 _lcr[? "km"] = parse_equation_from_string_to_single_list("0.001");
+
+var _co = global.modes.Converter.conversion_rate[? global.modes.Converter.convert_mode];
+var _do = global.modes.Converter.dropdown_options;
+for (
+	var _k = ds_map_find_first(_co);
+	not is_undefined(_k);
+	_k = ds_map_find_next(_co, _k)
+) {
+	ds_list_add(_do, _k);
+}
 
 // Get saved data
 
@@ -134,7 +147,7 @@ else
 
 // Font and drawing elements
 
-global.allow_characters = "()+-.0123456789=ACESTacdegiklmnorstuv|×÷⁁−⌫▲▶▼◀"
+global.allow_characters = "()+-.0123456789=ACEKMSTacdegiklmnorstuv|×÷⁁−⌫▲▶▼◀";
 global.fnt_calculator = font_add_sprite_ext(
 	spr_fnt_calculator,
 	global.allow_characters,

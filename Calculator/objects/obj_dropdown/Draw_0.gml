@@ -4,6 +4,11 @@ draw_set_valign(fa_middle);
 draw_set_halign(fa_right);
 draw_text(room_width - margin - 4, y - y_padding / 2, is_dropping ? "▼" : "◀");
 
+draw_enclosed_text(
+	0, room_width, y - y_padding / 2, margin + 4,
+	global.unit_name[? options[| current_option_id]], 0, 0, global.fnt_color, "left"
+);
+
 if (is_dropping) {
 	for (var _i = 0; _i < min(3, ds_list_size(options)); _i++) {
 		var _y_pad = y + 2 + y_padding * _i
@@ -17,7 +22,7 @@ if (is_dropping) {
 		
 		draw_enclosed_text(
 			0, room_width, _y_pad + y_padding / 2, margin + 4,
-			options[| _i], 0, 0, global.fnt_color, "left"
+			global.unit_name[? options[| _i]], 0, 0, global.fnt_color, "left"
 		);
 	}
 }

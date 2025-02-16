@@ -17,21 +17,13 @@ create_numpad(room_width / 2, room_height - 3 * full_button_height, button_layou
 
 var _display_top_position = room_width / 4;
 var _box_width = 288;
-var _box_height = 48;
-var _choosable_options = global.modes.Converter.conversion_rate[? global.modes.Converter.convert_mode];
+box_height = 48;
+
 var _margin = (room_width - _box_width) / 2;
-var _dropdown_option = ds_list_create();
-for (
-	var _k = ds_map_find_first(_choosable_options);
-	not is_undefined(_k);
-	_k = ds_map_find_next(_choosable_options, _k)
-) {
-	ds_list_add(_dropdown_option, _k);
-}
+
 var _dropdown_style = {
 	image_xscale: _box_width / sprite_get_width(spr_border),
-	margin: _margin,
-	options: _dropdown_option
+	margin: _margin
 };
 
 instance_create_layer(
@@ -44,19 +36,24 @@ instance_create_layer(
 
 instance_create_layer(
 	room_width / 2,
-	_display_top_position + _box_height + 8,
+	_display_top_position + box_height + 8,
 	"Button",
 	obj_converter_box, 
 	{
 		image_xscale: _box_width / sprite_get_width(spr_box),
-		image_yscale: _box_height / sprite_get_height(spr_box)
+		image_yscale: box_height / sprite_get_height(spr_box)
 	}
 );
 
 instance_create_layer(
 	room_width / 2, 
-	_display_top_position + 3 * _box_height,
+	_display_top_position + 3 * box_height,
 	"Button",
 	obj_dropdown, 
 	_dropdown_style
 );
+
+
+// Dropdown Handling
+
+current_dropdown = noone;

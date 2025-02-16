@@ -1,5 +1,4 @@
 // Checking Keyboard Input
-
 if (
 	keyboard_check_pressed(vk_anykey) and
 	not array_contains([vk_alt, vk_lalt, vk_ralt, vk_control, vk_lcontrol, vk_rcontrol, vk_shift, vk_lshift, vk_rshift], keyboard_lastkey)
@@ -37,3 +36,16 @@ if (
 		);
 }
 
+// Checking for dropdowns
+if (mouse_check_button_pressed(mb_left)) {
+	var _dropdown_id = collision_rectangle(mouse_x, mouse_y, mouse_x + 2, mouse_y + box_height, obj_dropdown, false, false);
+	if (_dropdown_id != noone && current_dropdown == noone) {
+		current_dropdown = _dropdown_id;
+		with (_dropdown_id)
+			is_dropping = true;
+	} else {
+		current_dropdown = noone;
+		with (obj_dropdown)
+			is_dropping = false;
+	}
+}

@@ -1,4 +1,40 @@
 /**
+ * @function			create_numpad(_x, _y, _layout, _sprite)
+ * @description		This function will create the layout of a numpad.
+ * @param {Real}		_x - The orthorgonal position of the numpad's center
+ * @param {Real}		_y - The vertical position of the numpad's center
+ * @param {Array}		_layout - The array layout of the numpad
+ * @param {Real}		_w - The width of the button
+ * @param {Real}		_h - The height of the button
+ * @param {Real}		_gap - The gap size between buttons
+ */
+
+function create_numpad(_x, _y, _layout, _w, _h = 40, _gap = 4) {
+	var _full_button_width = _w + _gap;
+	var _full_button_height = _h + _gap;
+	var _no_col = array_length(_layout);
+	var _no_row = array_length(_layout[0]);
+	for (var _row = 0; _row < _no_row; _row++) {
+		for (var _col = 0; _col < _no_col; _col++) {
+			var _button = instance_create_layer(
+				_x + ((1 - _no_row) / 2 + _row) * _full_button_width,
+				_y + ((1 - _no_col) / 2 + _col) * _full_button_height,
+				"Button",
+				obj_button,
+				{
+					sprite_index: spr_box,
+					image_xscale: _w / sprite_get_width(spr_box),
+					image_yscale: _h / sprite_get_height(spr_box),
+					pos_x: _row,
+					pos_y: _col,
+					label: _layout[_col][_row] 
+				}
+			);
+		}
+	}
+}
+
+/**
  * @function			draw_enclosed_text()
  * @description		This function will draw a text enclosed between two positions (with padding),
  *							the excessed character will be hidden and replaced by the navigation arrows.
@@ -69,40 +105,4 @@ function draw_enclosed_text(
 		);
 		draw_text(_left_pos + _padding, _y, "◀");
 	}
-}
-
-/**
- * @function			create_numpad(_x, _y, _layout, _sprite)
- * @description		This function will create the layout of a numpad.
- * @param {Real}		_x - The orthorgonal position of the numpad's center
- * @param {Real}		_y - The vertical position of the numpad's center
- * @param {Array}		_layout - The array layout of the numpad
- * @param {Real}		_w - The width of the button
- * @param {Real}		_h - The height of the button
- * @param {Real}		_gap - The gap size between buttons
- */
-
-function create_numpad(_x, _y, _layout, _w, _h = 40, _gap = 4) {
-	var _full_button_width = _w + _gap;
-	var _full_button_height = _h + _gap;
-	var _no_col = array_length(_layout);
-	var _no_row = array_length(_layout[0]);
-	for (var _row = 0; _row < _no_row; _row++) {
-	for (var _col = 0; _col < _no_col; _col++) {
-		var _button = instance_create_layer(
-			_x + ((1 - _no_row) / 2 + _row) * _full_button_width,
-			_y + ((1 - _no_col) / 2 + _col) * _full_button_height,
-			"Button",
-			obj_button,
-			{
-				sprite_index: spr_box,
-				image_xscale: _w / sprite_get_width(spr_box),
-				image_yscale: _h / sprite_get_height(spr_box),
-				pos_x: _row,
-				pos_y: _col,
-				label: _layout[_col][_row] 
-			}
-		);
-	}
-}
 }
