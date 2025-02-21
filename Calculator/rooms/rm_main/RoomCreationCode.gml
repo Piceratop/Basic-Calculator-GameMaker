@@ -44,6 +44,7 @@ global.unit_name = ds_map_create();
 global.unit_name[? "m"] = "Meter";
 global.unit_name[? "km"] = "Kilometer";
 global.unit_name[? "mm"] = "Milimeter";
+global.unit_name[? "cm"] = "Centimeter";
 
 // Initialize shared datas
 
@@ -85,6 +86,7 @@ var _lcr = global.modes.Converter.conversion_rate[? "Length"];
 _lcr[? "m"] = parse_equation_from_string_to_single_list("1");
 _lcr[? "mm"] = parse_equation_from_string_to_single_list("1000");
 _lcr[? "km"] = parse_equation_from_string_to_single_list("0.001");
+_lcr[? "cm"] = parse_equation_from_string_to_single_list("100");
 
 var _co = global.modes.Converter.conversion_rate[? global.modes.Converter.convert_mode];
 var _do = global.modes.Converter.dropdown_options;

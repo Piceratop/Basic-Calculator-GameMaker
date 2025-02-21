@@ -1,15 +1,6 @@
-//if (mouse_check_button_pressed(mb_left)) {
-//	if (collision_rectangle(mouse_x, mouse_y, mouse_x + 2, mouse_y + y_padding, self, false, false)) {
-//		if (global.current_object == noone) {
-//			global.current_object = self;
-//			is_dropping = true;
-//		} else {
-//			global.current_object = noone;
-//			is_dropping = false;
-//		}
-//	} else if (global.current_object == self) {
-//		global.current_object = noone;
-//		is_dropping = false;
-//	}
-//}
-
+if (is_dropping) {
+	if (mouse_wheel_down())
+		current_scroll_pos = min(ds_list_size(options) - show_count, current_scroll_pos + 1);
+	if (mouse_wheel_up())
+        current_scroll_pos = max(0, current_scroll_pos - 1);
+}

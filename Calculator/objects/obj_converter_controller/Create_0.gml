@@ -21,19 +21,19 @@ box_height = 48;
 
 var _margin = (room_width - _box_width) / 2;
 
-var _dropdown_style = {
-	image_xscale: _box_width / sprite_get_width(spr_border),
-	margin: _margin
-};
-
-instance_create_layer(
+input_unit_dropdown = instance_create_layer(
 	room_width / 2, 
 	_display_top_position,
 	"Button",
 	obj_dropdown, 
-	_dropdown_style
+   {
+      image_xscale: _box_width / sprite_get_width(spr_border),
+      margin: _margin,
+      name: "input"
+   }
 );
-
+with (input_unit_dropdown) 
+	global.modes.Converter.input_unit = options[| current_option_id];
 instance_create_layer(
 	room_width / 2,
 	_display_top_position + box_height + 8,
@@ -45,13 +45,19 @@ instance_create_layer(
 	}
 );
 
-instance_create_layer(
+output_unit_dropdown = instance_create_layer(
 	room_width / 2, 
 	_display_top_position + 3 * box_height,
 	"Button",
 	obj_dropdown, 
-	_dropdown_style
+	{
+      image_xscale: _box_width / sprite_get_width(spr_border),
+      margin: _margin,
+      name: "output"
+   }
 );
+with (output_unit_dropdown) 
+	global.modes.Converter.output_unit = options[| current_option_id];
 
 
 // Dropdown Handling

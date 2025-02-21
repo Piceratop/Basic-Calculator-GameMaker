@@ -10,7 +10,7 @@ draw_enclosed_text(
 );
 
 if (is_dropping) {
-	for (var _i = 0; _i < min(3, ds_list_size(options)); _i++) {
+	for (var _i = 0; _i < 3; _i++) {
 		var _y_pad = y + 2 + y_padding * _i
 		draw_set_color(global.back_color);
 		draw_rectangle(margin, _y_pad, room_width - margin, _y_pad + y_padding, false);
@@ -22,7 +22,7 @@ if (is_dropping) {
 		
 		draw_enclosed_text(
 			0, room_width, _y_pad + y_padding / 2, margin + 4,
-			global.unit_name[? options[| _i]], 0, 0, global.fnt_color, "left"
+			global.unit_name[? options[| _i + current_scroll_pos]], 0, 0, global.fnt_color, "left"
 		);
 	}
 }

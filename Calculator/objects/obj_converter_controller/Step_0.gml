@@ -22,7 +22,12 @@ if (
 			global.modes.Converter.cursor_position,
 			ds_list_size(global.modes.Converter.current_equation)
 		)
-	else if (
+   else if (keyboard_lastchar == "=") {
+      //ds_list_destroy(global.modes.Converter.converted);
+      //var _a = multiply(global.modes.Converter.current_equation, global.modes.Converter.conversion_rate[? global.modes.Converter.convert_mode]);
+      //show_debug_message(ds_list_stringify(_a));
+      //ds_list_destroy(_a);
+   } else if (
 		array_contains([
 			"0", "1", "2", "3", "4",
 			"5", "6", "7", "8", "9", 
@@ -36,7 +41,7 @@ if (
 		);
 }
 
-// Checking for dropdowns
+// Checking for dropdowns and update converting units
 if (mouse_check_button_pressed(mb_left)) {
 	var _dropdown_id = collision_rectangle(mouse_x, mouse_y, mouse_x + 2, mouse_y + box_height, obj_dropdown, false, false);
 	if (_dropdown_id != noone && current_dropdown == noone) {
@@ -44,8 +49,19 @@ if (mouse_check_button_pressed(mb_left)) {
 		with (_dropdown_id)
 			is_dropping = true;
 	} else {
-		current_dropdown = noone;
+		with (current_dropdown) {
+			for (var _i = 0; _i < 3; _i++) {
+				var _by = y + _i * y_padding;
+				if (mouse_y >= _by and mouse_y < _by + y_padding) {
+					current_option_id = current_scroll_pos + _i;
+					break;
+				}
+			}
+			if (name == "input")
+				global.modes.Converter.input_unit = options[| current_option_id];
+		}
 		with (obj_dropdown)
 			is_dropping = false;
+		current_dropdown = noone;
 	}
 }
