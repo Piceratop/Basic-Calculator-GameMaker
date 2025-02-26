@@ -41,10 +41,12 @@ global.operator_map[? global.math_encodings[? "×"]] = operator("×", multiply, 
 global.operator_map[? global.math_encodings[? "÷"]] = operator("÷", divide, 2, "mid", 2);
 
 global.unit_name = ds_map_create();
-global.unit_name[? "m"] = "Meter";
-global.unit_name[? "km"] = "Kilometer";
-global.unit_name[? "mm"] = "Milimeter";
 global.unit_name[? "cm"] = "Centimeter";
+global.unit_name[? "ft"] = "Foot/Feet";
+global.unit_name[? "km"] = "Kilometer";
+global.unit_name[? "m"] = "Meter";
+global.unit_name[? "mi"] = "Mile";
+global.unit_name[? "mm"] = "Milimeter";
 
 // Initialize shared datas
 
@@ -83,10 +85,12 @@ global.modes = {
 
 global.modes.Converter.conversion_rate[? "Length"] = ds_map_create();
 var _lcr = global.modes.Converter.conversion_rate[? "Length"];
+_lcr[? "cm"] = parse_equation_from_string_to_single_list("0.01");
+_lcr[? "ft"] = parse_equation_from_string_to_single_list("0.3048");
+_lcr[? "km"] = parse_equation_from_string_to_single_list("1000");
 _lcr[? "m"] = parse_equation_from_string_to_single_list("1");
-_lcr[? "mm"] = parse_equation_from_string_to_single_list("1000");
-_lcr[? "km"] = parse_equation_from_string_to_single_list("0.001");
-_lcr[? "cm"] = parse_equation_from_string_to_single_list("100");
+_lcr[? "mi"] = parse_equation_from_string_to_single_list("1609");
+_lcr[? "mm"] = parse_equation_from_string_to_single_list("0.001");
 
 var _co = global.modes.Converter.conversion_rate[? global.modes.Converter.convert_mode];
 var _do = global.modes.Converter.dropdown_options;
@@ -149,7 +153,7 @@ else
 
 // Font and drawing elements
 
-global.allow_characters = "()+-.0123456789=ACEKMSTacdegiklmnorstuv|×÷⁁−⌫▲▶▼◀";
+global.allow_characters = "()+-./0123456789=ACEFKMSTacdegiklmnorstuv|×÷⁁−⌫▲▶▼◀";
 global.fnt_calculator = font_add_sprite_ext(
 	spr_fnt_calculator,
 	global.allow_characters,

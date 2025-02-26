@@ -22,11 +22,8 @@ if (
 			global.modes.Converter.cursor_position,
 			ds_list_size(global.modes.Converter.current_equation)
 		)
-   else if (keyboard_lastchar == "=") {
-      //ds_list_destroy(global.modes.Converter.converted);
-      //var _a = multiply(global.modes.Converter.current_equation, global.modes.Converter.conversion_rate[? global.modes.Converter.convert_mode]);
-      //show_debug_message(ds_list_stringify(_a));
-      //ds_list_destroy(_a);
+   else if (keyboard_lastchar == "=" or keyboard_lastkey == vk_enter) {
+		load_answer();
    } else if (
 		array_contains([
 			"0", "1", "2", "3", "4",
@@ -59,6 +56,8 @@ if (mouse_check_button_pressed(mb_left)) {
 			}
 			if (name == "input")
 				global.modes.Converter.input_unit = options[| current_option_id];
+			if (name == "output")
+				global.modes.Converter.output_unit = options[| current_option_id];
 		}
 		with (obj_dropdown)
 			is_dropping = false;

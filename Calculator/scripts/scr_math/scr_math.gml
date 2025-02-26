@@ -343,36 +343,41 @@ function divide(_a, _b, _decimal_precision = 10, _is_normalized = false) {
 			return _c;
 		}
 	}
+	var _d = ds_list_create();
+	ds_list_copy(_d, _a);
+
+	var _e = ds_list_create();
+	ds_list_copy(_e, _b);
 	var _dec_shift = 0;
-	var _dec_pos_a = ds_list_find_index(_a, global.math_encodings[? "."]);
+	var _dec_pos_a = ds_list_find_index(_d, global.math_encodings[? "."]);
 	if (_dec_pos_a != -1) {
-		_dec_shift = ds_list_size(_a) - 1 - _dec_pos_a;
-		ds_list_delete(_a, _dec_pos_a);
+		_dec_shift = ds_list_size(_d) - 1 - _dec_pos_a;
+		ds_list_delete(_d, _dec_pos_a);
 	}
-	var _dec_pos_b = ds_list_find_index(_b, global.math_encodings[? "."]);
+	var _dec_pos_b = ds_list_find_index(_e, global.math_encodings[? "."]);
 	if (_dec_pos_b != -1) {
-		_dec_shift -= ds_list_size(_b) - 1 - _dec_pos_b;
-		ds_list_delete(_b, _dec_pos_b);
+		_dec_shift -= ds_list_size(_e) - 1 - _dec_pos_b;
+		ds_list_delete(_e, _dec_pos_b);
 	}
+	normalize(_d);
+	normalize(_e);
 	var _ans_list;
 	if (_dec_shift < _decimal_precision) {
-		var _shift_a = _decimal_precision - _dec_shift;
-		self_shift_decimal(_a, _shift_a);
-		_ans_list = int_divide_v2(_a, _b);
-		self_shift_decimal(_a, -_shift_a, true);
+		self_shift_decimal(_d, _decimal_precision - _dec_shift);
+		_ans_list = int_divide_v2(_d, _e);
 	} else if (_dec_shift > _decimal_precision) {
 		var _c = ds_list_create();
-		for (var _i = 0; _i < ds_list_size(_a) - _dec_shift + _decimal_precision; _i++)
-			ds_list_add(_c, _a[| _i]);
-		_ans_list = int_divide_v2(_c, _b);
-		ds_list_destroy(_c);
+	   for (var _i = 0; _i < ds_list_size(_d) - _dec_shift + _decimal_precision; _i++) {
+	      ds_list_add(_c, _d[| _i]);
+	   }
+	   _ans_list = int_divide_v2(_c, _e);
+	   ds_list_destroy(_c);
 	} else {
-		_ans_list = int_divide_v2(_a, _b);
+		_ans_list = int_divide_v2(_d, _e);
 	}
+	
+	ds_list_destroy_multiple(_d, _e);
 	_dec_shift = _decimal_precision;
-
-	ds_list_insert(_a, _dec_pos_a, global.math_encodings[? "."]);
-	ds_list_insert(_b, _dec_pos_b, global.math_encodings[? "."]);
 	self_shift_decimal(_ans_list, -_dec_shift, true);
 	return _ans_list;
 }
