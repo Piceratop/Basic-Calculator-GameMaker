@@ -11,7 +11,7 @@ draw_enclosed_text(
 
 if (is_dropping) {
 	for (var _i = 0; _i < 3; _i++) {
-		var _y_pad = y + 2 + y_padding * _i
+		var _y_pad = y + 2 + y_padding * _i;
 		draw_set_color(global.back_color);
 		draw_rectangle(margin, _y_pad, room_width - margin, _y_pad + y_padding, false);
 		draw_sprite_ext(

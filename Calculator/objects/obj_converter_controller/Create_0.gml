@@ -21,6 +21,7 @@ var _display_top_position = room_width / 4;
 var _box_width = 288;
 box_height = 48;
 
+var _sb_width = sprite_get_width(spr_scroll_button) / 2;
 var _margin = (room_width - _box_width) / 2;
 
 // Display of input unit
