@@ -31,6 +31,7 @@ input_unit_dropdown = instance_create_layer(
 	"Button",
 	obj_dropdown, 
    {
+		dropdown_height: box_height,
       image_xscale: _box_width / sprite_get_width(spr_border),
       margin: _margin,
       name: "input"
@@ -44,8 +45,8 @@ instance_create_layer(
 	"Button",
 	obj_converter_box, 
 	{
-		image_xscale: _box_width / sprite_get_width(spr_box),
-		image_yscale: box_height / sprite_get_height(spr_box),
+		image_xscale: _box_width / sprite_get_width(spr_box_center),
+		image_yscale: box_height / sprite_get_height(spr_box_center),
 		name: "input",
 	}
 );
@@ -57,6 +58,7 @@ output_unit_dropdown = instance_create_layer(
 	"Button",
 	obj_dropdown, 
 	{
+		dropdown_height: box_height,
       image_xscale: _box_width / sprite_get_width(spr_border),
       margin: _margin,
       name: "output"
@@ -70,8 +72,8 @@ instance_create_layer(
 	"Button",
 	obj_converter_box, 
 	{
-		image_xscale: _box_width / sprite_get_width(spr_box),
-		image_yscale: box_height / sprite_get_height(spr_box),
+		image_xscale: _box_width / sprite_get_width(spr_box_center),
+		image_yscale: box_height / sprite_get_height(spr_box_center),
 		name: "output",
 	}
 );
