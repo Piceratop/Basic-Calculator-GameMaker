@@ -66,9 +66,22 @@ if (mouse_check_button_pressed(mb_left)) {
 				global.modes.Converter.output_unit = options[| current_option_id];
 			}
 		}
-		with (obj_dropdown) {
-			is_dropping = false;
+		var _inst_scroll_nav_button = instance_position(mouse_x, mouse_y, obj_scroll_button);
+		if (_inst_scroll_nav_button != noone) {
+			with (obj_dropdown) {
+				if (name == _inst_scroll_nav_button.name) {
+					if (_inst_scroll_nav_button.type == "down") {
+						idpos_current_scroll = min(ds_list_size(options) - count_showing_options, idpos_current_scroll + 1);
+					} else {
+						idpos_current_scroll = max(0, idpos_current_scroll - 1);
+					}
+				}
+			}
+		} else {
+			with (obj_dropdown) {
+				is_dropping = false;
+			}
+			current_dropdown = noone;
 		}
-		current_dropdown = noone;
 	}
 }

@@ -20,6 +20,7 @@ instance_create_layer(
 		depth: -1,
 		image_index: 0,
 		name: name,
+		type: "up",
 	}
 );
 
@@ -32,5 +33,6 @@ instance_create_layer(
 		depth: -1,
 		image_index: 1,
 		name: name,
+		type: "down",
 	}
 )

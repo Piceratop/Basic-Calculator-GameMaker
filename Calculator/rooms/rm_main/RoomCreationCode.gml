@@ -44,9 +44,11 @@ global.unit_name = ds_map_create();
 global.unit_name[? "cm"] = "Centimeter";
 global.unit_name[? "ft"] = "Foot/Feet";
 global.unit_name[? "km"] = "Kilometer";
+global.unit_name[? "kg"] = "Kilogram";
 global.unit_name[? "m"] = "Meter";
 global.unit_name[? "mi"] = "Mile";
 global.unit_name[? "mm"] = "Milimeter";
+global.unit_name[? "t"] = "Tonne";
 
 // Initialize shared datas
 
@@ -91,7 +93,12 @@ _lcr[? "km"] = parse_equation_from_string_to_single_list("1000");
 _lcr[? "m"] = parse_equation_from_string_to_single_list("1");
 _lcr[? "mi"] = parse_equation_from_string_to_single_list("1609");
 _lcr[? "mm"] = parse_equation_from_string_to_single_list("0.001");
+global.mode.Converter.conversion_rate[? "Mass"] = ds_map_create();
+var _mcr = global.mode.Converter.conversion_rate[? "Mass"];
+_lcr["kg"] = parse_equation_from_string_to_single_list("1");
+_lcr["t"] = parse_equation_from_string_to_single_list("10000");
 
+// Adding the right type of units to the options in converter.
 var _co = global.modes.Converter.conversion_rate[? global.modes.Converter.convert_mode];
 var _do = global.modes.Converter.dropdown_options;
 for (
