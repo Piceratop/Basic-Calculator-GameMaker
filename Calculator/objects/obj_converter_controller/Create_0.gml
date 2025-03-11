@@ -34,7 +34,8 @@ input_unit_dropdown = instance_create_layer(
 		dropdown_height: box_height,
       image_xscale: _box_width / sprite_get_width(spr_border),
       margin: _margin,
-      name: "input"
+      name: "input",
+		options: global.modes.Converter.dropdown_options
    }
 );
 with (input_unit_dropdown) 
@@ -61,7 +62,8 @@ output_unit_dropdown = instance_create_layer(
 		dropdown_height: box_height,
       image_xscale: _box_width / sprite_get_width(spr_border),
       margin: _margin,
-      name: "output"
+      name: "output",
+		options: global.modes.Converter.dropdown_options
    }
 );
 with (output_unit_dropdown) 

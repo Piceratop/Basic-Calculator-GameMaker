@@ -43,12 +43,13 @@ global.operator_map[? global.math_encodings[? "÷"]] = operator("÷", divide, 2,
 global.unit_name = ds_map_create();
 global.unit_name[? "cm"] = "Centimeter";
 global.unit_name[? "ft"] = "Foot/Feet";
+global.unit_name[? "grain"] = "Grain";
 global.unit_name[? "km"] = "Kilometer";
 global.unit_name[? "kg"] = "Kilogram";
 global.unit_name[? "m"] = "Meter";
 global.unit_name[? "mi"] = "Mile";
 global.unit_name[? "mm"] = "Milimeter";
-global.unit_name[? "t"] = "Tonne";
+global.unit_name[? "t"] = "Metric Ton";
 
 // Initialize shared datas
 
@@ -57,7 +58,7 @@ global.current_object = noone;
 
 global.modes = {
 	Converter: {
-		convert_mode: "Length",
+		convert_mode: "Mass",
 		conversion_rate: ds_map_create(),
 		current_equation: ds_list_create(),
 		converted: ds_list_create(),
@@ -91,12 +92,13 @@ _lcr[? "cm"] = parse_equation_from_string_to_single_list("0.01");
 _lcr[? "ft"] = parse_equation_from_string_to_single_list("0.3048");
 _lcr[? "km"] = parse_equation_from_string_to_single_list("1000");
 _lcr[? "m"] = parse_equation_from_string_to_single_list("1");
-_lcr[? "mi"] = parse_equation_from_string_to_single_list("1609");
+_lcr[? "mi"] = parse_equation_from_string_to_single_list("1609344");
 _lcr[? "mm"] = parse_equation_from_string_to_single_list("0.001");
-global.mode.Converter.conversion_rate[? "Mass"] = ds_map_create();
-var _mcr = global.mode.Converter.conversion_rate[? "Mass"];
-_lcr["kg"] = parse_equation_from_string_to_single_list("1");
-_lcr["t"] = parse_equation_from_string_to_single_list("10000");
+global.modes.Converter.conversion_rate[? "Mass"] = ds_map_create();
+var _mcr = global.modes.Converter.conversion_rate[? "Mass"]
+_mcr[? "grain"] = parse_equation_from_string_to_single_list("0.0000648");
+_mcr[? "kg"] = parse_equation_from_string_to_single_list("1");
+_mcr[? "t"] = parse_equation_from_string_to_single_list("10000");
 
 // Adding the right type of units to the options in converter.
 var _co = global.modes.Converter.conversion_rate[? global.modes.Converter.convert_mode];
@@ -160,7 +162,7 @@ else
 
 // Font and drawing elements
 
-global.allow_characters = "()+-./0123456789=ACEFKMSTacdegiklmnorstuv|×÷⁁−⌫▲▶▼◀";
+global.allow_characters = " ()+-./0123456789=ACEFGKMSTacdegiklmnorstuv|×÷⁁−⌫▲▶▼◀";
 global.fnt_calculator = font_add_sprite_ext(
 	spr_fnt_calculator,
 	global.allow_characters,

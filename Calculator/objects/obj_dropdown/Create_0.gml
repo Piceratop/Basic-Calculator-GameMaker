@@ -3,7 +3,6 @@ image_speed = 0;
 
 current_option_id = 0;
 idpos_current_scroll = 0;
-options = global.modes.Converter.dropdown_options;
 count_max_showing_options = 3;
 count_showing_options = min(count_max_showing_options, ds_list_size(options));
 
@@ -26,7 +25,7 @@ instance_create_layer(
 
 instance_create_layer(
 	room_width - margin - scroll_btn_w,
-	y + 2 + 3 * dropdown_height - sprite_get_height(spr_scroll_button),
+	y + 2 + count_showing_options * dropdown_height - sprite_get_height(spr_scroll_button),
 	"Button",
 	obj_scroll_button,
 	{
