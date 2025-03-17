@@ -162,7 +162,7 @@ else
 
 // Font and drawing elements
 
-global.allow_characters = " ()+-./0123456789=ACEFGKMSTacdegiklmnorstuv|×÷⁁−⌫▲▶▼◀";
+global.allow_characters = " ()+-./0123456789=ACEFGKMSTPacdegiklmnorstuv|×÷⁁−⌫▲▶▼◀";
 global.fnt_calculator = font_add_sprite_ext(
 	spr_fnt_calculator,
 	global.allow_characters,
@@ -201,14 +201,6 @@ if (room == rm_main) {
 					global.rooms[_i], 
 					global.rm_width * display_get_height() / display_get_width()
 				);
-			}
-			break;
-		case os_gxgames:
-			for (var _i = 0; _i < array_length(global.rooms); _i++) {
-				//room_set_height(
-				//	global.rooms[_i], 
-				//	global.rm_height * global.base_width / global.base_height
-				//);
 			}
 			break;
 		default:
