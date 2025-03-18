@@ -82,6 +82,10 @@ global.modes = {
 		mode_id: 0,
 		room_id: rm_standard,
 	},
+	Practice: {
+		mode_id: 2,
+		room_id: rm_practice
+	}
 }
 
 // Conversion rates input
@@ -179,34 +183,41 @@ draw_set_font(global.fnt_calculator);
 
 global.cursor_alpha = 1;
 
-// Room scaling
+// Changing the color of rooms
+global.rooms = ds_list_create();
+ds_list_add(global.rooms, rm_main);
 
-global.rooms = [rm_main, rm_menu, rm_standard, rm_converter];
+var _tmp_keys = variable_struct_get_names(global.modes);
+for (var _i = 0; _i < array_length(_tmp_keys); _i++) {
+	ds_list_add(global.rooms, global.modes[$ _tmp_keys[_i]].room_id);
+}
+
+for (var _i = 0; _i < ds_list_size(global.rooms); _i++) {
+	layer_set_target_room(global.rooms[| _i]);
+	layer_background_blend(layer_background_get_id(layer_get_id("Background")), global.back_color);
+}
+
+// Room scaling
 global.base_height = 640;
 global.base_width = 360;
 global.rm_height = window_get_height();
 //global.rm_width = global.rm_height * global.base_width / global.base_height;
 global.rm_width = 360;
 
-for (var _i = 0; _i < array_length(global.rooms); _i++) {
-	layer_set_target_room(global.rooms[_i]);
-	layer_background_blend(layer_background_get_id(layer_get_id("Background")), global.back_color);
-}
-
 if (room == rm_main) {
 	switch(os_type) {
 		case os_android:
-			for (var _i = 0; _i < array_length(global.rooms); _i++) {
+			for (var _i = 0; _i < ds_list_size(global.rooms); _i++) {
 				room_set_height(
-					global.rooms[_i], 
+					global.rooms[| _i], 
 					global.rm_width * display_get_height() / display_get_width()
 				);
 			}
 			break;
 		default:
-			for (var _i = 0; _i < array_length(global.rooms); _i++) {
-				room_set_height(global.rooms[_i], global.rm_height);
-				room_set_width(global.rooms[_i], global.rm_width);
+			for (var _i = 0; _i < ds_list_size(global.rooms); _i++) {
+				room_set_height(global.rooms[| _i], global.rm_height);
+				room_set_width(global.rooms[| _i], global.rm_width);
 			}
 			break;
 	}
@@ -214,6 +225,7 @@ if (room == rm_main) {
 
 surface_resize(application_surface, global.rm_width, global.rm_height);
 
-// Room navigation
+// Navigate to the landing room
 
+//ds_list_destroy(global.rooms); // Cleaning if needed
 room_goto(rm_menu);

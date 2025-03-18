@@ -32,33 +32,33 @@ if (
 				ds_list_size(global.modes.Standard.equations[_id][1])
 			);
 		}
-	} else if (keyboard_lastkey == vk_up)
+	} else if (keyboard_lastkey == vk_up) {
 		global.modes.Standard.current_equation_id = navigate_equations(
 			"▲",
 			global.modes.Standard.current_equation_id,
 			array_length(global.modes.Standard.equations)
 		);
-	else if (keyboard_lastkey == vk_down)
+	} else if (keyboard_lastkey == vk_down) {
 		global.modes.Standard.current_equation_id = navigate_equations(
 			"▼",
 			global.modes.Standard.current_equation_id,
 			array_length(global.modes.Standard.equations)
 		);
-	else if (keyboard_lastchar == "=" or keyboard_lastkey == vk_enter)
+	} else if (keyboard_lastchar == "=" or keyboard_lastkey == vk_enter) {
 		load_answer();
-	else if (keyboard_lastchar == "*")
+	} else if (keyboard_lastchar == "*") {
 		global.modes.Standard.cursor_position = input_equation(
 			global.modes.Standard.current_equation,
 			"×",
 			global.modes.Standard.cursor_position
 		);
-	else if (keyboard_lastchar = "/")
+	} else if (keyboard_lastchar = "/") {
 		global.modes.Standard.cursor_position = input_equation(
 			global.modes.Standard.current_equation,
 			"÷",
 			global.modes.Standard.cursor_position
 		);
-	else if (
+	} else if (
 		array_contains([
 			"0", "1", "2", "3", "4",
 			"5", "6", "7", "8", "9", 
