@@ -53,6 +53,7 @@ global.unit_name[? "t"] = "Metric Ton";
 
 // Initialize shared datas
 
+global.current_dropdown = noone;
 global.current_mode = "Menu";
 global.current_object = noone;
 

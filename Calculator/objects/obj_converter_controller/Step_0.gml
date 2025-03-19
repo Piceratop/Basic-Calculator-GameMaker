@@ -40,48 +40,56 @@ if (
 }
 
 // Checking for dropdowns and update converting units
-if (mouse_check_button_pressed(mb_left)) {
-	var _dropdown_id = collision_rectangle(mouse_x, mouse_y, mouse_x + 2, mouse_y + box_height, obj_dropdown, false, false);
-	if (_dropdown_id != noone && current_dropdown == noone) {
-		current_dropdown = _dropdown_id;
-		with (_dropdown_id) {
-			is_dropping = true;
-		}
-	} else {
-		with (current_dropdown) {
-			for (var _i = 0; _i < count_showing_options; _i++) {
-				var _by = y + _i * y_padding;
-				if (
-					mouse_y >= _by and mouse_y < _by + y_padding
-					and mouse_x > margin and mouse_x < room_width - margin - sprite_get_width(spr_scroll_button)
-				) {
-					current_option_id = idpos_current_scroll + _i;
-					break;
-				}
-			}
-			if (name == "input") {
-				global.modes.Converter.input_unit = options[| current_option_id];
-			}
-			if (name == "output") {
-				global.modes.Converter.output_unit = options[| current_option_id];
-			}
-		}
-		var _inst_scroll_nav_button = instance_position(mouse_x, mouse_y, obj_scroll_button);
-		if (_inst_scroll_nav_button != noone) {
-			with (obj_dropdown) {
-				if (name == _inst_scroll_nav_button.name) {
-					if (_inst_scroll_nav_button.type == "down") {
-						idpos_current_scroll = min(ds_list_size(options) - count_showing_options, idpos_current_scroll + 1);
-					} else {
-						idpos_current_scroll = max(0, idpos_current_scroll - 1);
-					}
-				}
-			}
-		} else {
-			with (obj_dropdown) {
-				is_dropping = false;
-			}
-			current_dropdown = noone;
-		}
+with (obj_dropdown) {
+	switch (name) {
+		case "input":
+			global.modes.Converter.input_unit = options[| current_option_id];
+			break;
+		case "output":
+			global.modes.Converter.output_unit = options[| current_option_id];
+			break;
 	}
 }
+//if (mouse_check_button_pressed(mb_left)) {
+//	var _dropdown_id = collision_rectangle(
+//		mouse_x, mouse_y,
+//		mouse_x + 2, mouse_y + box_height,
+//		obj_dropdown, false, false
+//	);
+//	if (_dropdown_id != noone && current_dropdown == noone) {
+//		current_dropdown = _dropdown_id;
+//		with (_dropdown_id) {
+//			is_dropping = true;
+//		}
+//	} else {
+//		with (current_dropdown) {
+//			for (var _i = 0; _i < count_showing_options; _i++) {
+//				var _by = y + _i * y_padding;
+//				if (
+//					mouse_y >= _by and mouse_y < _by + y_padding
+//					and mouse_x > margin and mouse_x < room_width - margin - sprite_get_width(spr_scroll_button)
+//				) {
+//					current_option_id = idpos_current_scroll + _i;
+//					break;
+//				}
+//			}
+//		}
+//		var _inst_scroll_nav_button = instance_position(mouse_x, mouse_y, obj_scroll_button);
+//		if (_inst_scroll_nav_button != noone) {
+//			with (obj_dropdown) {
+//				if (name == _inst_scroll_nav_button.name) {
+//					if (_inst_scroll_nav_button.type == "down") {
+//						idpos_current_scroll = min(ds_list_size(options) - count_showing_options, idpos_current_scroll + 1);
+//					} else {
+//						idpos_current_scroll = max(0, idpos_current_scroll - 1);
+//					}
+//				}
+//			}
+//		} else {
+//			with (obj_dropdown) {
+//				is_dropping = false;
+//			}
+//			current_dropdown = noone;
+//		}
+//	}
+//}
