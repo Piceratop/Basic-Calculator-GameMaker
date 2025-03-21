@@ -59,7 +59,7 @@ global.current_object = noone;
 
 global.modes = {
 	Converter: {
-		convert_mode: "Mass",
+		convert_mode: "Length",
 		conversion_rate: ds_map_create(),
 		current_equation: ds_list_create(),
 		converted: ds_list_create(),
@@ -103,7 +103,7 @@ global.modes.Converter.conversion_rate[? "Mass"] = ds_map_create();
 var _mcr = global.modes.Converter.conversion_rate[? "Mass"]
 _mcr[? "grain"] = parse_equation_from_string_to_single_list("0.0000648");
 _mcr[? "kg"] = parse_equation_from_string_to_single_list("1");
-_mcr[? "t"] = parse_equation_from_string_to_single_list("10000");
+_mcr[? "t"] = parse_equation_from_string_to_single_list("1000");
 
 // Adding the right type of units to the options in converter.
 var _co = global.modes.Converter.conversion_rate[? global.modes.Converter.convert_mode];
