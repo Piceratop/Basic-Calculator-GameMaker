@@ -38,6 +38,7 @@
   "resources":[
     {"id":{"name":"obj_back_button","path":"objects/obj_back_button/obj_back_button.yy",},},
     {"id":{"name":"obj_button","path":"objects/obj_button/obj_button.yy",},},
+    {"id":{"name":"obj_common_controller","path":"objects/obj_common_controller/obj_common_controller.yy",},},
     {"id":{"name":"obj_converter_box","path":"objects/obj_converter_box/obj_converter_box.yy",},},
     {"id":{"name":"obj_converter_controller","path":"objects/obj_converter_controller/obj_converter_controller.yy",},},
     {"id":{"name":"obj_debugging","path":"objects/obj_debugging/obj_debugging.yy",},},
@@ -47,6 +48,7 @@
     {"id":{"name":"obj_navigation_button","path":"objects/obj_navigation_button/obj_navigation_button.yy",},},
     {"id":{"name":"obj_practice_controller","path":"objects/obj_practice_controller/obj_practice_controller.yy",},},
     {"id":{"name":"obj_scroll_button","path":"objects/obj_scroll_button/obj_scroll_button.yy",},},
+    {"id":{"name":"obj_setting_button","path":"objects/obj_setting_button/obj_setting_button.yy",},},
     {"id":{"name":"obj_standard_controller","path":"objects/obj_standard_controller/obj_standard_controller.yy",},},
     {"id":{"name":"obj_test","path":"objects/obj_test/obj_test.yy",},},
     {"id":{"name":"rm_converter","path":"rooms/rm_converter/rm_converter.yy",},},
@@ -65,6 +67,7 @@
     {"id":{"name":"spr_box_top_left","path":"sprites/spr_box_top_left/spr_box_top_left.yy",},},
     {"id":{"name":"spr_fnt_calculator","path":"sprites/spr_fnt_calculator/spr_fnt_calculator.yy",},},
     {"id":{"name":"spr_scroll_button","path":"sprites/spr_scroll_button/spr_scroll_button.yy",},},
+    {"id":{"name":"spr_setting_button","path":"sprites/spr_setting_button/spr_setting_button.yy",},},
   ],
   "resourceType":"GMProject",
   "resourceVersion":"2.0",
