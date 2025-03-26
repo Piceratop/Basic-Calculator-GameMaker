@@ -1,4 +1,4 @@
-// Checking Keyboard Input
+/// Checking Keyboard Input
 
 if (
 	keyboard_check_pressed(vk_anykey) and

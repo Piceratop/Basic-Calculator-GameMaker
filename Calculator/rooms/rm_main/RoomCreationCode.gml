@@ -74,6 +74,10 @@ global.modes = {
 		mode_id: -1,
 		room_id: rm_menu,
 	},
+	Setting: {
+		mode_id: -2,
+		room_id: rm_setting,
+	},
 	Standard: {
 		current_equation: ds_list_create(),
 		current_equation_id: 0,
@@ -147,11 +151,11 @@ for (
 			_error_list, _curr[2], _curr[3]
 		]);
 	} else {
-	array_push(global.modes.Standard.equations, [
-		parse_equation_from_string_to_single_list(_curr[0]),
-		parse_equation_from_string_to_single_list(_curr[1]),
-		_curr[2], _curr[3]
-	]);
+		array_push(global.modes.Standard.equations, [
+			parse_equation_from_string_to_single_list(_curr[0]),
+			parse_equation_from_string_to_single_list(_curr[1]),
+			_curr[2], _curr[3]
+		]);
 	}
 }
 
