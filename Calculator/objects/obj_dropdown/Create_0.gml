@@ -6,7 +6,6 @@ idpos_current_scroll = 0;
 count_max_showing_options = 3;
 count_showing_options = min(count_max_showing_options, ds_list_size(options));
 
-
 y_padding = 48;
 y = y + y_padding / 2;
 

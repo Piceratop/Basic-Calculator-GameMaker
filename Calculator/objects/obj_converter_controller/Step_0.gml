@@ -43,10 +43,10 @@ if (
 with (obj_dropdown) {
 	switch (name) {
 		case "input":
-			global.modes.Converter.input_unit = options[| current_option_id];
+			global.modes.Converter.input_unit = options[| current_option_id][? "value"];
 			break;
 		case "output":
-			global.modes.Converter.output_unit = options[| current_option_id];
+			global.modes.Converter.output_unit = options[| current_option_id][? "value"];
 			break;
 	}
 }

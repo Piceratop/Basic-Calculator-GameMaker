@@ -7,7 +7,7 @@ draw_text(room_width - margin - 4, y - y_padding / 2, is_dropping ? "▼" : "◀
 
 draw_enclosed_text(
 	0, room_width, y - y_padding / 2, margin + 4,
-	global.unit_name[? options[| current_option_id]], 0, 0, global.fnt_color, "left"
+	options[| current_option_id][? "label"], 0, 0, global.fnt_color, "left"
 );
 
 if (is_dropping) {
@@ -24,7 +24,7 @@ if (is_dropping) {
 		
 		draw_enclosed_text(
 			0, room_width - scroll_btn_w, _y_pad + y_padding / 2, margin + 4,
-			global.unit_name[? options[| _i + idpos_current_scroll]], 0, 0, global.fnt_color, "left"
+			options[| _i + idpos_current_scroll][? "label"], 0, 0, global.fnt_color, "left"
 		);
 	}
 	

@@ -109,7 +109,9 @@ _mcr[? "grain"] = parse_equation_from_string_to_single_list("0.0000648");
 _mcr[? "kg"] = parse_equation_from_string_to_single_list("1");
 _mcr[? "t"] = parse_equation_from_string_to_single_list("1000");
 
-// Adding the right type of units to the options in converter.
+/* This code adds the right type of units to the options in converter.
+ *	It adds a unit's fullname and this unit's shorthand as label and value respectively.
+ */
 var _co = global.modes.Converter.conversion_rate[? global.modes.Converter.convert_mode];
 var _do = global.modes.Converter.dropdown_options;
 for (
@@ -117,7 +119,7 @@ for (
 	not is_undefined(_k);
 	_k = ds_map_find_next(_co, _k)
 ) {
-	ds_list_add(_do, _k);
+	dropdown_add_options(_do, global.unit_name[? _k], _k);
 }
 
 // Get saved data
