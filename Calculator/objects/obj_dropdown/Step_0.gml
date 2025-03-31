@@ -11,21 +11,7 @@ if (is_dropping) {
 
 // Handle dropdown clicking
 
-if (mouse_check_button_pressed(mb_left)) {
-	// Update the value of the current dropdown.
-	with (global.current_dropdown) {
-		for (var _i = 0; _i < count_showing_options; _i++) {
-			var _by = y + _i * y_padding;
-			if (
-				mouse_y >= _by and mouse_y < _by + y_padding
-				and mouse_x > margin and mouse_x < room_width - margin - sprite_get_width(spr_scroll_button)
-			) {
-				current_option_id = idpos_current_scroll + _i;
-				break;
-			}
-		}
-	}
-	
+if (mouse_check_button_pressed(mb_left)) {	
 	// Check whether the user presses on a navigation button.
 	var _inst_scroll_nav_button = instance_position(mouse_x, mouse_y, obj_scroll_button);
 	if (_inst_scroll_nav_button != noone) {

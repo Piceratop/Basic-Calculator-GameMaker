@@ -25,18 +25,9 @@ var _sb_width = sprite_get_width(spr_scroll_button) / 2;
 var _margin = (room_width - _box_width) / 2;
 
 // Display of input unit
-input_unit_dropdown = instance_create_layer(
-	room_width / 2, 
-	_display_top_position,
-	"Button",
-	obj_dropdown, 
-   {
-		dropdown_height: box_height,
-      image_xscale: _box_width / sprite_get_width(spr_border),
-      margin: _margin,
-      name: "input",
-		options: global.modes.Converter.dropdown_options
-   }
+input_unit_dropdown = dropdown_create(
+	room_width / 2, _display_top_position, "Button", "input",
+	_box_width, box_height, global.modes.Converter.dropdown_options
 );
 with (input_unit_dropdown) 
 	global.modes.Converter.input_unit = options[| current_option_id];
@@ -53,18 +44,9 @@ instance_create_layer(
 );
 
 // Display of output unit
-output_unit_dropdown = instance_create_layer(
-	room_width / 2, 
-	_display_top_position + 3 * box_height,
-	"Button",
-	obj_dropdown, 
-	{
-		dropdown_height: box_height,
-      image_xscale: _box_width / sprite_get_width(spr_border),
-      margin: _margin,
-      name: "output",
-		options: global.modes.Converter.dropdown_options
-   }
+output_unit_dropdown = dropdown_create(
+	room_width / 2, _display_top_position + 3 * box_height, "Button", "output", 
+	_box_width, box_height, global.modes.Converter.dropdown_options
 );
 with (output_unit_dropdown) 
 	global.modes.Converter.output_unit = options[| current_option_id];

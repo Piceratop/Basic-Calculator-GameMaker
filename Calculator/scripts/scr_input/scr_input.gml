@@ -14,7 +14,7 @@ function load_answer() {
 			var _b = global.modes.Converter;
 	      ds_list_destroy(_b.converted);
 	      var _a = multiply(_b.current_equation, _b.conversion_rate[? _b.convert_mode][? _b.input_unit]);
-	      _b.converted = divide(_a, _b.conversion_rate[? _b.convert_mode][? _b.output_unit], 5);
+	      _b.converted = divide(_a, _b.conversion_rate[? _b.convert_mode][? _b.output_unit], 6);
 	      ds_list_destroy(_a);
 			break;
 			
