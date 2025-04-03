@@ -32,7 +32,7 @@ if (mouse_check_button_pressed(mb_left)) {
 			mouse_x + 2, mouse_y + dropdown_height,
 			obj_dropdown, false, false
 		);
-		if (id == global.current_dropdown) {
+		if (id == global.current_dropdown && ds_list_size(options) > 0) {
 			is_dropping = true;
 		} else {
 			is_dropping = false;

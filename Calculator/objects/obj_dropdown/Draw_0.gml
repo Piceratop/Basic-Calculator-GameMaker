@@ -3,12 +3,14 @@ draw_self();
 draw_set_valign(fa_middle);
 draw_set_halign(fa_right);
 draw_set_color(global.fnt_color);
-draw_text(x_left_side + dropdown_width - 4, y - y_padding / 2, is_dropping ? "▼" : "◀");
 
-draw_enclosed_text(
-	0, room_width, y - y_padding / 2, x_left_side + 4,
-	options[| current_option_id][? "label"], 0, 0, global.fnt_color, "left"
-);
+if (ds_list_size(options) > 0) {
+	draw_text(x_left_side + dropdown_width - 4, y - y_padding / 2, is_dropping ? "▼" : "◀");
+	draw_enclosed_text(
+		0, room_width, y - y_padding / 2, x_left_side + 4,
+		options[| current_option_id][? "label"], 0, 0, global.fnt_color, "left"
+	);	
+}
 
 
 if (is_dropping) {
