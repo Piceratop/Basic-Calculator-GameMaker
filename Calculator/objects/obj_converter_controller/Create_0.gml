@@ -24,10 +24,23 @@ box_height = 48;
 var _sb_width = sprite_get_width(spr_scroll_button) / 2;
 var _margin = (room_width - _box_width) / 2;
 
-// Display of input unit
+/* This code adds the right type of units to both dropdowns.
+ *	It adds a unit's fullname and this unit's shorthand as a label and its value respectively.
+ */
+var _co = global.modes.Converter.conversion_rate[? global.modes.Converter.convert_mode];
+dropdown_options = ds_list_create();
+for (
+	var _k = ds_map_find_first(_co);
+	not is_undefined(_k);
+	_k = ds_map_find_next(_co, _k)
+) {
+	dropdown_options_add(dropdown_options, global.unit_name[? _k], _k);
+}
+
+// The code will display the dropdown representing the input unit
 input_unit_dropdown = dropdown_create(
 	room_width / 2, _display_top_position, "Button", "input",
-	_box_width, box_height, global.modes.Converter.dropdown_options
+	_box_width, box_height, dropdown_options
 );
 with (input_unit_dropdown) 
 	global.modes.Converter.input_unit = options[| current_option_id];
@@ -43,10 +56,10 @@ instance_create_layer(
 	}
 );
 
-// Display of output unit
+// The code will display the dropdown representing the output unit
 output_unit_dropdown = dropdown_create(
 	room_width / 2, _display_top_position + 3 * box_height, "Button", "output", 
-	_box_width, box_height, global.modes.Converter.dropdown_options
+	_box_width, box_height, dropdown_options
 );
 with (output_unit_dropdown) 
 	global.modes.Converter.output_unit = options[| current_option_id];
@@ -61,7 +74,3 @@ instance_create_layer(
 		name: "output",
 	}
 );
-
-// Dropdown Handling
-
-current_dropdown = noone;

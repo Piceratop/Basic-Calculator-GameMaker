@@ -7,7 +7,7 @@ if (not had_layout) {
 				not is_undefined(_k);
 				_k = ds_map_find_next(global.modes.Converter.conversion_rate, _k)
 			) {
-					dropdown_add_options(_modes_conversion, _k);
+					dropdown_options_add(_modes_conversion, _k);
 				}
 			var _converter_type_dropdown = dropdown_create(
 				room_width / 2, y_top_label + y_gap, "Button", "Converter Type",

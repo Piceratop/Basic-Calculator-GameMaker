@@ -1,4 +1,4 @@
-// Checking Keyboard Input
+// This code checks for keyboard inputs. It can handle digit input and basic controls.
 if (
 	keyboard_check_pressed(vk_anykey) and
 	not array_contains([vk_alt, vk_lalt, vk_ralt, vk_control, vk_lcontrol, vk_rcontrol, vk_shift, vk_lshift, vk_rshift], keyboard_lastkey)
@@ -39,7 +39,7 @@ if (
 	}
 }
 
-// Checking for dropdowns and update converting units
+// This code updates converting units for both input and output.
 with (obj_dropdown) {
 	switch (name) {
 		case "input":

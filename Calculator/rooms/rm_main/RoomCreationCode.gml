@@ -64,7 +64,6 @@ global.modes = {
 		current_equation: ds_list_create(),
 		converted: ds_list_create(),
 		cursor_position: 0,
-		dropdown_options: ds_list_create(),
 		input_unit: "m",
 		output_unit: "m",
 		mode_id: 1,
@@ -108,19 +107,6 @@ var _mcr = global.modes.Converter.conversion_rate[? "Mass"]
 _mcr[? "grain"] = parse_equation_from_string_to_single_list("0.0000648");
 _mcr[? "kg"] = parse_equation_from_string_to_single_list("1");
 _mcr[? "t"] = parse_equation_from_string_to_single_list("1000");
-
-/* This code adds the right type of units to the options in converter.
- *	It adds a unit's fullname and this unit's shorthand as label and value respectively.
- */
-var _co = global.modes.Converter.conversion_rate[? global.modes.Converter.convert_mode];
-var _do = global.modes.Converter.dropdown_options;
-for (
-	var _k = ds_map_find_first(_co);
-	not is_undefined(_k);
-	_k = ds_map_find_next(_co, _k)
-) {
-	dropdown_add_options(_do, global.unit_name[? _k], _k);
-}
 
 // Get saved data
 

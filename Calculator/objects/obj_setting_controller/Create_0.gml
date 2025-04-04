@@ -8,7 +8,7 @@ had_layout = false;
 
 // This code creates a dropdown menu to store the current mode's setting to be changed.
 options_setting_dropdown = ds_list_create();
-dropdown_add_options(options_setting_dropdown, "Converter");
+dropdown_options_add(options_setting_dropdown, "Converter");
 
 setting_dropdown = dropdown_create(
 	room_width / 2, 80, "Button", "Mode Selection",
