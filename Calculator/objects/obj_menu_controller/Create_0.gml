@@ -2,8 +2,10 @@
 
 labels = variable_struct_get_names(global.modes);
 for (var _i = 0; _i < array_length(labels); _i++) {
-	if (global.modes[$ labels[_i]].mode_id < 0)
-		array_delete(labels, _i, 1)
+	if (global.modes[$ labels[_i]].mode_id < 0) {
+		array_delete(labels, _i, 1);
+		_i--;
+	} 
 }
 
 // This codes initialize the sizes and the positions of the navigation buttons.

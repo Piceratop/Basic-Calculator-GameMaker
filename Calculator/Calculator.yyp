@@ -58,6 +58,7 @@
     {"id":{"name":"rm_practice","path":"rooms/rm_practice/rm_practice.yy",},},
     {"id":{"name":"rm_setting","path":"rooms/rm_setting/rm_setting.yy",},},
     {"id":{"name":"rm_standard","path":"rooms/rm_standard/rm_standard.yy",},},
+    {"id":{"name":"scr_clean","path":"scripts/scr_clean/scr_clean.yy",},},
     {"id":{"name":"scr_create","path":"scripts/scr_create/scr_create.yy",},},
     {"id":{"name":"scr_dropdown","path":"scripts/scr_dropdown/scr_dropdown.yy",},},
     {"id":{"name":"scr_input","path":"scripts/scr_input/scr_input.yy",},},

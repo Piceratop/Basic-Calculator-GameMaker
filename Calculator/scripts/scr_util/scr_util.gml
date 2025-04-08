@@ -18,52 +18,6 @@ function ds_list_convert_from_array(_array) {
 }
 
 /**
- * @function				ds_list_destroy_all(_list)
- * @description			This function will destroy the list and all of its sublist elements.
- * @param {Id.DsList}	_list - The list to be destroyed.
- */
- 
-function ds_list_destroy_all(_list) {
-	for (var _i = 0; _i < ds_list_size(_list); _i++) {
-		if (typeof(_list[| _i]) == "ref" and ds_exists(_list[| _i], ds_type_list))
-			ds_list_destroy_all(_list[| _i]);
-	}
-	ds_list_destroy(_list);
-}
-
-/**
- * @function				ds_list_destroy_multiple()
- * @description			This function will destroy all given lists.
- */
-
-function ds_list_destroy_multiple() {
-	for (var _i = 0; _i < argument_count; _i++)
-		ds_list_destroy(argument[_i]);
-}
-
-/**
- * @function				ds_list_read_all(_list)
- * @description			This function will NOT read the list and all of its sub list using the normal
-								ds_list_read function.
- * @param {Id.DsList}	_return_list - The id where the list is going to be written.
- * @param {String}		_list_str - The stringified list to be read.
- */
-
-function ds_list_read_all(_return_list, _list_str) {
-	//ds_list_read(_return_list, _list_str);
-	//for (var _i = 0; _i < ds_list_size(_return_list); _i++)
-	//	if (typeof(_return_list[| _i] == "string"))
-	//		if (string_pos("2F01", _return_list[_i]) == 0) {
-	//			var _list_element = ds_list_create();
-	//			if (_return_list[| _i] == "2F01000000000000") {
-	//				_return_list[| _i] = _list_element;
-	//			} else {
-					
-	//			}
-	//		}
-}
-
-/**
  * @function				ds_list_write_all(_list)
  * @description			This function will write the list and all of its sub list using the normal
 								ds_list_write function.
