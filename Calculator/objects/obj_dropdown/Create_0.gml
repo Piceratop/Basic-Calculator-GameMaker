@@ -19,7 +19,7 @@ instance_create_layer(
 	scroll_btn_x, y + 2,
 	"Button", obj_scroll_button,
 	{
-		depth: -1,
+		depth: -2,
 		image_index: 0,
 		name: name,
 		type: "up",
@@ -32,9 +32,12 @@ instance_create_layer(
 	"Button",
 	obj_scroll_button,
 	{
-		depth: -1,
+		depth: -2,
 		image_index: 1,
 		name: name,
 		type: "down",
 	}
 )
+
+
+

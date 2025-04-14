@@ -1,10 +1,66 @@
 /**
- * @function		load_answer
- * @description	This function processes the current equation based on the selected mode (Converter or Standard) and updates the global state accordingly.
+ * @function				handle_simple_numpad_input
+ * @description			This function get the input from the numpad and modifying the current equation
+ *								and the cursor position according to the current mode
+ * @param {String}		_mode - The room mode to be handled
+ * @return {Undefined}
  */
+function numpad_check_simple_input(_mode=global.current_mode) {
+	if (
+		keyboard_check_pressed(vk_anykey) and
+		not array_contains([
+			vk_alt, vk_lalt, vk_ralt,
+			vk_control, vk_lcontrol, vk_rcontrol,
+			vk_shift, vk_lshift, vk_rshift
+		], keyboard_lastkey)
+	) {
+		alarm[0] = game_get_speed(gamespeed_fps);
+		global.cursor_alpha = 1;
+		if (keyboard_lastkey == vk_backspace) {
+			global.modes[@ _mode].cursor_position = input_equation(
+				global.modes[@ _mode].current_equation,
+				"⌫",
+				global.modes[@ _mode].cursor_position);
+		} else if (keyboard_lastkey == vk_right) {
+			global.modes[@ _mode].cursor_position = navigate_equations(
+				"▶",
+				global.modes[@ _mode].cursor_position,
+				ds_list_size(global.modes[@ _mode].current_equation)
+			)
+		} else if (keyboard_lastkey == vk_left) {
+			global.modes[@ _mode].cursor_position = navigate_equations(
+				"◀",
+				global.modes[@ _mode].cursor_position,
+				ds_list_size(global.modes[@ _mode].current_equation)
+			)
+	   } else if (keyboard_lastchar == "=" or keyboard_lastkey == vk_enter) {
+			load_answer(_mode);
+	   } else if (
+			array_contains([
+				"0", "1", "2", "3", "4",
+				"5", "6", "7", "8", "9", 
+				"."
+			], keyboard_lastchar)
+		) {
+			global.modes[@ _mode].cursor_position = input_equation(
+				global.modes[@ _mode].current_equation,
+				keyboard_lastchar,
+				global.modes[@ _mode].cursor_position
+			);
+		}
+	}
 
-function load_answer() {
-	switch (global.current_mode) {
+}
+
+/**
+ * @function				load_answer
+ * @description			This function processes the current equation based on the selected mode 
+ *								(Converter or Standard) and updates the global state accordingly.
+ * @param {String}		_mode - The mode to load the answer
+ * @return {Undefined}
+ */
+function load_answer(_mode=global.current_mode) {
+	switch (_mode) {
 		case "Converter":
 			/**
 			 * Ignore blank input.

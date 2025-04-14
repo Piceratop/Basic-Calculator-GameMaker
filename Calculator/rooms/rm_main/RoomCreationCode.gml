@@ -56,6 +56,9 @@ global.unit_name[? "t"] = "Metric Ton";
 global.current_dropdown = noone;
 global.current_mode = "Menu";
 global.current_object = noone;
+global.numpad_button_height = 40;
+global.numpad_gap = 4;
+global.numpad_button_full_height = global.numpad_button_height + global.numpad_gap;
 
 global.modes = {
 	Converter: {
