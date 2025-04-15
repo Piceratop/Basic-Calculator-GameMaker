@@ -21,6 +21,7 @@ function order_labels(_label1, _label2) {
 }
 
 array_sort(labels, order_labels);
+array_push(labels, "Setting");
 
 // This code creates the button to navigate to a specific room.
 

@@ -90,7 +90,10 @@ global.modes = {
 		room_id: rm_standard,
 	},
 	Practice: {
+		current_equation: ds_list_create(),
+		cursor_position: 0,
 		mode_id: 2,
+		practice_mode: "+",
 		room_id: rm_practice
 	}
 }
@@ -163,8 +166,9 @@ else
 // Font and drawing elements
 
 global.allow_characters = 
-	" ()+-./0123456789:=ACEFGKLMSTP" +
-	"acdeghiklmnoprstuvy|×÷⁁−⌫▲▶▼◀";
+	" &()+-./0123456789:=ACEFGKLMSTP" +
+	"abcdefghiklmnoprstuvy" + 
+	"|×÷⁁−⌫▲▶▼◀";
 global.fnt_calculator = font_add_sprite_ext(
 	spr_fnt_calculator,
 	global.allow_characters,
