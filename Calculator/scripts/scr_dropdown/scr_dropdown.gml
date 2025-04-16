@@ -18,7 +18,7 @@ function dropdown_options_add(_dropdown, _label, _value=undefined) {
  * @param {Real}					_width - The width of the dropdown
  * @param {Real}					_height - The height of the dropdown
  * @param {Id.DsList}			_options - List the possible options for the dropdown
- * @returns {Asset.GMObject}
+ * @return {Asset.GMObject}
  */
 
 function dropdown_create(_x, _y, _layer, _name, _width, _height, _options=undefined) {
@@ -38,12 +38,28 @@ function dropdown_create(_x, _y, _layer, _name, _width, _height, _options=undefi
 }
 
 /**
- * @function					get_value_of_dropdown
+ * @function					dropdown_destroy
+ * @description				The function destroys the given dropdown.
+ * @param {Asset.GMObject}	_dropdown - The id of the dropdown
+ * @return {Undefined}
+ */
+
+function dropdown_destroy(_dropdown) {
+	with (_dropdown) {
+		if (typeof(options) == "ref" and ds_exists(options, ds_type_list)) {
+			ds_list_destroy_all(options);
+		}
+		instance_destroy(self);
+	}
+}
+
+/**
+ * @function					dropdown_get_value
  * @description				This function gets the current value of the given dropdown.
  * @param {Asset.GMObject}	_dropdown - The id of the dropdown
  */
 
-function get_value_of_dropdown(_dropdown) {
+function dropdown_get_value(_dropdown) {
 	with (_dropdown) {
 		return options[| current_option_id][? "value"];
 	}

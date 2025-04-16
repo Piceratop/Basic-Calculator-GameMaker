@@ -37,18 +37,9 @@ function ds_list_destroy_multiple() {
  */
 
 function room_clean_goto(_room, _mode) {
-	var _holder_dropdown_options = ds_list_create();
 	with (obj_dropdown) {
-		ds_list_add(_holder_dropdown_options, options);
+		dropdown_destroy(self);
 	}
-
-	for (var _i = 0; _i < ds_list_size(_holder_dropdown_options); _i++) {
-		var _element_current = _holder_dropdown_options[| _i];
-		if (typeof(_element_current) == "ref" and ds_exists(_element_current, ds_type_list)) {
-			ds_list_destroy_all(_element_current);
-		}
-	}
-	ds_list_destroy(_holder_dropdown_options);
 	
 	global.current_mode = _mode;
 	room_goto(_room);

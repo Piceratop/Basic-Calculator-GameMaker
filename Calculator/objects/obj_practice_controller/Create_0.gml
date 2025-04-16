@@ -9,4 +9,8 @@ dropdown_practice_mode = dropdown_create(
 	40, options_practice_mode
 );
 
+while (dropdown_get_value(dropdown_practice_mode) != global.modes.Practice.practice_mode) {
+	dropdown_practice_mode.current_option_id += 1;
+}
+
 rendered_mode_choice = false;

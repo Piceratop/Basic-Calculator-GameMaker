@@ -1,4 +1,10 @@
+var _dropdown_mode = dropdown_get_value(dropdown_practice_mode);
+
 if (!rendered_mode_choice) {
-	show_debug_message(get_value_of_dropdown(dropdown_practice_mode));
+	global.modes.Practice.practice_mode = _dropdown_mode;
 	rendered_mode_choice = true;
+}
+
+if (global.modes.Practice.practice_mode != _dropdown_mode) {
+	rendered_mode_choice = false;
 }
