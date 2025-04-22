@@ -14,3 +14,25 @@ while (dropdown_get_value(dropdown_practice_mode) != global.modes.Practice.pract
 }
 
 rendered_mode_choice = false;
+
+#region This code initializes the corresponding option's name to its id.
+var _t_map = global.modes.Practice.option_id_mapping;
+switch(global.modes.Practice.practice_mode) {
+	case "+":
+	case "+-":
+		ds_list_add(_t_map, "Question length:");
+		ds_list_add(_t_map, "Minimum: ");
+		ds_list_add(_t_map, "Maximum: ");
+		break;
+}
+#endregion
+
+#region This code creates the inputs
+for (var _i = 0; _i < ds_list_size(_t_map); _i++) {
+	var _input_instance;
+}
+#endregion
+
+#region This code creates a numpad
+
+#endregion

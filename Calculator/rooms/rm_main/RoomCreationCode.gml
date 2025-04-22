@@ -93,6 +93,8 @@ global.modes = {
 		current_equation: ds_list_create(),
 		cursor_position: 0,
 		mode_id: 2,
+		option_id: 0,
+		option_id_mapping: ds_list_create(),
 		practice_mode: "+",
 		room_id: rm_practice
 	}

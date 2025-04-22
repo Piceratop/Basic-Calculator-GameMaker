@@ -37,9 +37,15 @@ else if (label == "▶" or label == "◀") {
 		}
 	}
 } else if (label == "▲" or label == "▼") {
-	global.modes.Standard.current_equation_id = navigate_equations(
-		label,
-		global.modes.Standard.current_equation_id,
-		array_length(global.modes.Standard.equations)
-	);
+	switch (global.current_mode) {
+		case "Standard":
+			global.modes.Standard.current_equation_id = navigate_equations(
+				label,
+				global.modes.Standard.current_equation_id,
+				array_length(global.modes.Standard.equations)
+			);
+			break;
+		case "Practice":
+			
+	}
 }

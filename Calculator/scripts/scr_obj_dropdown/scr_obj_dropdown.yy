@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"scr_dropdown",
+  "%Name":"scr_obj_dropdown",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"scr_dropdown",
+  "name":"scr_obj_dropdown",
   "parent":{
     "name":"Scripts",
     "path":"folders/Scripts.yy",

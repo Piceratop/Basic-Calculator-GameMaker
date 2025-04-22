@@ -18,10 +18,15 @@ function dropdown_options_add(_dropdown, _label, _value=undefined) {
  * @param {Real}					_width - The width of the dropdown
  * @param {Real}					_height - The height of the dropdown
  * @param {Id.DsList}			_options - List the possible options for the dropdown
+ * @param {Bool}					_has_display - Whether to display the box or not
  * @return {Asset.GMObject}
  */
 
-function dropdown_create(_x, _y, _layer, _name, _width, _height, _options=undefined) {
+function dropdown_create(
+	_x, _y, _layer, _name, _width, _height,
+	_options=undefined, _has_display=false, 
+	_display_margin_top=32
+) {
 	if (is_undefined(_options)) {
 		_options = ds_list_create();
 	}
@@ -34,6 +39,16 @@ function dropdown_create(_x, _y, _layer, _name, _width, _height, _options=undefi
 			options: _options,
 		}
 	);
+	if (_has_display) {
+		var _display = instance_create_layer(
+			_x, _y + _display_margin_top, _layer, obj_dropdown_display,
+			{
+				width: _width,
+				height: _height,
+				name: _name
+			}	
+		)
+	}
 	return _dropdown_id;
 }
 
