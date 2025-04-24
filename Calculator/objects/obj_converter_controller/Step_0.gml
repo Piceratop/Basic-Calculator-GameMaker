@@ -16,3 +16,12 @@ with (obj_dropdown) {
 			break;
 	}
 }
+
+// This code set the display to be the current values of the input and output
+with (obj_dropdown_display) {
+	switch (name) {
+		case "input":
+			value = parse_equation_from_single_list_to_string(global.modes.Converter.current_equation);
+			break;
+	}
+}

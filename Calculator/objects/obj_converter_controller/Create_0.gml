@@ -41,21 +41,22 @@ for (
 // The code will display the dropdown representing the input unit
 input_unit_dropdown = dropdown_create(
 	room_width / 2, _display_top_position, "Button", "input",
-	_box_width, box_height, dropdown_options
+	_box_width, box_height, dropdown_options, true,
+	parse_equation_from_single_list_to_string(global.modes.Converter.current_equation)
 );
 with (input_unit_dropdown) 
 	global.modes.Converter.input_unit = options[| current_option_id];
-instance_create_layer(
-	room_width / 2,
-	_display_top_position + box_height + 8,
-	"Button",
-	obj_converter_box, 
-	{
-		image_xscale: _box_width / sprite_get_width(spr_box_center),
-		image_yscale: box_height / sprite_get_height(spr_box_center),
-		name: "input",
-	}
-);
+//instance_create_layer(
+//	room_width / 2,
+//	_display_top_position + box_height + 8,
+//	"Button",
+//	obj_converter_box, 
+//	{
+//		image_xscale: _box_width / sprite_get_width(spr_box_center),
+//		image_yscale: box_height / sprite_get_height(spr_box_center),
+//		name: "input",
+//	}
+//);
 
 // The code will display the dropdown representing the output unit
 output_unit_dropdown = dropdown_create(

@@ -25,7 +25,7 @@ function dropdown_options_add(_dropdown, _label, _value=undefined) {
 function dropdown_create(
 	_x, _y, _layer, _name, _width, _height,
 	_options=undefined, _has_display=false, 
-	_display_margin_top=32
+	_init_value="", _display_margin_top=56
 ) {
 	if (is_undefined(_options)) {
 		_options = ds_list_create();
@@ -45,7 +45,8 @@ function dropdown_create(
 			{
 				width: _width,
 				height: _height,
-				name: _name
+				name: _name,
+				value: _init_value
 			}	
 		)
 	}

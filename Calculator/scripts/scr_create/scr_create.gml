@@ -46,13 +46,13 @@ function create_numpad(_x, _y, _layout, _w, _h = 40, _gap = 4) {
  * @param {Real}		_cursor_pos - The position of the cursor relative to the start of the text (in character)
  * @param {Real}		_cursor_alpha - The alpha of the cursor
  * @param {Real}		_color - The color of the text
- * @param {String}	_align - The alignment of the text, default is right alignment
+ * @param {String}	_halign - The alignment of the text, default is right alignment
  * @return {Undefined} 
  */
 
 function draw_enclosed_text(
 	_left_pos, _right_pos, _y, _padding,
-	_str, _cursor_pos, _cursor_alpha, _color, _align="right"
+	_str, _cursor_pos, _cursor_alpha, _color, _halign="right"
 ) {
 	draw_set_color(_color);
 	/**
@@ -68,7 +68,7 @@ function draw_enclosed_text(
 		if (string_width(_after_cursor) + 2 < (_right_pos - _left_pos) / 2 - _padding)
 			_cursor_pixel_position = _right_pos - (_padding + string_width(_after_cursor) + 2);
 	} else {
-		switch(_align) {
+		switch(_halign) {
 			case "left":
 				_cursor_pixel_position = _left_pos + _padding + string_width(_before_cursor) + 2;
 				break;

@@ -17,21 +17,23 @@ function numpad_check_simple_input(_mode=global.current_mode) {
 		alarm[0] = game_get_speed(gamespeed_fps);
 		global.cursor_alpha = 1;
 		if (keyboard_lastkey == vk_backspace) {
-			global.modes[@ _mode].cursor_position = input_equation(
-				global.modes[@ _mode].current_equation,
+			
+			global.modes[$ _mode].cursor_position = input_equation(
+				global.modes[$ _mode].current_equation,
 				"⌫",
-				global.modes[@ _mode].cursor_position);
+				global.modes[$ _mode].cursor_position
+			);
 		} else if (keyboard_lastkey == vk_right) {
-			global.modes[@ _mode].cursor_position = navigate_equations(
+			global.modes[$ _mode].cursor_position = navigate_equations(
 				"▶",
-				global.modes[@ _mode].cursor_position,
-				ds_list_size(global.modes[@ _mode].current_equation)
+				global.modes[$ _mode].cursor_position,
+				ds_list_size(global.modes[$ _mode].current_equation)
 			)
 		} else if (keyboard_lastkey == vk_left) {
-			global.modes[@ _mode].cursor_position = navigate_equations(
+			global.modes[$ _mode].cursor_position = navigate_equations(
 				"◀",
-				global.modes[@ _mode].cursor_position,
-				ds_list_size(global.modes[@ _mode].current_equation)
+				global.modes[$ _mode].cursor_position,
+				ds_list_size(global.modes[$ _mode].current_equation)
 			)
 	   } else if (keyboard_lastchar == "=" or keyboard_lastkey == vk_enter) {
 			load_answer(_mode);
@@ -42,10 +44,10 @@ function numpad_check_simple_input(_mode=global.current_mode) {
 				"."
 			], keyboard_lastchar)
 		) {
-			global.modes[@ _mode].cursor_position = input_equation(
-				global.modes[@ _mode].current_equation,
+			global.modes[$ _mode].cursor_position = input_equation(
+				global.modes[$ _mode].current_equation,
 				keyboard_lastchar,
-				global.modes[@ _mode].cursor_position
+				global.modes[$ _mode].cursor_position
 			);
 		}
 	}
