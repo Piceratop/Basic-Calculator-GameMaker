@@ -40,7 +40,6 @@
     {"id":{"name":"obj_back_button","path":"objects/obj_back_button/obj_back_button.yy",},},
     {"id":{"name":"obj_button","path":"objects/obj_button/obj_button.yy",},},
     {"id":{"name":"obj_common_controller","path":"objects/obj_common_controller/obj_common_controller.yy",},},
-    {"id":{"name":"obj_converter_box","path":"objects/obj_converter_box/obj_converter_box.yy",},},
     {"id":{"name":"obj_converter_controller","path":"objects/obj_converter_controller/obj_converter_controller.yy",},},
     {"id":{"name":"obj_debugging","path":"objects/obj_debugging/obj_debugging.yy",},},
     {"id":{"name":"obj_display_border","path":"objects/obj_display_border/obj_display_border.yy",},},

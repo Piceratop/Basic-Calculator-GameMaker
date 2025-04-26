@@ -22,6 +22,11 @@ with (obj_dropdown_display) {
 	switch (name) {
 		case "input":
 			value = parse_equation_from_single_list_to_string(global.modes.Converter.current_equation);
+			cursor_alpha = global.cursor_alpha;
+			cursor_position = global.modes.Converter.cursor_position;
+			break;
+		case "output":
+			value = parse_equation_from_single_list_to_string(global.modes.Converter.converted);
 			break;
 	}
 }

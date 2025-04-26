@@ -1,5 +1,8 @@
 draw_self();
+var _temp_valign = draw_get_valign();
+draw_set_valign(fa_bottom);
 draw_enclosed_text(
 	x - width / 2, x + width / 2, y + 16, 8, value,
-	0, cursor_alpha, global.fnt_color, "left"
+	cursor_position, cursor_alpha, global.fnt_color, "left"
 );
+draw_set_valign(_temp_valign);

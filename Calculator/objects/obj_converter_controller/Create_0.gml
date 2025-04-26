@@ -38,41 +38,24 @@ for (
 	dropdown_options_add(dropdown_options, global.unit_name[? _k], _k);
 }
 
-// The code will display the dropdown representing the input unit
+#region The code will display the input
 input_unit_dropdown = dropdown_create(
 	room_width / 2, _display_top_position, "Button", "input",
 	_box_width, box_height, dropdown_options, true,
 	parse_equation_from_single_list_to_string(global.modes.Converter.current_equation)
 );
-with (input_unit_dropdown) 
+with (input_unit_dropdown) { 
 	global.modes.Converter.input_unit = options[| current_option_id];
-//instance_create_layer(
-//	room_width / 2,
-//	_display_top_position + box_height + 8,
-//	"Button",
-//	obj_converter_box, 
-//	{
-//		image_xscale: _box_width / sprite_get_width(spr_box_center),
-//		image_yscale: box_height / sprite_get_height(spr_box_center),
-//		name: "input",
-//	}
-//);
+}
+#endregion
 
-// The code will display the dropdown representing the output unit
+#region The code will display the output
 output_unit_dropdown = dropdown_create(
 	room_width / 2, _display_top_position + 3 * box_height, "Button", "output", 
-	_box_width, box_height, dropdown_options
+	_box_width, box_height, dropdown_options, true,
+	parse_equation_from_single_list_to_string(global.modes.Converter.converted)
 );
-with (output_unit_dropdown) 
+with (output_unit_dropdown) {
 	global.modes.Converter.output_unit = options[| current_option_id];
-instance_create_layer(
-	room_width / 2,
-	_display_top_position + 4 * box_height + 8,
-	"Button",
-	obj_converter_box, 
-	{
-		image_xscale: _box_width / sprite_get_width(spr_box_center),
-		image_yscale: box_height / sprite_get_height(spr_box_center),
-		name: "output",
-	}
-);
+}
+#endregion
