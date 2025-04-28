@@ -54,6 +54,7 @@ function draw_enclosed_text(
 	_left_pos, _right_pos, _y, _padding,
 	_str, _cursor_pos, _cursor_alpha, _color, _halign="right"
 ) {
+	var _curr_fnt_color = draw_get_color();
 	draw_set_color(_color);
 	/**
 	 * Set the cursor position. Its default position is the center.
@@ -105,4 +106,7 @@ function draw_enclosed_text(
 		);
 		draw_text(_left_pos + _padding, _y, "◀");
 	}
+	
+	// Reset the settings for drawing 
+	draw_set_color(_curr_fnt_color);
 }

@@ -168,8 +168,9 @@ else
 // Font and drawing elements
 
 global.allow_characters = 
-	" &()+-./0123456789:=ACEFGKLMSTP" +
-	"abcdefghiklmnoprstuvy" + 
+	" &'()+-./0123456789:=" +
+	"ACEFGKLMSTPQ" + 
+	"abcdefghiklmnoprstuvxy" + 
 	"|×÷⁁−⌫▲▶▼◀";
 global.fnt_calculator = font_add_sprite_ext(
 	spr_fnt_calculator,

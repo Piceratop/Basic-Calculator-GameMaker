@@ -41,7 +41,7 @@ function dropdown_create(
 	);
 	if (_has_display) {
 		var _display = instance_create_layer(
-			_x, _y + _display_margin_top, _layer, obj_dropdown_display,
+			_x, _y + _display_margin_top, _layer, obj_display_box,
 			{
 				width: _width,
 				height: _height,
@@ -79,4 +79,31 @@ function dropdown_get_value(_dropdown) {
 	with (_dropdown) {
 		return options[| current_option_id][? "value"];
 	}
+}
+
+/**
+ * @function						display_create_with_label
+ * @description					This function will create a display using the predefined arguments.
+ * @param {Real}					_x - The x position of the center of the display
+ * @param {Real}					_y - The y position of the center of the display
+ * @param {String | Id.Layer} _layer - The layer where the dropdown is created
+ * @param {String}				_name - The name of the dropdown (used for getting the dropdown's value)
+ * @param {Real}					_width - The width of the dropdown
+ * @param {Real}					_height - The height of the dropdown
+ * @param {String}				_text - The text to be displayed
+ * @param {String}				_label - The label of the display
+ * @param {Real}					_margin - The gap between the label and the display
+ * @return {Asset.GMObject}
+ */
+
+function display_create_with_label(_x, _y, _layer, _name, _width, _height, _text, _label="", _margin=12) {
+	var _display = instance_create_layer(_x, _y, _layer, obj_display_box, {
+		width: _width,
+		height: _height,
+		name: _name,
+		value: _text,
+		label: _label,
+		margin: _margin
+	});
+	return _display;
 }
