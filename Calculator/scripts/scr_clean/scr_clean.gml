@@ -1,5 +1,5 @@
 /**
- * @function				ds_list_destroy_all(_list)
+ * @function				ds_list_destroy_all
  * @description			This function will destroy the list and all of its sublist elements.
  * @param {Id.DsList}	_list - The list to be destroyed.
  */
@@ -19,7 +19,7 @@ function ds_list_destroy_all(_list) {
 }
 
 /**
- * @function				ds_list_destroy_multiple()
+ * @function				ds_list_destroy_multiple
  * @description			This function will destroy all given lists.
  */
 
@@ -37,10 +37,15 @@ function ds_list_destroy_multiple() {
  */
 
 function room_clean_goto(_room, _mode) {
+	// This code frees the dropdowns
 	with (obj_dropdown) {
 		dropdown_destroy(self);
 	}
 	
+	// This code resets the setting.
+	ds_list_clear(global.modes.Practice.option_id_mapping);
+	
+	// This code changes the room
 	global.current_mode = _mode;
 	room_goto(_room);
 }

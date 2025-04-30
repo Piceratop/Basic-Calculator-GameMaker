@@ -12,6 +12,11 @@ if (ds_list_size(options) > 0) {
 	);	
 }
 
+draw_enclosed_text(
+	x - dropdown_width / 2, x + dropdown_width / 2,
+	y - dropdown_height / 2 - sprite_get_height(spr_fnt_calculator) - label_margin, -4, label,
+	0, 0, global.fnt_color, "left"
+)
 
 if (is_dropping) {
 	// Draw the dropdown contents

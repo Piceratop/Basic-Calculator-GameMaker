@@ -51,7 +51,6 @@ function numpad_check_simple_input(_mode=global.current_mode) {
 			);
 		}
 	}
-
 }
 
 /**

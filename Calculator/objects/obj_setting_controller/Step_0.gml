@@ -9,10 +9,10 @@ if (not had_layout) {
 				_k = ds_map_find_next(global.modes.Converter.conversion_rate, _k)
 			) {
 					dropdown_options_add(_modes_conversion, _k);
-				}
+			}
 			var _converter_type_dropdown = dropdown_create(
 				room_width / 2, y_top_label + y_gap, "Button", "Converter Type",
-				width_dropdown, height_dropdown, _modes_conversion
+				width_dropdown, height_dropdown, _modes_conversion, false, "", 0, "Conversion types:"
 			);
 			with (_converter_type_dropdown) {
 				while (options[| current_option_id][? "value"] != global.modes.Converter.convert_mode) {
@@ -21,7 +21,8 @@ if (not had_layout) {
 			}
 			break;
 		default:
-			show_debug_message($"{options_setting_dropdown[| 0]}");
+			//show_debug_message($"{options_setting_dropdown[| 0]}");
+			break;
 	}
 	had_layout = true;
 }

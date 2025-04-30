@@ -24,24 +24,30 @@ function dropdown_options_add(_dropdown, _label, _value=undefined) {
 
 function dropdown_create(
 	_x, _y, _layer, _name, _width, _height,
-	_options=undefined, _has_display=false, 
-	_init_value="", _display_margin_top=56
+	_options=undefined, _has_display=false,
+	_init_value="", _display_margin=undefined,
+	_label="", _label_margin=4
 ) {
 	if (is_undefined(_options)) {
 		_options = ds_list_create();
+	}
+	if (is_undefined(_display_margin)) {
+		_display_margin = _height + 8;
 	}
 	var _dropdown_id = instance_create_layer(
 		_x, _y,	_layer, obj_dropdown,
 		{
 			dropdown_height: _height,
 			dropdown_width: _width,
+			label: _label,
+			label_margin: _label_margin,
 			name: _name,
 			options: _options,
 		}
 	);
 	if (_has_display) {
 		var _display = instance_create_layer(
-			_x, _y + _display_margin_top, _layer, obj_display_box,
+			_x, _y + _display_margin, _layer, obj_display_box,
 			{
 				width: _width,
 				height: _height,
@@ -96,7 +102,7 @@ function dropdown_get_value(_dropdown) {
  * @return {Asset.GMObject}
  */
 
-function display_create_with_label(_x, _y, _layer, _name, _width, _height, _text, _label="", _margin=12) {
+function display_create_with_label(_x, _y, _layer, _name, _width, _height, _text, _label="", _margin=4) {
 	var _display = instance_create_layer(_x, _y, _layer, obj_display_box, {
 		width: _width,
 		height: _height,
