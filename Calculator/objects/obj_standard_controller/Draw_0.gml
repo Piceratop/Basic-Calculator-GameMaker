@@ -2,33 +2,33 @@ draw_set_valign(fa_bottom);
 
 // Display past equations
 
-for (var _i = array_length(global.modes.Standard.equations) - 1; _i >= 0; _i--) {
+for (var _i = ds_list_size(global.modes.Standard.equations) - 1; _i >= 0; _i--) {
 	var _cursor_position = 0;
 	draw_enclosed_text(
 		0, room_width,
-		equations_pos[1] - 2 * (array_length(global.modes.Standard.equations) - _i) * string_height("1"),
+		equations_pos[1] - 2 * (ds_list_size(global.modes.Standard.equations) - _i) * string_height("1"),
 		display_padding,
-		parse_equation_from_single_list_to_string(global.modes.Standard.equations[_i][0]),
+		parse_equation_from_single_list_to_string(global.modes.Standard.equations[| _i][| 0]),
 		get_before_cursor_char_count(
-			global.modes.Standard.equations[_i][0],
-			global.modes.Standard.equations[_i][2]
+			global.modes.Standard.equations[| _i][| 0],
+			global.modes.Standard.equations[| _i][| 2]
 		),
-		real(array_length(global.modes.Standard.equations) - _i  == global.modes.Standard.current_equation_id) * global.cursor_alpha,
+		real(ds_list_size(global.modes.Standard.equations) - _i  == global.modes.Standard.current_equation_id) * global.cursor_alpha,
 		global.fnt_color,
 		"left"
 	);
 
 	draw_enclosed_text(
 		0, room_width,
-		equations_pos[1] - (2 * (array_length(global.modes.Standard.equations) - _i) - 1) * string_height("1"),
+		equations_pos[1] - (2 * (ds_list_size(global.modes.Standard.equations) - _i) - 1) * string_height("1"),
 		display_padding,
-		parse_equation_from_single_list_to_string(global.modes.Standard.equations[_i][1]),
+		parse_equation_from_single_list_to_string(global.modes.Standard.equations[| _i][| 1]),
 		//global.modes.Standard.displaying_equations[_i][1],
 		get_before_cursor_char_count(
-			global.modes.Standard.equations[_i][1],
-			global.modes.Standard.equations[_i][3]
+			global.modes.Standard.equations[| _i][| 1],
+			global.modes.Standard.equations[| _i][| 3]
 		),
-		real(array_length(global.modes.Standard.equations) - _i - 0.5 == global.modes.Standard.current_equation_id) * global.cursor_alpha,
+		real(ds_list_size(global.modes.Standard.equations) - _i - 0.5 == global.modes.Standard.current_equation_id) * global.cursor_alpha,
 		global.fnt_color,
 		"right"
 	);

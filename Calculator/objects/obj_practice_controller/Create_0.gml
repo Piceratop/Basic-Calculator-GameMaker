@@ -19,11 +19,16 @@ rendered_mode_choice = false;
 var _t_map = global.modes.Practice.option_id_mapping;
 switch(global.modes.Practice.practice_mode) {
 	case "+":
-	case "+-":
+	case "+−":
 		ds_list_add(_t_map, "Question's length:");
 		ds_list_add(_t_map, "Minimum:");
 		ds_list_add(_t_map, "Maximum:");
 		break;
+}
+for (var _i = 0; _i < ds_list_size(_t_map); _i++) {
+	var _t_option_l = ds_list_create();
+	ds_list_add(global.modes.Practice.options, _t_option_l);
+	
 }
 #endregion
 
@@ -34,11 +39,20 @@ for (var _i = 0; _i < ds_list_size(_t_map); _i++) {
 		_t_map[| _i], room_width - 64, display_height, "", _t_map[| _i]
 	);
 }
-//for (var _i = 0; _i < ds_list_size(_t_map); _i++) {
-//	var _input_instance;
-//}
-//#endregion
+#endregion
 
-#region This code creates a numpad
+#region This code creates the buttons
+button_layout = [
+	["⌫", "◀", "▶", "▼", "▲"],
+	["7", "8", "9"],
+	["4", "5", "6"],
+	["1", "2", "3"],
+	["=", "0", "."],
+];
 
+create_numpad(
+	room_width / 2, room_height - 3 * global.numpad_button_full_height,
+	button_layout, room_width - 64, global.numpad_button_height, global.numpad_gap,
+	"Button", true
+);
 #endregion

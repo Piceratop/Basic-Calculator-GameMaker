@@ -84,8 +84,8 @@ global.modes = {
 		current_equation: ds_list_create(),
 		current_equation_id: 0,
 		cursor_position: 0,
-		displaying_equations: json_load("save.bin"),
-		equations: [],
+		displaying_equations: ds_list_create(),
+		equations: ds_list_create(),
 		mode_id: 0,
 		room_id: rm_standard,
 	},
@@ -94,7 +94,9 @@ global.modes = {
 		cursor_position: 0,
 		mode_id: 2,
 		option_id: 0,
+		current_option_id: 0,
 		option_id_mapping: ds_list_create(),
+		options: ds_list_create(),
 		practice_mode: "+",
 		room_id: rm_practice
 	}
@@ -116,53 +118,46 @@ _mcr[? "grain"] = parse_equation_from_string_to_single_list("0.0000648");
 _mcr[? "kg"] = parse_equation_from_string_to_single_list("1");
 _mcr[? "t"] = parse_equation_from_string_to_single_list("1000");
 
-// Get saved data
+#region The code handles saved data.
 
-if (is_undefined(global.modes.Standard.displaying_equations)) {
-   global.modes.Standard.displaying_equations = [];
+var _save_bin = file_read_all_text("save.bin");
+if (not is_undefined(_save_bin)) {
+	var _tmp_save = json_decode(_save_bin);
+	global.modes.Standard.displaying_equations = _tmp_save[? "Standard"];
+	_tmp_save[? "Standard"] = -1;		// Unallocate the list of equations.
+	ds_map_destroy(_tmp_save);
 }
 
-for (
-	var _i = 0, _c = 0;
-	_i < array_length(global.modes.Standard.displaying_equations) and _c < 10;
-	_i++
-) { 
-	if (string_pos("Ans", global.modes.Standard.displaying_equations[_i][0]) != 0
-	or string_pos("Error", global.modes.Standard.displaying_equations[_i][1]) != 0) {
-		array_delete(global.modes.Standard.displaying_equations, _i, 1);
-		_i--;
-	} else _c++;
-}
+//for (
+//	var _i = 0, _c = 0;
+//	_i < ds_list_size(global.modes.Standard.displaying_equations) and _c < 10;
+//	_i++
+//) { 
+//	if (string_pos("Ans", global.modes.Standard.displaying_equations[_i][0]) != 0
+//	or string_pos("Error", global.modes.Standard.displaying_equations[_i][1]) != 0) {
+//		ds_list_delete(global.modes.Standard.displaying_equations, _i, 1);
+//		_i--;
+//	} else _c++;
+//}
 
-json_save("save.bin", global.modes.Standard.displaying_equations);
-
-for (
-	var _i = 0; _i < array_length(global.modes.Standard.displaying_equations); _i++) {
-	var _curr = global.modes.Standard.displaying_equations[_i];
-	if (_curr[1] == "Error") {
-		var _error_list = ds_list_create();
-		ds_list_add(_error_list, -1);
-		array_push(global.modes.Standard.equations, [
-			parse_equation_from_string_to_single_list(_curr[0]),
-			_error_list, _curr[2], _curr[3]
-		]);
-	} else {
-		array_push(global.modes.Standard.equations, [
-			parse_equation_from_string_to_single_list(_curr[0]),
-			parse_equation_from_string_to_single_list(_curr[1]),
-			_curr[2], _curr[3]
-		]);
-	}
+for (var _i = 0; _i < ds_list_size(global.modes.Standard.displaying_equations); _i++) {
+	var _curr = global.modes.Standard.displaying_equations[| _i];
+	var _eq = ds_list_create();
+	ds_list_add(_eq, parse_equation_from_string_to_single_list(global.modes.Standard.displaying_equations[| _i][| 0]));
+	ds_list_add(_eq, parse_equation_from_string_to_single_list(global.modes.Standard.displaying_equations[| _i][| 1]));
+	ds_list_add(_eq, global.modes.Standard.displaying_equations[| _i][| 2], global.modes.Standard.displaying_equations[| _i][| 3]);
+	ds_list_add(global.modes.Standard.equations, _eq);
 }
+#endregion
 
 global.Ans = ds_list_create();
-if (array_length(global.modes.Standard.equations) > 0)
-	ds_list_copy(
-		global.Ans,
-		global.modes.Standard.equations[array_length(global.modes.Standard.equations) - 1][1]
-	);
-else	
-	ds_list_add(global.Ans, 0);
+//if (array_length(global.modes.Standard.equations) > 0)
+//	ds_list_copy(
+//		global.Ans,
+//		global.modes.Standard.equations[array_length(global.modes.Standard.equations) - 1][1]
+//	);
+//else	
+//	ds_list_add(global.Ans, 0);
 
 
 // Font and drawing elements

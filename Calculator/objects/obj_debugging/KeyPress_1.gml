@@ -9,9 +9,9 @@ switch(keyboard_lastchar) {
 		break;
 	case "D":
 	case "d":
-		while (array_length(global.modes.Standard.displaying_equations) > 0) {
-			var _a = global.modes.Standard.equations[0][0];
-			var _b = global.modes.Standard.equations[0][1];
+		while (ds_list_size(global.modes.Standard.displaying_equations) > 0) {
+			var _a = global.modes.Standard.equations[| 0][| 0];
+			var _b = global.modes.Standard.equations[| 0]| [1];
 			array_delete(global.modes.Standard.equations, 0, 1);
 			ds_list_destroy_multiple(_a, _b);
 			array_delete(global.modes.Standard.displaying_equations, 0, 1);

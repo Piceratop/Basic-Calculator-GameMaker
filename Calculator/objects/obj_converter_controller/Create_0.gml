@@ -1,7 +1,6 @@
-// ========= Numpad =========
+alarm[0] = game_get_speed(gamespeed_fps);
 
-// Button creation
-
+#region This code creates the buttons
 button_layout = [
 	["⌫", "◀", "▶"],
 	["7", "8", "9"],
@@ -9,14 +8,14 @@ button_layout = [
 	["1", "2", "3"],
 	["=", "0", "."],
 ];
-alarm[0] = game_get_speed(gamespeed_fps);
 
 create_numpad(
 	room_width / 2, room_height - 3 * global.numpad_button_full_height,
-	button_layout, 100, global.numpad_button_height, global.numpad_gap
+	button_layout, room_width - 48, global.numpad_button_height, global.numpad_gap
 );
+#endregion
 
-// ========= Dropdown and IO Displays =========
+#region This code creates dropdowns and IO Displays
 
 var _display_top_position = room_width / 4;
 var _box_width = 288;
@@ -58,4 +57,5 @@ output_unit_dropdown = dropdown_create(
 with (output_unit_dropdown) {
 	global.modes.Converter.output_unit = options[| current_option_id];
 }
+#endregion
 #endregion

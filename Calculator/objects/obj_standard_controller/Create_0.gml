@@ -1,6 +1,5 @@
 #region This code creates the numpad.
-button_width = 60;
-full_button_width = button_width + global.numpad_gap;
+full_button_width = 60 + global.numpad_gap;
 center_pos = [room_width / 2, room_height - global.numpad_button_full_height * 3];
 
 button_layout = [
@@ -12,7 +11,7 @@ button_layout = [
 ];
 
 create_numpad(
-	center_pos[0], center_pos[1], button_layout, button_width,
+	room_width / 2, center_pos[1], button_layout, room_width - 48,
 	global.numpad_button_height, global.numpad_gap
 );
 #endregion

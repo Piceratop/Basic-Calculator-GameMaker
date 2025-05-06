@@ -74,7 +74,6 @@ function load_answer(_mode=global.current_mode) {
 	      _b.converted = divide(_a, _b.conversion_rate[? _b.convert_mode][? _b.output_unit], 6);
 	      ds_list_destroy(_a);
 			break;
-			
 		case "Standard":
 			/**
 			 * Ignore blank input.
@@ -88,43 +87,59 @@ function load_answer(_mode=global.current_mode) {
 			var _ans_list = evaluate_equation(_equation_list);
 			ds_list_destroy_all(_equation_list);
 	
-			if (_ans_list[| 0] != -1)
+			if (_ans_list[| 0] != -1) {
 				ds_list_copy(global.Ans, _ans_list);
+			}
 
 			/**
-			 * Insert an array in the order:
-			 * The equation, its answer, equation's cursor position,
-			 * answer's cursor position.
+			 * Insert a ds_list in the order:
+			 * The equation, its answer, the equation's cursor position,
+			 * the answer's cursor position.
 			 */
-			array_push(
-				global.modes.Standard.displaying_equations, 
-				[
-					parse_equation_from_single_list_to_string(global.modes.Standard.current_equation), 
-					parse_equation_from_single_list_to_string(_ans_list),
-					0,
-					ds_list_size(_ans_list)
-				]
+
+			var _disp_data = ds_list_create();
+			ds_list_add(
+				_disp_data,
+				parse_equation_from_single_list_to_string(global.modes.Standard.current_equation),
+				parse_equation_from_single_list_to_string(_ans_list),
+				0,
+				ds_list_size(_ans_list)
 			);
-			array_push(
-				global.modes.Standard.equations,
-				[
-					global.modes.Standard.current_equation, _ans_list,
-					0, ds_list_size(_ans_list)
-				]
+			var _disp_equations = global.modes.Standard.displaying_equations;
+			ds_list_add(global.modes.Standard.displaying_equations, _disp_data);
+			ds_list_mark_as_list(
+				global.modes.Standard.displaying_equations,
+				ds_list_size(global.modes.Standard.displaying_equations) - 1
 			);
+			
+			var _data = ds_list_create();
+			ds_list_add(_data, global.modes.Standard.current_equation, _ans_list, 0, ds_list_size(_ans_list));
+			ds_list_mark_as_list(_data, 0);
+			ds_list_mark_as_list(_data, 1);
+			ds_list_add(global.modes.Standard.equations, _data);
 	
 			// Remove the oldest one if the save is too long.
-			while (array_length(global.modes.Standard.displaying_equations) > 5) {
-				var _a = global.modes.Standard.equations[0][0];
-				var _b = global.modes.Standard.equations[0][1];
-				array_delete(global.modes.Standard.equations, 0, 1);
+			while (ds_list_size(global.modes.Standard.displaying_equations) > 5) {
+				var _a = global.modes.Standard.equations[| 0][| 0];
+				var _b = global.modes.Standard.equations[| 0][| 1];
+				var _c = global.modes.Standard.equations[| 0];
+				var _d = global.modes.Standard.displaying_equations[| 0];
+				
+				//ds_list_destroy_multiple(_a, _b);
+				ds_list_delete(global.modes.Standard.equations, 0);
+				ds_list_delete(global.modes.Standard.displaying_equations, 0);
+				ds_list_destroy_multiple(_c, _d);
 				ds_list_destroy_multiple(_a, _b);
-				array_delete(global.modes.Standard.displaying_equations, 0, 1);
 			}
 	
-		   json_save("save.bin", global.modes.Standard.displaying_equations);
+			var _save_data = ds_map_create();
+			ds_map_add_list(_save_data, global.current_mode, global.modes.Standard.displaying_equations);
+			file_write_all_text("save.bin", json_encode(_save_data));
+			_save_data[? global.current_mode] = -1;
+			ds_map_destroy(_save_data);
 			global.modes.Standard.current_equation = ds_list_create();
 			global.modes.Standard.cursor_position = 0;
+			
 			break;
 	}
 }
