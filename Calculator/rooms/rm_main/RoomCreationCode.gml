@@ -59,6 +59,7 @@ global.current_object = noone;
 global.numpad_button_height = 40;
 global.numpad_gap = 4;
 global.numpad_button_full_height = global.numpad_button_height + global.numpad_gap;
+global.y_single_scroll = 8;
 
 global.modes = {
 	Converter: {

@@ -10,6 +10,7 @@ count_showing_options = min(count_max_showing_options, ds_list_size(options));
 x_left_side = x - dropdown_width / 2;
 y_padding = dropdown_height;
 y = y + y_padding / 2;
+y_original = y;
 
 // Create the scroll button
 

@@ -25,6 +25,7 @@ function create_numpad(_x, _y, _layout, _w, _h = 40, _gap = 4, _layer = "Button"
 				_layer,
 				obj_button,
 				{
+					depth: -1,
 					sprite_index: spr_box_center,
 					image_xscale: _width_single_button / sprite_get_width(spr_box_center),
 					image_yscale: _h / sprite_get_height(spr_box_center),

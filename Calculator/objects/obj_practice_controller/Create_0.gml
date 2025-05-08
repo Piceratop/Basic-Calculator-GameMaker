@@ -1,12 +1,13 @@
 display_height = 48;
 y_top_draw = 80;
+y_max_scroll = 48;
 options_practice_mode = ds_list_create();
 dropdown_options_add(options_practice_mode, "Add", "+");
 dropdown_options_add(options_practice_mode, "Add & Subtract", "+−");
 dropdown_practice_mode = dropdown_create(
 	room_width / 2, y_top_draw + 32,
 	"Button", "practice mode", room_width - 64,
-	display_height, options_practice_mode, false, "", undefined, "Mode of practice"
+	display_height, y_max_scroll, options_practice_mode, false, "", undefined, "Mode of practice:"
 );
 
 while (dropdown_get_value(dropdown_practice_mode) != global.modes.Practice.practice_mode) {
@@ -36,7 +37,7 @@ for (var _i = 0; _i < ds_list_size(_t_map); _i++) {
 for (var _i = 0; _i < ds_list_size(_t_map); _i++) {
 	var _input_instance = display_create_with_label(
 		room_width / 2, y_top_draw + 128 + (display_height + string_height("hj") + 8) * _i, "Button", 
-		_t_map[| _i], room_width - 64, display_height, "", _t_map[| _i]
+		_t_map[| _i], room_width - 64, display_height, 48, "", _t_map[| _i]
 	);
 }
 #endregion

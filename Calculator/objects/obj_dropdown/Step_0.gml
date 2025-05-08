@@ -12,5 +12,4 @@ if (is_dropping) {
 }
 #endregion
 
-
-
+scroll_obj(self);

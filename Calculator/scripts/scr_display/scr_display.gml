@@ -17,13 +17,14 @@ function dropdown_options_add(_dropdown, _label, _value=undefined) {
  * @param {String}				_name - The name of the dropdown (used for getting the dropdown's value)
  * @param {Real}					_width - The width of the dropdown
  * @param {Real}					_height - The height of the dropdown
+ * @param {Real}					_scroll - The maximum scroll height
  * @param {Id.DsList}			_options - List the possible options for the dropdown
  * @param {Bool}					_has_display - Whether to display the box or not
  * @return {Asset.GMObject}
  */
 
 function dropdown_create(
-	_x, _y, _layer, _name, _width, _height,
+	_x, _y, _layer, _name, _width, _height, _scroll,
 	_options=undefined, _has_display=false,
 	_init_value="", _display_margin=undefined,
 	_label="", _label_margin=4
@@ -43,6 +44,7 @@ function dropdown_create(
 			label_margin: _label_margin,
 			name: _name,
 			options: _options,
+			y_max_scroll: _scroll
 		}
 	);
 	if (_has_display) {
@@ -96,20 +98,22 @@ function dropdown_get_value(_dropdown) {
  * @param {String}				_name - The name of the dropdown (used for getting the dropdown's value)
  * @param {Real}					_width - The width of the dropdown
  * @param {Real}					_height - The height of the dropdown
+ * @param {Real}					_scroll - The maximum scroll height
  * @param {String}				_text - The text to be displayed
  * @param {String}				_label - The label of the display
  * @param {Real}					_margin - The gap between the label and the display
  * @return {Asset.GMObject}
  */
 
-function display_create_with_label(_x, _y, _layer, _name, _width, _height, _text, _label="", _margin=4) {
+function display_create_with_label(_x, _y, _layer, _name, _width, _height, _scroll, _text, _label="", _margin=4) {
 	var _display = instance_create_layer(_x, _y, _layer, obj_display_box, {
 		width: _width,
 		height: _height,
 		name: _name,
 		value: _text,
 		label: _label,
-		margin: _margin
+		margin: _margin,
+		y_max_scroll: _scroll
 	});
 	return _display;
 }
