@@ -12,7 +12,7 @@ if (not had_layout) {
 			}
 			var _converter_type_dropdown = dropdown_create(
 				room_width / 2, y_top_label + y_gap, "Button", "Converter Type",
-				width_dropdown, height_dropdown, _modes_conversion, false, "", 0, "Conversion types:"
+				width_dropdown, height_dropdown, 0, _modes_conversion, false, "", 0, "Conversion types:"
 			);
 			with (_converter_type_dropdown) {
 				while (options[| current_option_id][? "value"] != global.modes.Converter.convert_mode) {

@@ -40,7 +40,7 @@ for (
 #region The code will display the input
 input_unit_dropdown = dropdown_create(
 	room_width / 2, _display_top_position, "Button", "input",
-	_box_width, box_height, dropdown_options, true,
+	_box_width, box_height, false, dropdown_options, true,
 	parse_equation_from_single_list_to_string(global.modes.Converter.current_equation)
 );
 with (input_unit_dropdown) { 
@@ -51,7 +51,7 @@ with (input_unit_dropdown) {
 #region The code will display the output
 output_unit_dropdown = dropdown_create(
 	room_width / 2, _display_top_position + 3 * box_height, "Button", "output", 
-	_box_width, box_height, dropdown_options, true,
+	_box_width, box_height, false, dropdown_options, true,
 	parse_equation_from_single_list_to_string(global.modes.Converter.converted)
 );
 with (output_unit_dropdown) {

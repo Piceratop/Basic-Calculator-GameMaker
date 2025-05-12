@@ -12,7 +12,7 @@ dropdown_options_add(options_setting_dropdown, "Converter");
 
 setting_dropdown = dropdown_create(
 	room_width / 2, 80, "Button", "Mode Selection",
-	width_dropdown, height_dropdown,
+	width_dropdown, height_dropdown, 0, 
 	options_setting_dropdown
 )
 y_top_label = setting_dropdown.y + 32;

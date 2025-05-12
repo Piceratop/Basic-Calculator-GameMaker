@@ -1,3 +1,31 @@
+/**
+ * @function					draw_background_rectangle_over
+ * @description				This function draws a rectangle that is the size of the given object with the background color.
+ * @param {Asset.GMObject}	_object - The object to get parameters
+ * @return {Undefined}
+ */
+
+function draw_background_rectangle_over(_object) {
+	var _curr_color = draw_get_color();
+	draw_set_color(global.back_color);
+	with (_object) {
+		draw_rectangle(
+			x - sprite_width / 2, y - sprite_height / 2,
+			x + sprite_width / 2 - 1, y + sprite_height / 2 - 1, false
+		);
+	}
+	draw_set_color(_curr_color);
+}
+
+/**
+ * @function				dropdown_options_add
+ * @description			This function will add options to a dropdown option.
+ * @param {Id.DsList}	_dropdown - The dropdown options holder
+ * @param {String}		_label - The label of the dropdown option
+ * @param {Any}			_value - The value of the dropdown option (equal to _label if not defined)
+ * @return {Undefined}
+ */
+
 function dropdown_options_add(_dropdown, _label, _value=undefined) {
 	if (is_undefined(_value)) {
 		_value = _label;
