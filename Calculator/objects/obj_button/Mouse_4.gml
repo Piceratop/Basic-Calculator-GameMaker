@@ -3,11 +3,20 @@ global.cursor_alpha = 1;
 if (label == "=") {
 	load_answer();
 } else if (ord(label) < ord("▲")) {
-	global.modes[$ global.current_mode].cursor_position = input_equation(
-		global.modes[$ global.current_mode].current_equation,
-		label,
-		global.modes[$ global.current_mode].cursor_position
-	);
+	switch (global.current_mode) {
+		case "Practice":
+			if (obj_practice_controller.is_playing == false) {
+				show_debug_message("K");
+			}
+			break;
+		default:
+			global.modes[$ global.current_mode].cursor_position = input_equation(
+				global.modes[$ global.current_mode].current_equation,
+				label,
+				global.modes[$ global.current_mode].cursor_position
+			);	
+			break;
+	}
 } else if (label == "▶" or label == "◀") {
 	if (
 		not struct_exists(global.modes[$ global.current_mode], "current_equation_id")

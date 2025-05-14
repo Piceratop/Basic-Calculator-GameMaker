@@ -44,6 +44,7 @@ function room_clean_goto(_room, _mode) {
 	
 	// This code resets the setting.
 	ds_list_clear(global.modes.Practice.option_id_mapping);
+	ds_map_clear(global.modes.Practice.values_of_options);
 	
 	// This code changes the room
 	global.current_mode = _mode;

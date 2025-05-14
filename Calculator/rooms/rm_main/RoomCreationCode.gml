@@ -59,7 +59,7 @@ global.current_object = noone;
 global.numpad_button_height = 40;
 global.numpad_gap = 4;
 global.numpad_button_full_height = global.numpad_button_height + global.numpad_gap;
-global.y_single_scroll = 8;
+global.y_single_scroll = 16;
 
 global.modes = {
 	Converter: {
@@ -97,7 +97,7 @@ global.modes = {
 		option_id: 0,
 		current_option_id: 0,
 		option_id_mapping: ds_list_create(),
-		options: ds_list_create(),
+		values_of_options: ds_map_create(),
 		practice_mode: "+",
 		room_id: rm_practice
 	}
