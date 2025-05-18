@@ -1,6 +1,7 @@
 display_height = 48;
 y_top_draw = 80;
 y_max_scroll = 48;
+alarm[0] = game_get_speed(gamespeed_fps);
 is_playing = false;
 options_practice_mode = ds_list_create();
 dropdown_options_add(options_practice_mode, "Add", "+");

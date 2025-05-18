@@ -5,8 +5,13 @@ if (label == "=") {
 } else if (ord(label) < ord("▲")) {
 	switch (global.current_mode) {
 		case "Practice":
-			if (obj_practice_controller.is_playing == false) {
-				show_debug_message("K");
+			if (!obj_practice_controller.is_playing) {
+				var _k = global.modes.Practice.option_id_mapping[| global.modes.Practice.current_option_id];
+				global.modes.Practice.values_of_options[? _k][| 1] = input_equation(
+					global.modes.Practice.values_of_options[? _k][| 0],
+					label,
+					global.modes.Practice.values_of_options[? _k][| 1]
+				);
 			}
 			break;
 		default:
@@ -14,20 +19,33 @@ if (label == "=") {
 				global.modes[$ global.current_mode].current_equation,
 				label,
 				global.modes[$ global.current_mode].cursor_position
-			);	
+			);
 			break;
 	}
 } else if (label == "▶" or label == "◀") {
 	if (
 		not struct_exists(global.modes[$ global.current_mode], "current_equation_id")
 		or global.modes[$ global.current_mode].current_equation_id == 0
-	)
-		global.modes[$ global.current_mode].cursor_position = navigate_equations(
-			label,
-			global.modes[$ global.current_mode].cursor_position,
-			ds_list_size(global.modes[$ global.current_mode].current_equation)
-		);
-	else {
+	) {
+		switch (global.current_mode) {
+			case "Practice":
+				if (!obj_practice_controller.is_playing) {
+					var _k = global.modes.Practice.option_id_mapping[| global.modes.Practice.current_option_id];
+					global.modes.Practice.values_of_options[? _k][| 1] = navigate_equations(
+						label,
+						global.modes.Practice.values_of_options[? _k][| 1],
+						ds_list_size(global.modes.Practice.values_of_options[? _k][| 0])
+					);
+				}
+				break;
+			default:
+				global.modes[$ global.current_mode].cursor_position = navigate_equations(
+					label,
+					global.modes[$ global.current_mode].cursor_position,
+					ds_list_size(global.modes[$ global.current_mode].current_equation)
+				);
+		}
+	} else {
 		var _l = ds_list_size(global.modes.Standard.equations);
 		var _ci = ceil(global.modes.Standard.current_equation_id);
 		var _id = _l - _ci;
