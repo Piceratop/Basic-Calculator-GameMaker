@@ -59,6 +59,7 @@
     {"id":{"name":"rm_practice","path":"rooms/rm_practice/rm_practice.yy",},},
     {"id":{"name":"rm_setting","path":"rooms/rm_setting/rm_setting.yy",},},
     {"id":{"name":"rm_standard","path":"rooms/rm_standard/rm_standard.yy",},},
+    {"id":{"name":"RoomUI","path":"roomui/RoomUI/RoomUI.yy",},},
     {"id":{"name":"scr_clean","path":"scripts/scr_clean/scr_clean.yy",},},
     {"id":{"name":"scr_common","path":"scripts/scr_common/scr_common.yy",},},
     {"id":{"name":"scr_create","path":"scripts/scr_create/scr_create.yy",},},

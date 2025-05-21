@@ -1,3 +1,6 @@
+// Define macros
+#macro TOP_DEPTH -10000
+
 // Symbols mapping
 
 global.math_encodings = ds_map_create();
@@ -99,7 +102,7 @@ global.modes = {
 		option_id_mapping: ds_list_create(),
 		values_of_options: ds_map_create(),
 		practice_mode: "+",
-		room_id: rm_practice
+		room_id: rm_practice,
 	}
 }
 

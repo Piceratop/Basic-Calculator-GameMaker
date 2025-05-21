@@ -1,6 +1,3 @@
-// This code checks for keyboard inputs. It can handle digit input and basic controls.
-numpad_check_simple_input(global.current_mode);
-
 // This code updates converting units for both input and output.
 with (obj_dropdown) {
 	switch (name) {

@@ -1,11 +1,31 @@
 /**
- * @function				handle_simple_numpad_input
+ * @function				handle_numpad_input
  * @description			This function get the input from the numpad and modifying the current equation
  *								and the cursor position according to the current mode
  * @param {String}		_mode - The room mode to be handled
+ * @param {String}		_key - The label of the key pressed
  * @return {Undefined}
  */
-function numpad_check_simple_input(_mode=global.current_mode) {
+function handle_numpad_input(_mode=global.current_mode, _key="") {
+	alarm[0] = game_get_speed(gamespeed_fps);
+	global.cursor_alpha = 1;
+	switch (_key) {
+		case "⌫":
+			global.modes[$ _mode].cursor_position = input_equation(
+				global.modes[$ _mode].current_equation,
+				"⌫",
+				global.modes[$ _mode].cursor_position
+			);
+			break;
+		case "▶":
+		case "◀":
+			global.modes[$ _mode].cursor_position = navigate_equations(
+				_key,
+				global.modes[$ _mode].cursor_position,
+				ds_list_size(global.modes[$ _mode].current_equation)
+			);
+			break;
+	}
 	if (
 		keyboard_check_pressed(vk_anykey) and
 		not array_contains([
@@ -14,27 +34,7 @@ function numpad_check_simple_input(_mode=global.current_mode) {
 			vk_shift, vk_lshift, vk_rshift
 		], keyboard_lastkey)
 	) {
-		alarm[0] = game_get_speed(gamespeed_fps);
-		global.cursor_alpha = 1;
-		if (keyboard_lastkey == vk_backspace) {
-			
-			global.modes[$ _mode].cursor_position = input_equation(
-				global.modes[$ _mode].current_equation,
-				"⌫",
-				global.modes[$ _mode].cursor_position
-			);
-		} else if (keyboard_lastkey == vk_right) {
-			global.modes[$ _mode].cursor_position = navigate_equations(
-				"▶",
-				global.modes[$ _mode].cursor_position,
-				ds_list_size(global.modes[$ _mode].current_equation)
-			)
-		} else if (keyboard_lastkey == vk_left) {
-			global.modes[$ _mode].cursor_position = navigate_equations(
-				"◀",
-				global.modes[$ _mode].cursor_position,
-				ds_list_size(global.modes[$ _mode].current_equation)
-			)
+		
 	   } else if (keyboard_lastchar == "=" or keyboard_lastkey == vk_enter) {
 			load_answer(_mode);
 	   } else if (
@@ -175,18 +175,19 @@ function input_equation(_curr_equation, _label, _pos) {
  * @param {String}	_label - The navigation button pressed (e.g., ▲, ◀, ▼, ▶).
  * @param {Real}		_pos - The current cursor position.
  * @param {Real}		_pos_limit - The upper limit of the cursor position.
+ * @param {Real}		_incr - The amount of change given to the position.
  * @returns {Real}	The new cursor position after navigation.
  */
 
-function navigate_equations(_label, _pos, _pos_limit) {
+function navigate_equations(_label, _pos, _pos_limit, _incr=1) {
 	switch (_label) {
 		case "▲":
-			return min(_pos_limit, _pos + 0.5) 
+			return clamp(_pos + _incr, 0, _pos_limit); 
 		case "◀":
-			return max(0, _pos - 1);
+			return clamp(_pos - _incr, 0, _pos_limit);
 		case "▼":
-			return max(0, _pos - 0.5);
+			return clamp(_pos - _incr, 0, _pos_limit);
 		case "▶":
-			return min(_pos_limit, _pos + 1);
+			return clamp(_pos + _incr, 0, _pos_limit);
 	}
 }

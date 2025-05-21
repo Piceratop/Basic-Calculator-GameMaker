@@ -69,10 +69,19 @@ if (label == "=") {
 			global.modes.Standard.current_equation_id = navigate_equations(
 				label,
 				global.modes.Standard.current_equation_id,
-				ds_list_size(global.modes.Standard.equations)
+				ds_list_size(global.modes.Standard.equations),
+				0.5
 			);
 			break;
 		case "Practice":
+			if (!obj_practice_controller.is_playing) {
+				global.modes.Practice.current_option_id = navigate_equations(
+					label,
+					global.modes.Practice.current_option_id,
+					ds_list_size(global.modes.Practice.option_id_mapping),
+					-1
+				);
+			}
 			break;
 	}
 }
