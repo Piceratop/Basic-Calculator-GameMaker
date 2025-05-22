@@ -26,31 +26,31 @@ function handle_numpad_input(_mode=global.current_mode, _key="") {
 			);
 			break;
 	}
-	if (
-		keyboard_check_pressed(vk_anykey) and
-		not array_contains([
-			vk_alt, vk_lalt, vk_ralt,
-			vk_control, vk_lcontrol, vk_rcontrol,
-			vk_shift, vk_lshift, vk_rshift
-		], keyboard_lastkey)
-	) {
+	//if (
+	//	keyboard_check_pressed(vk_anykey) and
+	//	not array_contains([
+	//		vk_alt, vk_lalt, vk_ralt,
+	//		vk_control, vk_lcontrol, vk_rcontrol,
+	//		vk_shift, vk_lshift, vk_rshift
+	//	], keyboard_lastkey)
+	//) {
 		
-	   } else if (keyboard_lastchar == "=" or keyboard_lastkey == vk_enter) {
-			load_answer(_mode);
-	   } else if (
-			array_contains([
-				"0", "1", "2", "3", "4",
-				"5", "6", "7", "8", "9", 
-				"."
-			], keyboard_lastchar)
-		) {
-			global.modes[$ _mode].cursor_position = input_equation(
-				global.modes[$ _mode].current_equation,
-				keyboard_lastchar,
-				global.modes[$ _mode].cursor_position
-			);
-		}
-	}
+	//   } else if (keyboard_lastchar == "=" or keyboard_lastkey == vk_enter) {
+	//		load_answer(_mode);
+	//   } else if (
+	//		array_contains([
+	//			"0", "1", "2", "3", "4",
+	//			"5", "6", "7", "8", "9", 
+	//			"."
+	//		], keyboard_lastchar)
+	//	) {
+	//		global.modes[$ _mode].cursor_position = input_equation(
+	//			global.modes[$ _mode].current_equation,
+	//			keyboard_lastchar,
+	//			global.modes[$ _mode].cursor_position
+	//		);
+	//	}
+	//}
 }
 
 /**
