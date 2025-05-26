@@ -232,4 +232,5 @@ surface_resize(application_surface, global.rm_width, global.rm_height);
 // Navigate to the landing room
 
 //ds_list_destroy(global.rooms); // Cleaning if needed
+global.test_room = room;
 room_goto(rm_menu);

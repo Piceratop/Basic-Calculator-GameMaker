@@ -20,7 +20,12 @@ switch(keyboard_lastchar) {
 		break;
 	case "P":
 	case "p":
-		show_debug_message($"{global.current_object} {noone}");
+		layer_set_target_room(rm_main);
+		var _a = layer_get_all();
+		for (var _i = 0; _i < array_length(_a); _i++) {
+			show_debug_message(layer_get_name(_a[_i]));
+		}
+		show_debug_message(layer_get_id("Menu"));
 		break;
 	case "Q":
 	case "q":
