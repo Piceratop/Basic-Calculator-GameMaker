@@ -9,14 +9,9 @@ switch(keyboard_lastchar) {
 		break;
 	case "D":
 	case "d":
-		while (ds_list_size(global.modes.Standard.displaying_equations) > 0) {
-			var _a = global.modes.Standard.equations[| 0][| 0];
-			var _b = global.modes.Standard.equations[| 0]| [1];
-			array_delete(global.modes.Standard.equations, 0, 1);
-			ds_list_destroy_multiple(_a, _b);
-			array_delete(global.modes.Standard.displaying_equations, 0, 1);
-		}
-		json_save("save.bin", []);
+		layer_reset_target_room();
+		var _s = layer_get_flexpanel_node("Menu");
+		show_debug_message(flexpanel_node_get_struct(_s));
 		break;
 	case "P":
 	case "p":

@@ -132,17 +132,14 @@ if (not is_undefined(_save_bin)) {
 	ds_map_destroy(_tmp_save);
 }
 
-//for (
-//	var _i = 0, _c = 0;
-//	_i < ds_list_size(global.modes.Standard.displaying_equations) and _c < 10;
-//	_i++
-//) { 
-//	if (string_pos("Ans", global.modes.Standard.displaying_equations[_i][0]) != 0
-//	or string_pos("Error", global.modes.Standard.displaying_equations[_i][1]) != 0) {
-//		ds_list_delete(global.modes.Standard.displaying_equations, _i, 1);
-//		_i--;
-//	} else _c++;
-//}
+for (var _i = 0; _i < ds_list_size(global.modes.Standard.displaying_equations); _i++) {
+   var _t = global.modes.Standard.displaying_equations[| _i];
+	if (string_pos("Ans", _t[| 0]) != 0 or string_pos("Error", _t[| 1]) != 0) {
+		ds_list_delete(global.modes.Standard.displaying_equations, _i);
+      ds_list_destroy_multiple(_t, _t);
+		_i--;
+	}
+}
 
 for (var _i = 0; _i < ds_list_size(global.modes.Standard.displaying_equations); _i++) {
 	var _curr = global.modes.Standard.displaying_equations[| _i];

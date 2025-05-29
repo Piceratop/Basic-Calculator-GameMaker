@@ -24,8 +24,9 @@ function ds_list_destroy_all(_list) {
  */
 
 function ds_list_destroy_multiple() {
-	for (var _i = 0; _i < argument_count; _i++)
+	for (var _i = 0; _i < argument_count; _i++) {
 		ds_list_destroy(argument[_i]);
+   }
 }
 
 /** 
