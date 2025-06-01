@@ -42,6 +42,54 @@ function create_numpad(_x, _y, _layout, _w, _h = 40, _gap = 4, _layer = "Button"
 }
 
 /**
+ * @function           create_numpad_flex
+ * @description        This function will generate the numpad following a flex layout.
+ * @param {Real}       _rm_width - The width of the room
+ * @param {Real}       _rm_height - The height of the room
+ * @param {Array}      _button_layout - The layout of the button
+ * @param {Real}       _padding - The padding from the edge of the room
+ * @return {Pointer.FlexpanelNode}
+ */
+
+function create_numpad_flex(_rm_width, _rm_height, _button_layout, _padding=16) {
+   var _gap = 4;
+	var _flx_numpad = flexpanel_create_node({
+      justifyContent: "flex-end", flexDirection: "column", gap: _gap,
+      height: "100%", padding: _padding, width: "100%"
+   });
+   for (var _i = 0; _i < array_length(_button_layout); _i++) {
+      var _row = flexpanel_create_node({
+         flexDirection: "row", width: "100%", height: 40, gap: _gap
+      });
+      
+      for (_j = 0; _j < array_length(_button_layout[_i]); _j++) {
+         var _btn = flexpanel_create_node({
+            height: "100%", flexGrow: 1
+         })
+         flexpanel_node_insert_child(_row, _btn, _j);
+      }
+   
+      flexpanel_node_insert_child(_flx_numpad, _row, _i);
+   }
+   
+   flexpanel_calculate_layout(_flx_numpad, _rm_width, _rm_height, flexpanel_direction.LTR);
+   for (var _i = 0; _i < flexpanel_node_get_num_children(_flx_numpad); _i++) {
+      var _row = flexpanel_node_get_child(_flx_numpad, _i);
+      for (var _j = 0; _j < flexpanel_node_get_num_children(_row); _j++) {
+         var _btn_pos = flexpanel_node_layout_get_position(flexpanel_node_get_child(_row, _j), false);
+         var _inst = instance_create_layer(
+            _btn_pos.left, _btn_pos.top, "Button", obj_button, {
+            image_xscale: _btn_pos.width / sprite_get_width(spr_box_center),
+            image_yscale: _btn_pos.height / sprite_get_height(spr_box_center),
+            label: _button_layout[_i][_j]
+         });
+      }
+   }
+   
+   return _flx_numpad;
+}
+
+/**
  * @function			draw_enclosed_text()
  * @description		This function will draw a text enclosed between two positions (with padding),
  *							the excessed character will be hidden and replaced by the navigation arrows.

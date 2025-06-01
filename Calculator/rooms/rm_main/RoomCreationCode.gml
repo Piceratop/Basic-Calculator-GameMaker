@@ -59,6 +59,7 @@ global.unit_name[? "t"] = "Metric Ton";
 global.current_dropdown = noone;
 global.current_mode = "Menu";
 global.current_object = noone;
+global.flx_numpad = flexpanel_create_node({});
 global.numpad_button_height = 40;
 global.numpad_gap = 4;
 global.numpad_button_full_height = global.numpad_button_height + global.numpad_gap;
@@ -107,7 +108,6 @@ global.modes = {
 }
 
 // Conversion rates input
-
 global.modes.Converter.conversion_rate[? "Length"] = ds_map_create();
 var _lcr = global.modes.Converter.conversion_rate[? "Length"];
 _lcr[? "cm"] = parse_equation_from_string_to_single_list("0.01");
@@ -123,7 +123,6 @@ _mcr[? "kg"] = parse_equation_from_string_to_single_list("1");
 _mcr[? "t"] = parse_equation_from_string_to_single_list("1000");
 
 #region The code handles saved data.
-
 var _save_bin = file_read_all_text("save.bin");
 if (not is_undefined(_save_bin)) {
 	var _tmp_save = json_decode(_save_bin);
@@ -149,20 +148,17 @@ for (var _i = 0; _i < ds_list_size(global.modes.Standard.displaying_equations); 
 	ds_list_add(_eq, global.modes.Standard.displaying_equations[| _i][| 2], global.modes.Standard.displaying_equations[| _i][| 3]);
 	ds_list_add(global.modes.Standard.equations, _eq);
 }
-#endregion
 
 global.Ans = ds_list_create();
-//if (array_length(global.modes.Standard.equations) > 0)
-//	ds_list_copy(
-//		global.Ans,
-//		global.modes.Standard.equations[array_length(global.modes.Standard.equations) - 1][1]
-//	);
-//else	
-//	ds_list_add(global.Ans, 0);
+if (ds_list_size(global.modes.Standard.equations) > 0) {
+	ds_list_copy(
+		global.Ans,
+		global.modes.Standard.equations[| (ds_list_size(global.modes.Standard.equations) - 1)][| 1]
+	);
+} else { ds_list_add(global.Ans, 0); }
+#endregion
 
-
-// Font and drawing elements
-
+#region This code handles font creation and drawing elements
 global.allow_characters = 
 	" &'()+-./0123456789:=" +
 	"ACEFGKLMSTPQ" + 
@@ -183,6 +179,10 @@ draw_set_valign(fa_middle);
 draw_set_font(global.fnt_calculator);
 
 global.cursor_alpha = 1;
+
+#endregion
+
+#region This code modifies rooms' properties.
 
 // Changing the color of rooms
 global.rooms = ds_list_create();
@@ -225,9 +225,9 @@ if (room == rm_main) {
 }
 
 surface_resize(application_surface, global.rm_width, global.rm_height);
+#endregion
 
 // Navigate to the landing room
 
-//ds_list_destroy(global.rooms); // Cleaning if needed
 global.test_room = room;
 room_goto(rm_menu);

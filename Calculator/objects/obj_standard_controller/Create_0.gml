@@ -10,18 +10,26 @@ button_layout = [
 	["0", ".", "-", "=", "Ans"]
 ];
 
-create_numpad(
-	room_width / 2, center_pos[1], button_layout, room_width - 48,
-	global.numpad_button_height, global.numpad_gap
-);
+for (var _i = 0; _i < 5; _i++) {
+   var _list = ds_list_create();
+   show_debug_message(_list);
+   ds_list_destroy(_list);
+   show_debug_message($"{_list}\n");
+}
+
+for (var _i = 0; _i < 5; _i++) {
+   var _node = flexpanel_create_node();
+   show_debug_message(_node);
+   flexpanel_delete_node(_node, true);
+   show_debug_message($"{_node}\n");
+}
+
+flexpanel_delete_node(global.flx_numpad, true);
+global.flx_numpad = create_numpad_flex(room_width, room_height, button_layout);
 #endregion
 
 // Text Display
 
-instance_create_layer(
-	center_pos[0], center_pos[1] - 3 * global.numpad_button_full_height,
-	"Button", obj_display_border
-);
 display_padding = (room_width - 5 * full_button_width) / 2;
 equations_pos = [room_width - full_button_width, center_pos[1] - 3.5 * global.numpad_button_full_height];
 alarm[0] = game_get_speed(gamespeed_fps);

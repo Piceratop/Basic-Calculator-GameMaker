@@ -46,6 +46,13 @@ function room_clean_goto(_room, _mode) {
 	// This code resets the setting.
 	ds_list_clear(global.modes.Practice.option_id_mapping);
 	ds_map_clear(global.modes.Practice.values_of_options);
+   //for (var _i = 0; flexpanel_node_get_num_children(global.flx_numpad); _i++) {
+      //var _row = flexpanel_node_get_child(global.flx_numpad, _i);
+      //for (var _j = 0; _j < flexpanel_node_get_num_children(_row); _j++) {
+         //var _btn = flexpanel_node_get_child(_row, _j);
+         //show_debug_message(_btn);
+      //}
+   //}
 	
 	// This code changes the room
 	global.current_mode = _mode;
