@@ -10,20 +10,6 @@ button_layout = [
 	["0", ".", "-", "=", "Ans"]
 ];
 
-for (var _i = 0; _i < 5; _i++) {
-   var _list = ds_list_create();
-   show_debug_message(_list);
-   ds_list_destroy(_list);
-   show_debug_message($"{_list}\n");
-}
-
-for (var _i = 0; _i < 5; _i++) {
-   var _node = flexpanel_create_node();
-   show_debug_message(_node);
-   flexpanel_delete_node(_node, true);
-   show_debug_message($"{_node}\n");
-}
-
 flexpanel_delete_node(global.flx_numpad, true);
 global.flx_numpad = create_numpad_flex(room_width, room_height, button_layout);
 #endregion

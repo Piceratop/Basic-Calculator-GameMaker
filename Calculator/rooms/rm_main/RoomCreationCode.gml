@@ -82,6 +82,7 @@ global.modes = {
 		room_id: rm_menu,
 	},
 	Setting: {
+      flx_inroom: flexpanel_create_node({ width: "100%" }),
 		mode_id: -2,
 		room_id: rm_setting,
 	},
@@ -199,32 +200,29 @@ for (var _i = 0; _i < ds_list_size(global.rooms); _i++) {
 }
 
 // Room scaling
-global.base_height = 640;
 global.base_width = 360;
-global.rm_height = window_get_height();
-//global.rm_width = global.rm_height * global.base_width / global.base_height;
-global.rm_width = 360;
 
-if (room == rm_main) {
-	switch(os_type) {
-		case os_android:
-			for (var _i = 0; _i < ds_list_size(global.rooms); _i++) {
-				room_set_height(
-					global.rooms[| _i], 
-					global.rm_width * display_get_height() / display_get_width()
-				);
-			}
-			break;
-		default:
-			for (var _i = 0; _i < ds_list_size(global.rooms); _i++) {
-				room_set_height(global.rooms[| _i], global.rm_height);
-				room_set_width(global.rooms[| _i], global.rm_width);
-			}
-			break;
-	}
+switch(os_type) {
+   case os_android:
+      var _base_height = global.base_width * display_get_height() / display_get_width();
+      for (var _i = 0; _i < ds_list_size(global.rooms); _i++) {
+         room_set_height(
+            global.rooms[| _i], _base_height
+         );
+      }
+      surface_resize(application_surface, global.base_width, _base_height);
+      break;
+   default:
+      var _base_height = 720;
+      for (var _i = 0; _i < ds_list_size(global.rooms); _i++) {
+         room_set_height(global.rooms[| _i], _base_height);
+         room_set_width(global.rooms[| _i], global.base_width);
+      }
+      window_set_size(global.base_width, _base_height);
+      surface_resize(application_surface, global.base_width, _base_height);
+      break;
 }
 
-surface_resize(application_surface, global.rm_width, global.rm_height);
 #endregion
 
 // Navigate to the landing room

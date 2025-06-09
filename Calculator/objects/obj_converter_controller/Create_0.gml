@@ -9,10 +9,13 @@ button_layout = [
 	["=", "0", "."],
 ];
 
-create_numpad(
-	room_width / 2, room_height - 3 * global.numpad_button_full_height,
-	button_layout, room_width - 48, global.numpad_button_height, global.numpad_gap
-);
+flexpanel_delete_node(global.flx_numpad, true);
+global.flx_numpad = create_numpad_flex(room_width, room_height, button_layout);
+
+//create_numpad(
+	//room_width / 2, room_height - 3 * global.numpad_button_full_height,
+	//button_layout, room_width - 48, global.numpad_button_height, global.numpad_gap
+//);
 #endregion
 
 #region This code creates dropdowns and IO Displays

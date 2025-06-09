@@ -59,9 +59,6 @@ button_layout = [
 	["Enter", "0", "."],
 ];
 
-create_numpad(
-	room_width / 2, room_height - 3 * global.numpad_button_full_height,
-	button_layout, room_width - 64, global.numpad_button_height, global.numpad_gap,
-	"Button", true
-);
+flexpanel_delete_node(global.flx_numpad, true);
+global.flx_numpad = create_numpad_flex(room_width, room_height, button_layout);
 #endregion
