@@ -10,8 +10,11 @@ button_layout = [
 	["0", ".", "-", "=", "Ans"]
 ];
 
-flexpanel_delete_node(global.flx_numpad, true);
-global.flx_numpad = create_numpad_flex(room_width, room_height, button_layout);
+if (is_undefined(global.modes.Standard.flex_numpad)) {
+   global.modes.Standard.flex_numpad = create_flex_numpad(button_layout);
+}
+create_numpad_from_flex(global.modes.Standard.flex_numpad, room_width, room_height);
+
 #endregion
 
 // Text Display

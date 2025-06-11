@@ -42,17 +42,14 @@ function create_numpad(_x, _y, _layout, _w, _h = 40, _gap = 4, _layer = "Button"
 }
 
 /**
- * @function           create_numpad_flex
- * @description        This function will generate the numpad following a flex layout.
- * @param {Real}       _rm_width - The width of the room
- * @param {Real}       _rm_height - The height of the room
+ * @function           create_flex_numpad
+ * @description        This function will generate a flex layout for a numpad.
  * @param {Array}      _button_layout - The layout of the button
  * @param {Real}       _padding - The padding from the edge of the room
  * @return {Pointer.FlexpanelNode}
  */
 
-function create_numpad_flex(_rm_width, _rm_height, _button_layout, _padding=16) {
-   // This code creates the layout.
+function create_flex_numpad(_button_layout, _padding=16) {
    var _gap = 4;
    var _flx_numpad_with_border = flexpanel_create_node({ width: "100%", justifyContent: "flex-end" });
    var _flx_border = flexpanel_create_node({ width: "100%", height: sprite_get_height(spr_border) })
@@ -63,7 +60,10 @@ function create_numpad_flex(_rm_width, _rm_height, _button_layout, _padding=16) 
       });
       
       for (_j = 0; _j < array_length(_button_layout[_i]); _j++) {
-         var _btn = flexpanel_create_node({ height: 40, flexGrow: 1 });
+         var _btn = flexpanel_create_node({ height: 40, flexGrow: 1, data: {
+               label: _button_layout[_i][_j]
+            } 
+         });
          flexpanel_node_insert_child(_row, _btn, _j);
       }
    
@@ -72,10 +72,22 @@ function create_numpad_flex(_rm_width, _rm_height, _button_layout, _padding=16) 
    flexpanel_node_insert_child(_flx_numpad_with_border, _flx_border, 0);
    flexpanel_node_insert_child(_flx_numpad_with_border, _flx_numpad, 1);
    
-   // This code creates the numpad according to the layout.
-   flexpanel_calculate_layout(_flx_numpad_with_border, _rm_width, _rm_height, flexpanel_direction.LTR);
+   return _flx_numpad_with_border;
+}
+
+/**
+ * @function           create_numpad_from_flex
+ * @description        This function will generate a numpad from a flex layout.
+ * @param {Pointer.FlexpanelNodel}    _flex_node - The width of the room
+ * @param {Real}       _rm_width - The width of the room
+ * @param {Real}       _rm_height - The height of the room
+ * @return {Undefined}
+ */
+
+function create_numpad_from_flex(_flex_node, _rm_width, _rm_height) {
+   flexpanel_calculate_layout(_flex_node, _rm_width, _rm_height, flexpanel_direction.LTR);
    
-   var _border = flexpanel_node_get_child(_flx_numpad_with_border, 0);
+   var _border = flexpanel_node_get_child(_flex_node, 0);
    var _pos_border = flexpanel_node_layout_get_position(_border, false);
    instance_create_layer(
       _pos_border.left, _pos_border.top, "Button", obj_display_border, {
@@ -83,22 +95,22 @@ function create_numpad_flex(_rm_width, _rm_height, _button_layout, _padding=16) 
       }
    )
    
-   _fix_numpad = flexpanel_node_get_child(_flx_numpad_with_border, 1);
+   var _flx_numpad = flexpanel_node_get_child(_flex_node, 1);
    for (var _i = 0; _i < flexpanel_node_get_num_children(_flx_numpad); _i++) {
       var _row = flexpanel_node_get_child(_flx_numpad, _i);
       for (var _j = 0; _j < flexpanel_node_get_num_children(_row); _j++) {
-         var _btn_pos = flexpanel_node_layout_get_position(flexpanel_node_get_child(_row, _j), false);
+         var _btn = flexpanel_node_get_child(_row, _j);
+         var _btn_pos = flexpanel_node_layout_get_position(_btn, false);
+         var _btn_data = flexpanel_node_get_data(_btn);
          var _inst = instance_create_layer(
             _btn_pos.left, _btn_pos.top, "Button", obj_button, {
                depth: -1, 
                image_xscale: _btn_pos.width / sprite_get_width(spr_box_center),
                image_yscale: _btn_pos.height / sprite_get_height(spr_box_center),
-               label: _button_layout[_i][_j]
+               label: _btn_data.label
          });
       }
    }
-   
-   return _flx_numpad;
 }
 
 /**
