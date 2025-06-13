@@ -100,6 +100,7 @@ global.modes = {
 	Practice: {
 		current_equation: ds_list_create(),
 		cursor_position: 0,
+		flex_numpad: undefined,
 		mode_id: 2,
 		option_id: 0,
 		current_option_id: 0,
@@ -215,7 +216,7 @@ switch(os_type) {
       surface_resize(application_surface, global.base_width, _base_height);
       break;
    default:
-      var _base_height = 720;
+      var _base_height = 640;
       for (var _i = 0; _i < ds_list_size(global.rooms); _i++) {
          room_set_height(global.rooms[| _i], _base_height);
          room_set_width(global.rooms[| _i], global.base_width);
