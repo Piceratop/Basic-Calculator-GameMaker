@@ -5,15 +5,15 @@ draw_set_halign(fa_right);
 draw_set_color(global.fnt_color);
 
 if (ds_list_size(options) > 0) {
-	draw_text(x_left_side + dropdown_width - 4, y - y_padding / 2, is_dropping ? "▼" : "◀");
+	draw_text(x + dropdown_width - 4, y - y_padding / 2, is_dropping ? "▼" : "◀");
 	draw_enclosed_text(
-		0, room_width, y - y_padding / 2, x_left_side + 4,
+		x, x + dropdown_width, y - y_padding / 2, 0,
 		options[| current_option_id][? "label"], 0, 0, global.fnt_color, "left"
 	);	
 }
 
 draw_enclosed_text(
-	x - dropdown_width / 2, x + dropdown_width / 2,
+	x, x + dropdown_width,
 	y - dropdown_height / 2 - sprite_get_height(spr_fnt_calculator) - label_margin, -4, label,
 	0, 0, global.fnt_color, "left"
 )

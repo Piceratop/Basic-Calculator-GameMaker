@@ -64,7 +64,7 @@ function dropdown_create(
 		_display_margin = _height + 8;
 	}
 	var _dropdown_id = instance_create_layer(
-		_x, _y,	_layer, obj_dropdown,
+		_x, _y + _height,	_layer, obj_dropdown,
 		{
 			dropdown_height: _height,
 			dropdown_width: _width,

@@ -83,7 +83,7 @@ global.modes = {
 		room_id: rm_menu,
 	},
 	Setting: {
-      flx_inroom: flexpanel_create_node({ width: "100%" }),
+      flex_option: undefined,
 		mode_id: -2,
 		room_id: rm_setting,
 	},
