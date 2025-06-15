@@ -1,7 +1,7 @@
 /**
  * @function			create_numpad
  * @description		This function will create the layout of a numpad.
- * @param {Real}		_x - The orthorgonal position of the numpad's center
+ * @param {Real}		_x - The orthogonal position of the numpad's center
  * @param {Real}		_y - The vertical position of the numpad's center
  * @param {Array}		_layout - The array layout of the numpad
  * @param {Real}		_w - The width of the numpad
@@ -116,11 +116,11 @@ function create_numpad_from_flex(_flex_node, _rm_width, _rm_height) {
 /**
  * @function			draw_enclosed_text()
  * @description		This function will draw a text enclosed between two positions (with padding),
- *							the excessed character will be hidden and replaced by the navigation arrows.
+ *							the excess character will be hidden and replaced by the navigation arrows.
  * @param {Real}		_left_pos - The leftmost position of the text
  * @param {Real}		_right_pos - The rightmost position of the text
  * @param {Real}		_y - The vertical position of the text
- * @param {Real}		_padding - The padding from the left and right possition
+ * @param {Real}		_padding - The padding from the left and right position
  * @param {String}	_str - The text to be drawn
  * @param {Real}		_cursor_pos - The position of the cursor relative to the start of the text (in character)
  * @param {Real}		_cursor_alpha - The alpha of the cursor
@@ -137,7 +137,7 @@ function draw_enclosed_text(
 	draw_set_color(_color);
 	/**
 	 * Set the cursor position. Its default position is the center.
-	 * Align left if the left part of the string is too short. Align right similiarly.
+	 * Align left if the left part of the string is too short. Align right similarly.
 	 */
 	var _cursor_pixel_position = (_left_pos + _right_pos) / 2;
 	var _after_cursor = string_copy(_str, _cursor_pos + 1, string_length(_str) - _cursor_pos + 2);
