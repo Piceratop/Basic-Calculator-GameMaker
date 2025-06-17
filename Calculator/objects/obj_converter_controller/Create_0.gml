@@ -37,21 +37,55 @@ for (
 	dropdown_options_add(dropdown_options, global.unit_name[? _k], _k);
 }
 
-#region The code will display the input
+// This code creates a flex layout.
+if (is_undefined(global.modes.Converter.flex_option)) {
+   global.modes.Converter.flex_option = flexpanel_create_node({
+      width: "100%",
+      paddingLeft: 32,
+      paddingRight: 32,
+      paddingTop: 64,
+      
+   });
+   flexpanel_node_insert_child(global.modes.Converter.flex_option, flexpanel_create_node({
+      width: "100%",
+      height: box_height,
+      marginTop: box_height,
+   }), 0);
+   flexpanel_node_insert_child(global.modes.Converter.flex_option, flexpanel_create_node({
+      width: "100%",
+      height: box_height,
+      marginTop: box_height * 1.5,   
+   }), 1);
+}
+
+// This code displays the input and output according to the flex layout.
+
+flexpanel_calculate_layout(global.modes.Converter.flex_option, room_width, room_height, flexpanel_direction.LTR);
+
+var _dropdown_input = flexpanel_node_get_child(global.modes.Converter.flex_option, 0);
+var _dropdown_input_position = flexpanel_node_layout_get_position(_dropdown_input);
+
 input_unit_dropdown = dropdown_create(
-	room_width / 2, _display_top_position, "Button", "input",
-	_box_width, box_height, false, dropdown_options, true,
+	_dropdown_input_position.left, _dropdown_input_position.top,
+   "Option", "input",
+	_dropdown_input_position.width, _dropdown_input_position.height, false, dropdown_options, true,
 	parse_equation_from_single_list_to_string(global.modes.Converter.current_equation)
 );
 with (input_unit_dropdown) { 
 	global.modes.Converter.input_unit = options[| current_option_id];
 }
-#endregion
+
 
 #region The code will display the output
+
+var _dropdown_output = flexpanel_node_get_child(global.modes.Converter.flex_option, 1);
+var _dropdown_output_position = flexpanel_node_layout_get_position(_dropdown_output);
+
 output_unit_dropdown = dropdown_create(
-	room_width / 2, _display_top_position + 3 * box_height, "Button", "output", 
-	_box_width, box_height, false, dropdown_options, true,
+	_dropdown_output_position.left, _dropdown_output_position.top,
+   "Option", "output", 
+	_dropdown_output_position.width, _dropdown_output_position.height,
+   false, dropdown_options, true,
 	parse_equation_from_single_list_to_string(global.modes.Converter.converted)
 );
 with (output_unit_dropdown) {

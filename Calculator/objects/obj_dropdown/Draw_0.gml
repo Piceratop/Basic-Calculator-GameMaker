@@ -23,15 +23,15 @@ if (is_dropping) {
 	for (var _i = 0; _i < count_showing_options; _i++) {
 		var _y_pad = y + 2 + y_padding * _i;
 		draw_set_color(global.back_color);
-		draw_rectangle(x_left_side, _y_pad, x_left_side + dropdown_width, _y_pad + y_padding, false);
+		draw_rectangle(x, _y_pad, x + dropdown_width - 1, _y_pad + y_padding, false);
 		draw_sprite_ext(
-			spr_box_center, 0, x - scroll_btn_w / 2, _y_pad + y_padding / 2, 
-			(dropdown_width - scroll_btn_w) / sprite_get_width(spr_box_center),
-			y_padding / sprite_get_height(spr_box_center), 0, global.border_color, 1
+			spr_box_top_left, 0, x, _y_pad, 
+			(dropdown_width - scroll_btn_w) / sprite_get_width(spr_box_top_left),
+			y_padding / sprite_get_height(spr_box_top_left), 0, global.border_color, 1
 		);
 		
 		draw_enclosed_text(
-			0, room_width - scroll_btn_w, _y_pad + y_padding / 2, x_left_side + 4,
+			0, room_width - scroll_btn_w, _y_pad + y_padding / 2, x + 4,
 			options[| _i + idpos_current_scroll][? "label"], 0, 0, global.fnt_color, "left"
 		);
 	}
@@ -73,5 +73,4 @@ if (is_dropping) {
 		_h_scroll_bar / sprite_get_height(spr_box_top_left),
 		0, global.border_color, 1
 	);
-	
 }

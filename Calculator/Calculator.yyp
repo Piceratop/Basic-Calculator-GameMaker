@@ -65,6 +65,7 @@
     {"id":{"name":"scr_common","path":"scripts/scr_common/scr_common.yy",},},
     {"id":{"name":"scr_create","path":"scripts/scr_create/scr_create.yy",},},
     {"id":{"name":"scr_display","path":"scripts/scr_display/scr_display.yy",},},
+    {"id":{"name":"scr_dropdown","path":"scripts/scr_dropdown/scr_dropdown.yy",},},
     {"id":{"name":"scr_math","path":"scripts/scr_math/scr_math.yy",},},
     {"id":{"name":"scr_save","path":"scripts/scr_save/scr_save.yy",},},
     {"id":{"name":"scr_user_input","path":"scripts/scr_user_input/scr_user_input.yy",},},

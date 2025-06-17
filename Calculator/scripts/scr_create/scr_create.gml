@@ -25,7 +25,6 @@ function create_numpad(_x, _y, _layout, _w, _h = 40, _gap = 4, _layer = "Button"
 				_layer,
 				obj_button,
 				{
-					depth: -1,
 					sprite_index: spr_box_center,
 					image_xscale: _width_single_button / sprite_get_width(spr_box_center),
 					image_yscale: _h / sprite_get_height(spr_box_center),
@@ -90,7 +89,7 @@ function create_numpad_from_flex(_flex_node, _rm_width, _rm_height) {
    var _border = flexpanel_node_get_child(_flex_node, 0);
    var _pos_border = flexpanel_node_layout_get_position(_border, false);
    instance_create_layer(
-      _pos_border.left, _pos_border.top, "Button", obj_display_border, {
+      _pos_border.left, _pos_border.top, "Border", obj_display_border, {
          image_xscale: _pos_border.width / sprite_get_width(spr_border),
       }
    )
@@ -104,7 +103,6 @@ function create_numpad_from_flex(_flex_node, _rm_width, _rm_height) {
          var _btn_data = flexpanel_node_get_data(_btn);
          var _inst = instance_create_layer(
             _btn_pos.left, _btn_pos.top, "Button", obj_button, {
-               depth: -1, 
                image_xscale: _btn_pos.width / sprite_get_width(spr_box_center),
                image_yscale: _btn_pos.height / sprite_get_height(spr_box_center),
                label: _btn_data.label
@@ -113,79 +111,3 @@ function create_numpad_from_flex(_flex_node, _rm_width, _rm_height) {
    }
 }
 
-/**
- * @function			draw_enclosed_text()
- * @description		This function will draw a text enclosed between two positions (with padding),
- *							the excess character will be hidden and replaced by the navigation arrows.
- * @param {Real}		_left_pos - The leftmost position of the text
- * @param {Real}		_right_pos - The rightmost position of the text
- * @param {Real}		_y - The vertical position of the text
- * @param {Real}		_padding - The padding from the left and right position
- * @param {String}	_str - The text to be drawn
- * @param {Real}		_cursor_pos - The position of the cursor relative to the start of the text (in character)
- * @param {Real}		_cursor_alpha - The alpha of the cursor
- * @param {Real}		_color - The color of the text
- * @param {String}	_halign - The alignment of the text, default is right alignment
- * @return {Undefined} 
- */
-
-function draw_enclosed_text(
-	_left_pos, _right_pos, _y, _padding,
-	_str, _cursor_pos, _cursor_alpha, _color, _halign="right"
-) {
-	var _curr_fnt_color = draw_get_color();
-	draw_set_color(_color);
-	/**
-	 * Set the cursor position. Its default position is the center.
-	 * Align left if the left part of the string is too short. Align right similarly.
-	 */
-	var _cursor_pixel_position = (_left_pos + _right_pos) / 2;
-	var _after_cursor = string_copy(_str, _cursor_pos + 1, string_length(_str) - _cursor_pos + 2);
-	var _before_cursor = string_copy(_str, 1, _cursor_pos);
-	if (string_width(_str) >= _right_pos - _left_pos - 2 * _padding) {
-		if (string_width(_before_cursor) + 2 < (_right_pos - _left_pos) / 2 - _padding)
-			_cursor_pixel_position = _left_pos + _padding + string_width(_before_cursor) + 2;
-		if (string_width(_after_cursor) + 2 < (_right_pos - _left_pos) / 2 - _padding)
-			_cursor_pixel_position = _right_pos - (_padding + string_width(_after_cursor) + 2);
-	} else {
-		switch(_halign) {
-			case "left":
-				_cursor_pixel_position = _left_pos + _padding + string_width(_before_cursor) + 2;
-				break;
-			default:
-				_cursor_pixel_position = _right_pos - (_padding + string_width(_after_cursor) + 2);
-		}
-	}
-	
-	/**
-	 * Draw the cursor.
-	 */
-	draw_set_alpha(_cursor_alpha);
-	draw_rectangle(_cursor_pixel_position - 1, _y - 4,	_cursor_pixel_position, _y - 28, false);
-	draw_set_alpha(1);
-	
-	draw_set_halign(fa_left);
-	draw_text(_cursor_pixel_position + 2, _y, _after_cursor);
-	draw_set_halign(fa_right);
-	if (_cursor_pixel_position + string_width(_after_cursor) >= _right_pos - _padding) {
-		draw_rectangle_color(
-			_right_pos - _padding - string_width("▶") - 2, _y,
-			room_width,	_y - string_height("▶"),
-			global.back_color, global.back_color, global.back_color, global.back_color, false
-		);
-		draw_text(_right_pos - _padding, _y, "▶");
-	}
-	draw_text(_cursor_pixel_position + 2, _y, _before_cursor);
-	draw_set_halign(fa_left);
-	if (_cursor_pixel_position - string_width(_before_cursor) <= _left_pos + _padding) {
-		draw_rectangle_color(
-			_left_pos + _padding + string_width("◀"), _y,
-			-2, _y - string_height("◀"),
-			global.back_color, global.back_color, global.back_color, global.back_color, false
-		);
-		draw_text(_left_pos + _padding, _y, "◀");
-	}
-	
-	// Reset the settings for drawing 
-	draw_set_color(_curr_fnt_color);
-}

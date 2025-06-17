@@ -18,103 +18,80 @@ function draw_background_rectangle_over(_object) {
 }
 
 /**
- * @function				dropdown_options_add
- * @description			This function will add options to a dropdown option.
- * @param {Id.DsList}	_dropdown - The dropdown options holder
- * @param {String}		_label - The label of the dropdown option
- * @param {Any}			_value - The value of the dropdown option (equal to _label if not defined)
- * @return {Undefined}
+ * @function			draw_enclosed_text()
+ * @description		This function will draw a text enclosed between two positions (with padding),
+ *							the excess character will be hidden and replaced by the navigation arrows.
+ * @param {Real}		_left_pos - The leftmost position of the text
+ * @param {Real}		_right_pos - The rightmost position of the text
+ * @param {Real}		_y - The vertical position of the text
+ * @param {Real}		_padding - The padding from the left and right position
+ * @param {String}	_str - The text to be drawn
+ * @param {Real}		_cursor_pos - The position of the cursor relative to the start of the text (in character)
+ * @param {Real}		_cursor_alpha - The alpha of the cursor
+ * @param {Real}		_color - The color of the text
+ * @param {String}	_halign - The alignment of the text, default is right alignment
+ * @return {Undefined} 
  */
 
-function dropdown_options_add(_dropdown, _label, _value=undefined) {
-	if (is_undefined(_value)) {
-		_value = _label;
-	}
-	var _option = ds_map_create();
-	ds_map_add(_option, "label", _label);
-	ds_map_add(_option, "value", _value);
-	ds_list_add(_dropdown, _option);
-}
-
-/**
- * @function						dropdown_create
- * @description					This function will create a dropdown using the predefined arguments.
- * @param {Real}					_x - The x position of the center of the dropdown
- * @param {Real}					_y - The y position of the center of the dropdown
- * @param {String | Id.Layer} _layer - The layer where the dropdown is created
- * @param {String}				_name - The name of the dropdown (used for getting the dropdown's value)
- * @param {Real}					_width - The width of the dropdown
- * @param {Real}					_height - The height of the dropdown
- * @param {Real}					_scroll - The maximum scroll height
- * @param {Id.DsList}			_options - List the possible options for the dropdown
- * @param {Bool}					_has_display - Whether to display the box or not
- * @return {Asset.GMObject}
- */
-
-function dropdown_create(
-	_x, _y, _layer, _name, _width, _height, _scroll,
-	_options=undefined, _has_display=false,
-	_init_value="", _display_margin=undefined,
-	_label="", _label_margin=4
+function draw_enclosed_text(
+	_left_pos, _right_pos, _y, _padding,
+	_str, _cursor_pos, _cursor_alpha, _color, _halign="right"
 ) {
-	if (is_undefined(_options)) {
-		_options = ds_list_create();
-	}
-	if (is_undefined(_display_margin)) {
-		_display_margin = _height + 8;
-	}
-	var _dropdown_id = instance_create_layer(
-		_x, _y + _height,	_layer, obj_dropdown,
-		{
-			dropdown_height: _height,
-			dropdown_width: _width,
-			label: _label,
-			label_margin: _label_margin,
-			name: _name,
-			options: _options,
-			y_max_scroll: _scroll
+	var _curr_fnt_color = draw_get_color();
+	draw_set_color(_color);
+	/**
+	 * Set the cursor position. Its default position is the center.
+	 * Align left if the left part of the string is too short. Align right similarly.
+	 */
+	var _cursor_pixel_position = (_left_pos + _right_pos) / 2;
+	var _after_cursor = string_copy(_str, _cursor_pos + 1, string_length(_str) - _cursor_pos + 2);
+	var _before_cursor = string_copy(_str, 1, _cursor_pos);
+	if (string_width(_str) >= _right_pos - _left_pos - 2 * _padding) {
+		if (string_width(_before_cursor) + 2 < (_right_pos - _left_pos) / 2 - _padding)
+			_cursor_pixel_position = _left_pos + _padding + string_width(_before_cursor) + 2;
+		if (string_width(_after_cursor) + 2 < (_right_pos - _left_pos) / 2 - _padding)
+			_cursor_pixel_position = _right_pos - (_padding + string_width(_after_cursor) + 2);
+	} else {
+		switch(_halign) {
+			case "left":
+				_cursor_pixel_position = _left_pos + _padding + string_width(_before_cursor) + 2;
+				break;
+			default:
+				_cursor_pixel_position = _right_pos - (_padding + string_width(_after_cursor) + 2);
 		}
-	);
-	if (_has_display) {
-		var _display = instance_create_layer(
-			_x, _y + _display_margin, _layer, obj_display_box,
-			{
-				width: _width,
-				height: _height,
-				name: _name,
-				value: _init_value
-			}	
-		)
 	}
-	return _dropdown_id;
-}
-
-/**
- * @function					dropdown_destroy
- * @description				The function destroys the given dropdown.
- * @param {Asset.GMObject}	_dropdown - The id of the dropdown
- * @return {Undefined}
- */
-
-function dropdown_destroy(_dropdown) {
-	with (_dropdown) {
-		if (typeof(options) == "ref" and ds_exists(options, ds_type_list)) {
-			ds_list_destroy_all(options);
-		}
-		instance_destroy(self);
+	
+	/**
+	 * Draw the cursor.
+	 */
+	draw_set_alpha(_cursor_alpha);
+	draw_rectangle(_cursor_pixel_position - 1, _y - 4,	_cursor_pixel_position, _y - 28, false);
+	draw_set_alpha(1);
+	
+	draw_set_halign(fa_left);
+	draw_text(_cursor_pixel_position + 2, _y, _after_cursor);
+	draw_set_halign(fa_right);
+	if (_cursor_pixel_position + string_width(_after_cursor) >= _right_pos - _padding) {
+		draw_rectangle_color(
+			_right_pos - _padding - string_width("▶") - 2, _y,
+			room_width,	_y - string_height("▶"),
+			global.back_color, global.back_color, global.back_color, global.back_color, false
+		);
+		draw_text(_right_pos - _padding, _y, "▶");
 	}
-}
-
-/**
- * @function					dropdown_get_value
- * @description				This function gets the current value of the given dropdown.
- * @param {Asset.GMObject}	_dropdown - The id of the dropdown
- */
-
-function dropdown_get_value(_dropdown) {
-	with (_dropdown) {
-		return options[| current_option_id][? "value"];
+	draw_text(_cursor_pixel_position + 2, _y, _before_cursor);
+	draw_set_halign(fa_left);
+	if (_cursor_pixel_position - string_width(_before_cursor) <= _left_pos + _padding) {
+		draw_rectangle_color(
+			_left_pos + _padding + string_width("◀"), _y,
+			-2, _y - string_height("◀"),
+			global.back_color, global.back_color, global.back_color, global.back_color, false
+		);
+		draw_text(_left_pos + _padding, _y, "◀");
 	}
+	
+	// Reset the settings for drawing 
+	draw_set_color(_curr_fnt_color);
 }
 
 /**

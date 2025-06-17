@@ -72,6 +72,7 @@ global.modes = {
 		current_equation: ds_list_create(),
 		converted: ds_list_create(),
 		cursor_position: 0,
+      flex_option: undefined,
       flex_numpad: undefined,
 		input_unit: "m",
 		output_unit: "m",

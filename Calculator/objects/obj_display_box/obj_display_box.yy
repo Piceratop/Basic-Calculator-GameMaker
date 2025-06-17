@@ -48,8 +48,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_box_center",
-    "path":"sprites/spr_box_center/spr_box_center.yy",
+    "name":"spr_box_top_left",
+    "path":"sprites/spr_box_top_left/spr_box_top_left.yy",
   },
   "spriteMaskId":null,
   "visible":true,

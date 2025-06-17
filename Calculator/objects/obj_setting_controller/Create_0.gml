@@ -7,7 +7,6 @@ had_layout = false;
 
 // This code creates a flex layout for setting
 
-
 if (is_undefined(global.modes.Setting.flex_option)){
    global.modes.Setting.flex_option = flexpanel_create_node({ 
       width: "100%",
@@ -29,7 +28,7 @@ var _dropdown_room_option_position = flexpanel_node_layout_get_position(_dropdow
 
 setting_dropdown = dropdown_create(
 	_dropdown_room_option_position.left, _dropdown_room_option_position.top,
-   "Button", "Mode Selection",
+   "Option", "Mode Selection",
 	_dropdown_room_option_position.width, _dropdown_room_option_position.height, 0, 
 	options_setting_dropdown
 )
