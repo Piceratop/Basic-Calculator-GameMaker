@@ -174,6 +174,7 @@ global.fnt_calculator = font_add_sprite_ext(
 	global.allow_characters,
 	true, 4
 );
+// Default color
 global.back_color = c_white;
 global.border_color = c_black;
 global.fnt_color = c_black;

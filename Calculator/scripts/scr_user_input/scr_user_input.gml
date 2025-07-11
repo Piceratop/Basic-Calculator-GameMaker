@@ -26,14 +26,14 @@ function handle_numpad_input(_mode=global.current_mode, _key="") {
 			);
 			break;
 	}
-	//if (
-	//	keyboard_check_pressed(vk_anykey) and
-	//	not array_contains([
-	//		vk_alt, vk_lalt, vk_ralt,
-	//		vk_control, vk_lcontrol, vk_rcontrol,
-	//		vk_shift, vk_lshift, vk_rshift
-	//	], keyboard_lastkey)
-	//) {
+	if (
+		keyboard_check_pressed(vk_anykey) and
+		not array_contains([
+			vk_alt, vk_lalt, vk_ralt,
+			vk_control, vk_lcontrol, vk_rcontrol,
+			vk_shift, vk_lshift, vk_rshift
+		], keyboard_lastkey)
+	) {
 		
 	//   } else if (keyboard_lastchar == "=" or keyboard_lastkey == vk_enter) {
 	//		load_answer(_mode);
@@ -50,7 +50,7 @@ function handle_numpad_input(_mode=global.current_mode, _key="") {
 	//			global.modes[$ _mode].cursor_position
 	//		);
 	//	}
-	//}
+	}
 }
 
 /**
@@ -63,17 +63,18 @@ function handle_numpad_input(_mode=global.current_mode, _key="") {
 function load_answer(_mode=global.current_mode) {
 	switch (_mode) {
 		case "Converter":
-			/**
-			 * Ignore blank input.
-			 */
-			if (ds_list_size(global.modes.Converter.current_equation) == 0) return;
-			
 			var _b = global.modes.Converter;
 	      ds_list_destroy(_b.converted);
-	      var _a = multiply(_b.current_equation, _b.conversion_rate[? _b.convert_mode][? _b.input_unit]);
-	      _b.converted = divide(_a, _b.conversion_rate[? _b.convert_mode][? _b.output_unit], 6);
-	      ds_list_destroy(_a);
-			break;
+         if (ds_list_size(global.modes.Converter.current_equation) == 0) {
+   			// If a blank input is given, return a clean the output
+            _b.converted = ds_list_create();
+         } else {
+            // Calculate and assign the result to the output.
+   	      var _a = multiply(_b.current_equation, _b.conversion_rate[? _b.convert_mode][? _b.input_unit]);
+   	      _b.converted = divide(_a, _b.conversion_rate[? _b.convert_mode][? _b.output_unit], 6);
+   	      ds_list_destroy(_a);
+         }
+			return;
 		case "Standard":
 			/**
 			 * Ignore blank input.
@@ -140,7 +141,7 @@ function load_answer(_mode=global.current_mode) {
 			global.modes.Standard.current_equation = ds_list_create();
 			global.modes.Standard.cursor_position = 0;
 			
-			break;
+			return;
 	}
 }
 

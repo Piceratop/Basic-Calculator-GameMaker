@@ -29,15 +29,18 @@ function draw_background_rectangle_over(_object) {
  * @param {Real}		_cursor_pos - The position of the cursor relative to the start of the text (in character)
  * @param {Real}		_cursor_alpha - The alpha of the cursor
  * @param {Real}		_color - The color of the text
- * @param {String}	_halign - The alignment of the text, default is right alignment
+ * @param {String}	_halign - The horizontal alignment of the text, default is right alignment
+ * @param {String}	_valign - The vertical alignment of the text, default is bottom alignment
  * @return {Undefined} 
  */
 
 function draw_enclosed_text(
 	_left_pos, _right_pos, _y, _padding,
-	_str, _cursor_pos, _cursor_alpha, _color, _halign="right"
+	_str, _cursor_pos, _cursor_alpha, _color, _halign="right", _valign="bottom"
 ) {
 	var _curr_fnt_color = draw_get_color();
+   var _curr_valign = draw_get_valign();
+   draw_set_valign(_valign == "bottom" ? fa_bottom : fa_middle);
 	draw_set_color(_color);
 	/**
 	 * Set the cursor position. Its default position is the center.
@@ -92,6 +95,7 @@ function draw_enclosed_text(
 	
 	// Reset the settings for drawing 
 	draw_set_color(_curr_fnt_color);
+   draw_set_valign(_curr_valign);
 }
 
 /**

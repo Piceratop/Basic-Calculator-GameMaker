@@ -1,5 +1,3 @@
-draw_set_valign(fa_bottom);
-
 // Display past equations
 
 for (var _i = ds_list_size(global.modes.Standard.equations) - 1; _i >= 0; _i--) {
