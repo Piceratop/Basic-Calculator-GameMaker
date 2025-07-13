@@ -35,7 +35,7 @@ function dropdown_options_add(_dropdown, _label, _value=undefined) {
 function dropdown_create(
 	_x, _y, _layer, _name, _width, _height, _scroll,
 	_options=undefined, _has_display=false,
-	_init_value="", _display_margin=undefined,
+	_init_value="", _display_margin=4,
 	_label="", _label_margin=4
 ) {
 	if (is_undefined(_options)) {
@@ -58,7 +58,7 @@ function dropdown_create(
 	);
 	if (_has_display) {
 		var _display = instance_create_layer(
-			_x, _y + _display_margin, _layer, obj_display_box,
+			_x, _y + _height + _display_margin, _layer, obj_display_box,
 			{
 				width: _width,
 				height: _height,

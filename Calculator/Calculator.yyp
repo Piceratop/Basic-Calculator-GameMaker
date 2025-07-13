@@ -74,6 +74,7 @@
     {"id":{"name":"spr_border","path":"sprites/spr_border/spr_border.yy",},},
     {"id":{"name":"spr_box_center","path":"sprites/spr_box_center/spr_box_center.yy",},},
     {"id":{"name":"spr_box_top_left","path":"sprites/spr_box_top_left/spr_box_top_left.yy",},},
+    {"id":{"name":"spr_dropdown","path":"sprites/spr_dropdown/spr_dropdown.yy",},},
     {"id":{"name":"spr_fnt_calculator","path":"sprites/spr_fnt_calculator/spr_fnt_calculator.yy",},},
     {"id":{"name":"spr_scroll_button","path":"sprites/spr_scroll_button/spr_scroll_button.yy",},},
     {"id":{"name":"spr_setting_button","path":"sprites/spr_setting_button/spr_setting_button.yy",},},

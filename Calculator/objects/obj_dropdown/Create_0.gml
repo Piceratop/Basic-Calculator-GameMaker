@@ -8,8 +8,6 @@ idpos_current_scroll = 0;
 count_max_showing_options = 3;
 count_showing_options = min(count_max_showing_options, ds_list_size(options));
 
-
-y_padding = dropdown_height;
 y_original = y;
 
 // Create the scroll button
@@ -17,7 +15,7 @@ y_original = y;
 scroll_btn_w = sprite_get_width(spr_scroll_button);
 scroll_btn_x = x + dropdown_width - scroll_btn_w;
 instance_create_layer(
-	scroll_btn_x, y + 2,
+	scroll_btn_x, y + dropdown_height,
 	"Button", obj_scroll_button,
 	{
 		depth: base_depth - 2,
@@ -29,7 +27,7 @@ instance_create_layer(
 
 instance_create_layer(
 	scroll_btn_x,
-	y + 2 + count_showing_options * dropdown_height - sprite_get_height(spr_scroll_button),
+	y + (count_showing_options + 1) * dropdown_height - sprite_get_height(spr_scroll_button),
 	"Button",
 	obj_scroll_button,
 	{

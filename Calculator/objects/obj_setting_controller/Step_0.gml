@@ -15,7 +15,7 @@ if (not had_layout) {
             flexpanel_node_get_child(global.modes.Setting.flex_option, 1), false
          );
 			var _converter_type_dropdown = dropdown_create(
-				_converter_type_dropdown_pos.left, _converter_type_dropdown_pos.top + _converter_type_dropdown_pos.height,
+				_converter_type_dropdown_pos.left, _converter_type_dropdown_pos.top,
             "Button", "Converter Type",
 				width_dropdown, height_dropdown, 0, _modes_conversion, false, "", 0, "Conversion types:"
 			);

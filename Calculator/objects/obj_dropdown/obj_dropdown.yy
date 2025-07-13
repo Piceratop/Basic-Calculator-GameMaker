@@ -42,8 +42,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_border",
-    "path":"sprites/spr_border/spr_border.yy",
+    "name":"spr_dropdown",
+    "path":"sprites/spr_dropdown/spr_dropdown.yy",
   },
   "spriteMaskId":null,
   "visible":true,

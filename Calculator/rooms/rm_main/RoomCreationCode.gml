@@ -102,6 +102,7 @@ global.modes = {
 		current_equation: ds_list_create(),
 		cursor_position: 0,
 		flex_numpad: undefined,
+      flex_option: undefined,
 		mode_id: 2,
 		option_id: 0,
 		current_option_id: 0,
@@ -185,6 +186,7 @@ draw_set_valign(fa_middle);
 draw_set_font(global.fnt_calculator);
 
 global.cursor_alpha = 1;
+global.text_height = string_height(global.allow_characters);
 
 #endregion
 

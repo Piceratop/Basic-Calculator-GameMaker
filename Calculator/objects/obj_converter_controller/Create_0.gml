@@ -20,6 +20,7 @@ create_numpad_from_flex(global.modes.Converter.flex_numpad, room_width, room_hei
 var _display_top_position = room_width / 4;
 var _box_width = 288;
 box_height = 48;
+dropdown_height = 48;
 
 var _sb_width = sprite_get_width(spr_scroll_button) / 2;
 var _margin = (room_width - _box_width) / 2;
@@ -44,17 +45,17 @@ if (is_undefined(global.modes.Converter.flex_option)) {
       paddingLeft: 32,
       paddingRight: 32,
       paddingTop: 64,
-      
    });
    flexpanel_node_insert_child(global.modes.Converter.flex_option, flexpanel_create_node({
       width: "100%",
-      height: box_height,
-      marginTop: box_height,
+      height: dropdown_height,
+      marginBottom: box_height + 4
    }), 0);
    flexpanel_node_insert_child(global.modes.Converter.flex_option, flexpanel_create_node({
       width: "100%",
-      height: box_height,
-      marginTop: box_height * 1.5,   
+      height: dropdown_height,
+      marginTop: 24,
+      marginBottom: box_height + 4,   
    }), 1);
 }
 
@@ -62,8 +63,7 @@ if (is_undefined(global.modes.Converter.flex_option)) {
 
 flexpanel_calculate_layout(global.modes.Converter.flex_option, room_width, room_height, flexpanel_direction.LTR);
 
-var _dropdown_input = flexpanel_node_get_child(global.modes.Converter.flex_option, 0);
-var _dropdown_input_position = flexpanel_node_layout_get_position(_dropdown_input);
+var _dropdown_input_position = flexpanel_node_layout_get_position(flexpanel_node_get_child(global.modes.Converter.flex_option, 0));
 
 input_unit_dropdown = dropdown_create(
 	_dropdown_input_position.left, _dropdown_input_position.top,

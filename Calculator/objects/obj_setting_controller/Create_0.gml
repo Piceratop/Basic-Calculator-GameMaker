@@ -15,17 +15,17 @@ if (is_undefined(global.modes.Setting.flex_option)){
    });
    flexpanel_node_insert_child(global.modes.Setting.flex_option, flexpanel_create_node({
       width: "100%",
-      height: height_dropdown
+      height: height_dropdown,
+      marginBottom: height_dropdown
    }), 0);
    var _setting_content_flexpanel = flexpanel_create_node({
       width: "100%",
       height: height_dropdown + string_height("Conversion"),
-      marginTop: 16
    });
    
    flexpanel_node_insert_child(global.modes.Setting.flex_option, _setting_content_flexpanel, 1);
 }
-flexpanel_calculate_layout(global.modes.Setting.flex_option, room_width, room_height, flexpanel_direction.LTR);
+flexpanel_calculate_layout(global.modes.Setting.flex_option, room_width, undefined, flexpanel_direction.LTR);
 
 // This code creates a dropdown menu to store the current mode's setting to be changed.
 options_setting_dropdown = ds_list_create();
@@ -36,7 +36,7 @@ var _dropdown_room_option_position = flexpanel_node_layout_get_position(
 ); 
 
 setting_dropdown = dropdown_create(
-	_dropdown_room_option_position.left, _dropdown_room_option_position.top + _dropdown_room_option_position.height,
+	_dropdown_room_option_position.left, _dropdown_room_option_position.top,
    "Option", "Mode Selection",
 	_dropdown_room_option_position.width, _dropdown_room_option_position.height, 0, 
 	options_setting_dropdown
