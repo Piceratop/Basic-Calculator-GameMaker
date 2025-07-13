@@ -10,12 +10,20 @@ had_layout = false;
 if (is_undefined(global.modes.Setting.flex_option)){
    global.modes.Setting.flex_option = flexpanel_create_node({ 
       width: "100%",
-      padding: 32
+      padding: 32,
+      paddingTop: 64,
    });
    flexpanel_node_insert_child(global.modes.Setting.flex_option, flexpanel_create_node({
       width: "100%",
       height: height_dropdown
    }), 0);
+   var _setting_content_flexpanel = flexpanel_create_node({
+      width: "100%",
+      height: height_dropdown + string_height("Conversion"),
+      marginTop: 16
+   });
+   
+   flexpanel_node_insert_child(global.modes.Setting.flex_option, _setting_content_flexpanel, 1);
 }
 flexpanel_calculate_layout(global.modes.Setting.flex_option, room_width, room_height, flexpanel_direction.LTR);
 
@@ -23,11 +31,12 @@ flexpanel_calculate_layout(global.modes.Setting.flex_option, room_width, room_he
 options_setting_dropdown = ds_list_create();
 dropdown_options_add(options_setting_dropdown, "Converter");
 
-var _dropdown_room_option = flexpanel_node_get_child(global.modes.Setting.flex_option, 0);
-var _dropdown_room_option_position = flexpanel_node_layout_get_position(_dropdown_room_option); 
+var _dropdown_room_option_position = flexpanel_node_layout_get_position(
+   flexpanel_node_get_child(global.modes.Setting.flex_option, 0), false
+); 
 
 setting_dropdown = dropdown_create(
-	_dropdown_room_option_position.left, _dropdown_room_option_position.top,
+	_dropdown_room_option_position.left, _dropdown_room_option_position.top + _dropdown_room_option_position.height,
    "Option", "Mode Selection",
 	_dropdown_room_option_position.width, _dropdown_room_option_position.height, 0, 
 	options_setting_dropdown
