@@ -13,7 +13,7 @@ if (is_undefined(glb_practice.flex_option)) {
       width: "100%",
       paddingLeft: 32,
       paddingRight: 32,
-      paddingTop: 96,
+      paddingTop: 48,
    });
    for (var _i = 0; _i < 4; _i++) {
       flexpanel_node_insert_child(glb_practice.flex_option, flexpanel_create_node({
