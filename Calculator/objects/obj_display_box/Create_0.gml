@@ -4,4 +4,4 @@ image_xscale = width / sprite_get_width(spr_box_top_left);
 image_yscale = height / sprite_get_height(spr_box_top_left);
 
 y_original = y;
-y_margin = (height - string_height("0123456789")) / 2;
+value = "0123456789";

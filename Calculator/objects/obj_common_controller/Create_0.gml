@@ -14,3 +14,5 @@ function update_layer() {
 		layer_set_visible(str_layer_setting_btn, global.modes[$ global.current_mode].mode_id >= 0);
 	}		
 }
+
+alarm[0] = game_get_speed(gamespeed_fps);

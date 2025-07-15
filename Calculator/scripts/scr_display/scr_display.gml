@@ -40,7 +40,7 @@ function draw_enclosed_text(
 ) {
 	var _curr_fnt_color = draw_get_color();
    var _curr_valign = draw_get_valign();
-   draw_set_valign(_valign == "bottom" ? fa_bottom : fa_middle);
+   draw_set_valign(_valign == "bottom" ? fa_bottom : (_valign ==  "top" ? fa_top : fa_middle));
 	draw_set_color(_color);
 	/**
 	 * Set the cursor position. Its default position is the center.
@@ -64,20 +64,23 @@ function draw_enclosed_text(
 		}
 	}
 	
-	/**
+   var _y_down_shift = (_valign == "bottom" ? 0 : global.text_height / 2);
+   
+   /**
 	 * Draw the cursor.
 	 */
-	draw_set_alpha(_cursor_alpha);
-	draw_rectangle(_cursor_pixel_position - 1, _y - 4,	_cursor_pixel_position, _y - 28, false);
+ 	draw_set_alpha(_cursor_alpha);
+   draw_rectangle(_cursor_pixel_position - 1, _y + _y_down_shift - 4, _cursor_pixel_position, _y + _y_down_shift - 28, false);
 	draw_set_alpha(1);
 	
+   // Cover the right part
 	draw_set_halign(fa_left);
 	draw_text(_cursor_pixel_position + 2, _y, _after_cursor);
 	draw_set_halign(fa_right);
 	if (_cursor_pixel_position + string_width(_after_cursor) >= _right_pos - _padding) {
 		draw_rectangle_color(
-			_right_pos - _padding - string_width("▶") - 2, _y,
-			room_width,	_y - string_height("▶"),
+			_right_pos - _padding - string_width("▶") - 2, _y + _y_down_shift,
+			room_width,	_y + _y_down_shift - string_height("▶"),
 			global.back_color, global.back_color, global.back_color, global.back_color, false
 		);
 		draw_text(_right_pos - _padding, _y, "▶");
@@ -86,8 +89,8 @@ function draw_enclosed_text(
 	draw_set_halign(fa_left);
 	if (_cursor_pixel_position - string_width(_before_cursor) <= _left_pos + _padding) {
 		draw_rectangle_color(
-			_left_pos + _padding + string_width("◀"), _y,
-			-2, _y - string_height("◀"),
+			_left_pos + _padding + string_width("◀"), _y + _y_down_shift,
+			-2, _y + _y_down_shift - string_height("◀"),
 			global.back_color, global.back_color, global.back_color, global.back_color, false
 		);
 		draw_text(_left_pos + _padding, _y, "◀");

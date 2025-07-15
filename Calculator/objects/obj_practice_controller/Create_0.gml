@@ -40,15 +40,15 @@ dropdown_practice_mode = dropdown_create(
 	display_height, y_max_scroll, options_practice_mode, false, "", undefined, "Mode of practice:"
 );
 
-while (dropdown_get_value(dropdown_practice_mode) != global.modes.Practice.practice_mode) {
+while (dropdown_get_value(dropdown_practice_mode) != glb_practice.practice_mode) {
 	dropdown_practice_mode.current_option_id += 1;
 }
 
 rendered_mode_choice = false;
 
 #region This code initializes the corresponding option's name to its id.
-var _t_map = global.modes.Practice.option_id_mapping;
-switch(global.modes.Practice.practice_mode) {
+var _t_map = glb_practice.option_id_mapping;
+switch(glb_practice.practice_mode) {
 	case "+":
 	case "+−":
 		ds_list_add(_t_map, "Question's length:");
@@ -57,27 +57,31 @@ switch(global.modes.Practice.practice_mode) {
 		break;
 }
 for (var _i = 0; _i < ds_list_size(_t_map); _i++) {
+   /* 
+    * Adding a list with two elements to the values_of_options map for recording
+    * The first one is the value of the option
+    * The second one is the cursor position of the option
+    */
 	var _l = ds_list_create();
 	var _data = ds_list_create();
 	ds_list_add(_l, _data);
 	ds_list_mark_as_list(_l, 0);
 	ds_list_add(_l, 0);
-	ds_map_add_list(global.modes.Practice.values_of_options, _t_map[| _i], _l);
+	ds_map_add_list(glb_practice.values_of_options, _t_map[| _i], _l);
 }
 #endregion
 
-#region This code creates the inputs
+// This code creates the inputs
 for (var _i = 0; _i < ds_list_size(_t_map); _i++) {
    var _question_set_metadata_pos = flexpanel_node_layout_get_position(flexpanel_node_get_child(glb_practice.flex_option, _i + 1), false);
    
 	var _input_instance = display_create_with_label(
 		_question_set_metadata_pos.left, _question_set_metadata_pos.top, "Display", 
-		_t_map[| _i], room_width - 64, display_height, 64, 
+		_t_map[| _i], room_width - 64, display_height, y_max_scroll, 
 		parse_equation_from_single_list_to_string(glb_practice.values_of_options[? glb_practice.option_id_mapping[|_i]][| 0]),
 		_t_map[| _i]
 	);
 }
-#endregion
 
 #region This code creates the buttons
 button_layout = [

@@ -1,17 +1,15 @@
 // This code updates converting units for both input and output.
 with (obj_dropdown) {
-	switch (name) {
-		case "input":
-			if (ds_list_size(options) > 0) {
-				global.modes.Converter.input_unit = options[| current_option_id][? "value"];
-			}
-			break;
-		case "output":
-			if (ds_list_size(options) > 0) {
-				global.modes.Converter.output_unit = options[| current_option_id][? "value"];
-			}
-			break;
-	}
+   if (ds_list_size(options) > 0) {
+   	switch (name) {
+   		case "input":
+   			global.modes.Converter.input_unit = options[| current_option_id][? "value"];
+   			break;
+   		case "output":
+   			global.modes.Converter.output_unit = options[| current_option_id][? "value"];
+   			break;
+   	}
+   }
 }
 
 // This code set the display to be the current values of the input and output

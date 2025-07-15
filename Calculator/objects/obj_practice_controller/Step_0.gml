@@ -16,7 +16,8 @@ with (obj_display_box) {
 	for (var _i = 0; _i < ds_list_size(_p.option_id_mapping); _i++) {
 		if (name == _p.option_id_mapping[| _i]) {
 			value = parse_equation_from_single_list_to_string(_p.values_of_options[? _p.option_id_mapping[| _i]][| 0]);
-			cursor_position = _p.values_of_options[? _p.option_id_mapping[| _i]][| 1]
+			cursor_position = _p.values_of_options[? _p.option_id_mapping[| _i]][| 1];
+         show_debug_message($"{value} {cursor_position}");
 		}
 	}
 	if (name == _p.option_id_mapping[| _p.current_option_id]) {
