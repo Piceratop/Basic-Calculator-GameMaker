@@ -16,7 +16,7 @@ if (not had_layout) {
          );
 			var _converter_type_dropdown = dropdown_create(
 				_converter_type_dropdown_pos.left, _converter_type_dropdown_pos.top,
-            "Button", "Converter Type",
+            "Option", "Converter Type",
 				width_dropdown, height_dropdown, 0, _modes_conversion, false, "", 0, "Conversion types:"
 			);
 			with (_converter_type_dropdown) {

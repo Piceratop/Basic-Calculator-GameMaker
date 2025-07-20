@@ -17,7 +17,6 @@ with (obj_display_box) {
 		if (name == _p.option_id_mapping[| _i]) {
 			value = parse_equation_from_single_list_to_string(_p.values_of_options[? _p.option_id_mapping[| _i]][| 0]);
 			cursor_position = _p.values_of_options[? _p.option_id_mapping[| _i]][| 1];
-         show_debug_message($"{value} {cursor_position}");
 		}
 	}
 	if (name == _p.option_id_mapping[| _p.current_option_id]) {

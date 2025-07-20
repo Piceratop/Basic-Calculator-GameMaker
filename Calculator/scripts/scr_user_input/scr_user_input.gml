@@ -1,56 +1,146 @@
+#macro STANDARD_NAV_STEP 0.5 // Half-step for input/output switching
+#macro PRACTICE_NAV_MODE_STEP -1
+
+function is_practice_mode_playing() {
+   return obj_practice_controller.is_playing;
+}
+
+function handle_equation_input(_key, _mode) {
+   if (_mode == "Practice" and !is_practice_mode_playing()) {
+      var _practice = global.modes.Practice;
+      var _option_key = _practice.option_id_mapping[| _practice.current_option_id];
+      var _option_data = _practice.values_of_options[? _option_key];
+      
+      _option_data[| store_id_meaning.lhs_cursor_index] = input_equation(
+         _option_data[| store_id_meaning.lhs_data],
+         _key,
+         _option_data[| store_id_meaning.lhs_cursor_index]
+      );
+   } else {
+      var _current_mode = global.modes[$ _mode];
+      
+      _current_mode.cursor_position = input_equation(
+         _current_mode.current_equation,
+         _key,
+         _current_mode.cursor_position
+      );
+   }
+}
+
+function handle_vertical_navigation(_key, _mode) {
+   switch (_mode) {
+      case "Standard":
+         global.modes.Standard.current_equation_id = navigate_equations(
+            _key,
+            global.modes.Standard.current_equation_id,
+            ds_list_size(global.modes.Standard.equations),
+            STANDARD_NAV_STEP 
+         );
+         break;
+      case "Practice":
+         if (!is_practice_mode_playing()) {
+            global.modes.Practice.current_option_id = navigate_equations(
+               _key,
+               global.modes.Practice.current_option_id,
+               ds_list_size(global.modes.Practice.option_id_mapping),
+               PRACTICE_NAV_MODE_STEP
+            );
+         }
+         break;
+   }
+}
+
 /**
- * @function				handle_numpad_input
  * @description			This function get the input from the numpad and modifying the current equation
  *								and the cursor position according to the current mode
- * @param {String}		_mode - The room mode to be handled
  * @param {String}		_key - The label of the key pressed
+ * @param {String}		_mode - The room mode to be handled
  * @return {Undefined}
  */
-function handle_numpad_input(_mode=global.current_mode, _key="") {
-	alarm[0] = game_get_speed(gamespeed_fps);
+function handle_math_input(_key="", _mode=global.current_mode) {
 	global.cursor_alpha = 1;
-	switch (_key) {
-		case "⌫":
-			global.modes[$ _mode].cursor_position = input_equation(
-				global.modes[$ _mode].current_equation,
-				"⌫",
-				global.modes[$ _mode].cursor_position
-			);
-			break;
-		case "▶":
-		case "◀":
-			global.modes[$ _mode].cursor_position = navigate_equations(
-				_key,
-				global.modes[$ _mode].cursor_position,
-				ds_list_size(global.modes[$ _mode].current_equation)
-			);
-			break;
-	}
-	if (
-		keyboard_check_pressed(vk_anykey) and
-		not array_contains([
-			vk_alt, vk_lalt, vk_ralt,
-			vk_control, vk_lcontrol, vk_rcontrol,
-			vk_shift, vk_lshift, vk_rshift
-		], keyboard_lastkey)
-	) {
-		
-	//   } else if (keyboard_lastchar == "=" or keyboard_lastkey == vk_enter) {
-	//		load_answer(_mode);
-	//   } else if (
-	//		array_contains([
-	//			"0", "1", "2", "3", "4",
-	//			"5", "6", "7", "8", "9", 
-	//			"."
-	//		], keyboard_lastchar)
-	//	) {
-	//		global.modes[$ _mode].cursor_position = input_equation(
-	//			global.modes[$ _mode].current_equation,
-	//			keyboard_lastchar,
-	//			global.modes[$ _mode].cursor_position
-	//		);
-	//	}
-	}
+   enum store_id_meaning {
+      lhs_data,
+      lhs_cursor_index,
+      rhs_data,
+      rhs_cursor_index
+   }
+   
+   switch(_key) {
+      case "=":
+         load_answer();
+         break;
+      
+      case "0":
+      case "1":
+      case "2":
+      case "3":
+      case "4":
+      case "5":
+      case "6":
+      case "7":
+      case "8":
+      case "9":
+      case ".":
+      case "+":
+      case "−":
+      case "×":
+      case "÷": 
+      case "-":
+      case "(":
+      case ")":
+      case "⌫":
+         handle_equation_input(_key, _mode);
+         break;
+      
+      case "▶":
+      case "◀":
+         if (
+   		not struct_exists(global.modes[$ global.current_mode], "current_equation_id")
+   		or global.modes[$ global.current_mode].current_equation_id == 0
+   	) {
+   		switch (global.current_mode) {
+   			case "Practice":
+   				if (!obj_practice_controller.is_playing) {
+   					var _k = global.modes.Practice.option_id_mapping[| global.modes.Practice.current_option_id];
+   					global.modes.Practice.values_of_options[? _k][| 1] = navigate_equations(
+   						_key,
+   						global.modes.Practice.values_of_options[? _k][| 1],
+   						ds_list_size(global.modes.Practice.values_of_options[? _k][| 0])
+   					);
+   				}
+   				break;
+   			default:
+   				global.modes[$ global.current_mode].cursor_position = navigate_equations(
+   					_key,
+   					global.modes[$ global.current_mode].cursor_position,
+   					ds_list_size(global.modes[$ global.current_mode].current_equation)
+   				);
+   		}
+   	} else {
+   		var _l = ds_list_size(global.modes.Standard.equations);
+   		var _ci = ceil(global.modes.Standard.current_equation_id);
+   		var _id = _l - _ci;
+   		if (_ci == global.modes.Standard.current_equation_id) {
+   			global.modes.Standard.equations[| _id][| 2] = navigate_equations(
+   				_key,
+   				global.modes.Standard.equations[| _id][| 2],
+   				ds_list_size(global.modes.Standard.equations[| _id][| 0])
+   			);
+   		} else {
+   			global.modes.Standard.equations[| _id][| 3] = navigate_equations(
+   				_key,
+   				global.modes.Standard.equations[| _id][| 3],
+   				ds_list_size(global.modes.Standard.equations[| _id][| 1])
+   			);
+   		}
+   	}
+         break;
+      case "▲":
+      case "▼":
+         handle_vertical_navigation(_key, _mode);
+         break;
+   }
 }
 
 /**
