@@ -1,20 +1,38 @@
+
 #macro STANDARD_NAV_STEP 0.5 // Half-step for input/output switching
 #macro PRACTICE_NAV_MODE_STEP -1
+enum store_id_meaning {
+   lhs_data = 0,
+   rhs_data = 1,
+   lhs_cursor_index = 2,
+   rhs_cursor_index = 3,
+   number_data = 0,
+   number_cursor_id = 1
+}
 
+#region Subfunctions for inputing equations (or data) with buttons
 function is_practice_mode_playing() {
    return obj_practice_controller.is_playing;
 }
 
+function get_practice_data() {
+   var _practice = global.modes.Practice;
+
+   return {
+      practice: _practice,
+      option_key: _practice.option_id_mapping[| _practice.current_option_id],
+      option_data: _practice.values_of_options[? _practice.option_id_mapping[| _practice.current_option_id]],
+   };
+}
+
 function handle_equation_input(_key, _mode) {
    if (_mode == "Practice" and !is_practice_mode_playing()) {
-      var _practice = global.modes.Practice;
-      var _option_key = _practice.option_id_mapping[| _practice.current_option_id];
-      var _option_data = _practice.values_of_options[? _option_key];
+      var _practice_data = get_practice_data();
       
-      _option_data[| store_id_meaning.lhs_cursor_index] = input_equation(
-         _option_data[| store_id_meaning.lhs_data],
+      _practice_data.option_data[| store_id_meaning.number_cursor_id] = input_equation(
+         _practice_data.option_data[| store_id_meaning.number_data],
          _key,
-         _option_data[| store_id_meaning.lhs_cursor_index]
+         _practice_data.option_data[| store_id_meaning.number_cursor_id]
       );
    } else {
       var _current_mode = global.modes[$ _mode];
@@ -23,6 +41,52 @@ function handle_equation_input(_key, _mode) {
          _current_mode.current_equation,
          _key,
          _current_mode.cursor_position
+      );
+   }
+}
+
+function handle_normal_horizontal_navigation(_key, _mode) {
+   switch (_mode) {
+      case "Practice":
+         if (!is_practice_mode_playing()) {
+            var _practice_data = get_practice_data();
+            
+            _practice_data.option_data[| store_id_meaning.number_cursor_id] = navigate_equations(
+               _key,
+               _practice_data.option_data[| store_id_meaning.number_cursor_id],
+               ds_list_size(_practice_data.option_data[| store_id_meaning.number_data]) // Length of the number
+            );
+         }
+         break;
+      
+      default:
+         var _current_mode = global.modes[$ global.current_mode];
+         _current_mode.cursor_position = navigate_equations(
+            _key,
+            _current_mode.cursor_position,
+            ds_list_size(_current_mode.current_equation)
+         );
+         break;
+   }
+}
+
+function handle_standard_previous_data_horizontal_navigation(_key, _mode) {
+   var _standard = global.modes.Standard;
+   
+   var _equations_count = ds_list_size(_standard.equations);
+   var _curr_equation_id_ceil = ceil(_standard.current_equation_id);
+   var _curr_equation_pos = _equations_count - _curr_equation_id_ceil;
+   if (_curr_equation_id_ceil == _standard.current_equation_id) {
+      _standard.equations[| _curr_equation_pos][| store_id_meaning.lhs_cursor_index] = navigate_equations(
+         _key,
+         _standard.equations[| _curr_equation_pos][| store_id_meaning.lhs_cursor_index],
+         ds_list_size(_standard.equations[| _curr_equation_pos][| store_id_meaning.lhs_data])
+      );
+   } else {
+      _standard.equations[| _curr_equation_posid][| store_id_meaning.rhs_cursor_index] = navigate_equations(
+         _key,
+         _standard.equations[| _curr_equation_pos][| store_id_meaning.rhs_cursor_index],
+         ds_list_size(_standard.equations[| _curr_equation_pos][| store_id_meaning.rhs_data])
       );
    }
 }
@@ -49,6 +113,38 @@ function handle_vertical_navigation(_key, _mode) {
          break;
    }
 }
+#endregion
+
+/**
+ * @description This function converts the keyboard key to its equivalent button press
+ * @param {String}		_mode - The room mode to be handled
+ * @return {String}
+ */
+function convert_keyboard_key_to_button_input(_mode=global.current_mode) {
+   switch (keyboard_lastkey) {
+      case vk_backspace: return "⌫";
+      case vk_left: return "◀";
+      case vk_right: return "▶";
+      case vk_down: return "▼";
+      case vk_up: return "▲";
+      case vk_enter: return "=";
+   }
+   
+   switch (keyboard_lastchar) {
+      case "+": return "+";
+      case "-": return "−";
+      case "*": return "×";
+      case "/": return "÷";
+   }
+   
+   if (array_contains([
+      "=", "0", "1", "2", "3", "4",
+      "5", "6", "7", "8", "9", ".",
+      "(", ")"
+   ], keyboard_lastchar)) {
+      return keyboard_lastchar;
+   }
+}
 
 /**
  * @description			This function get the input from the numpad and modifying the current equation
@@ -59,12 +155,6 @@ function handle_vertical_navigation(_key, _mode) {
  */
 function handle_math_input(_key="", _mode=global.current_mode) {
 	global.cursor_alpha = 1;
-   enum store_id_meaning {
-      lhs_data,
-      lhs_cursor_index,
-      rhs_data,
-      rhs_cursor_index
-   }
    
    switch(_key) {
       case "=":
@@ -96,45 +186,10 @@ function handle_math_input(_key="", _mode=global.current_mode) {
       case "▶":
       case "◀":
          if (
-   		not struct_exists(global.modes[$ global.current_mode], "current_equation_id")
-   		or global.modes[$ global.current_mode].current_equation_id == 0
-   	) {
-   		switch (global.current_mode) {
-   			case "Practice":
-   				if (!obj_practice_controller.is_playing) {
-   					var _k = global.modes.Practice.option_id_mapping[| global.modes.Practice.current_option_id];
-   					global.modes.Practice.values_of_options[? _k][| 1] = navigate_equations(
-   						_key,
-   						global.modes.Practice.values_of_options[? _k][| 1],
-   						ds_list_size(global.modes.Practice.values_of_options[? _k][| 0])
-   					);
-   				}
-   				break;
-   			default:
-   				global.modes[$ global.current_mode].cursor_position = navigate_equations(
-   					_key,
-   					global.modes[$ global.current_mode].cursor_position,
-   					ds_list_size(global.modes[$ global.current_mode].current_equation)
-   				);
-   		}
-   	} else {
-   		var _l = ds_list_size(global.modes.Standard.equations);
-   		var _ci = ceil(global.modes.Standard.current_equation_id);
-   		var _id = _l - _ci;
-   		if (_ci == global.modes.Standard.current_equation_id) {
-   			global.modes.Standard.equations[| _id][| 2] = navigate_equations(
-   				_key,
-   				global.modes.Standard.equations[| _id][| 2],
-   				ds_list_size(global.modes.Standard.equations[| _id][| 0])
-   			);
-   		} else {
-   			global.modes.Standard.equations[| _id][| 3] = navigate_equations(
-   				_key,
-   				global.modes.Standard.equations[| _id][| 3],
-   				ds_list_size(global.modes.Standard.equations[| _id][| 1])
-   			);
-   		}
-   	}
+      		not struct_exists(global.modes[$ global.current_mode], "current_equation_id")
+      		or global.modes[$ global.current_mode].current_equation_id == 0
+      	) { handle_normal_horizontal_navigation(_key, _mode); }
+            else { handle_standard_previous_data_horizontal_navigation(_key, _mode); }
          break;
       case "▲":
       case "▼":
@@ -166,9 +221,7 @@ function load_answer(_mode=global.current_mode) {
          }
 			return;
 		case "Standard":
-			/**
-			 * Ignore blank input.
-			 */
+			//Ignore blank input.
 			if (ds_list_size(global.modes.Standard.current_equation) == 0) return;
 	
 			/**
@@ -176,6 +229,8 @@ function load_answer(_mode=global.current_mode) {
 			 */
 			var _equation_list = parse_equation_from_list_to_list(global.modes.Standard.current_equation);
 			var _ans_list = evaluate_equation(_equation_list);
+         show_debug_message(ds_list_stringify(_equation_list));
+         show_debug_message(_ans_list);
 			ds_list_destroy_all(_equation_list);
 	
 			if (_ans_list[| 0] != -1) {
@@ -216,7 +271,6 @@ function load_answer(_mode=global.current_mode) {
 				var _c = global.modes.Standard.equations[| 0];
 				var _d = global.modes.Standard.displaying_equations[| 0];
 				
-				//ds_list_destroy_multiple(_a, _b);
 				ds_list_delete(global.modes.Standard.equations, 0);
 				ds_list_delete(global.modes.Standard.displaying_equations, 0);
 				ds_list_destroy_multiple(_c, _d);
@@ -247,12 +301,8 @@ function load_answer(_mode=global.current_mode) {
 function input_equation(_curr_equation, _label, _pos) {
 	switch (_label) {
 		case "⌫":
-			if (_pos == 0)
-				ds_list_delete(_curr_equation, 0);
-			else {
-				_pos -= 1;
-				ds_list_delete(_curr_equation, _pos);
-			}
+         _pos = max(0, _pos - 1);
+         ds_list_delete(_curr_equation, _pos);
 			return _pos;
 		default:
 			ds_list_insert(_curr_equation, _pos, global.math_encodings[? _label]);

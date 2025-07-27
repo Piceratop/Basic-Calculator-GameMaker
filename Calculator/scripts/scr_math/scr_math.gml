@@ -677,7 +677,7 @@ function subtract(_a, _b, _is_normalized=false) {
 
 function evaluate_equation(_equation) {
 	/* 
-	 * Create two stacks for easier hierarchy comparision and equation evaluation.
+	 * Create two stacks for easier hierarchy comparison and equation evaluation.
 	 */
 	var _operator_stack = ds_stack_create();
 	var _number_stack = ds_stack_create();
@@ -693,17 +693,24 @@ function evaluate_equation(_equation) {
 		} else if (_current_component[| 0] == global.math_encodings[? "("]) {
 			ds_stack_push(_operator_stack, global.math_encodings[? "("]);
 		} else if (_current_component[| 0] == global.math_encodings[? ")"]) {
-			while (typeof(ds_stack_top(_operator_stack)) == "ref") {
-				var _executing_operator = ds_stack_pop(_operator_stack);
-				if (ds_stack_size(_number_stack) < _executing_operator[? "input_count"]) {
-					_ans_list = return_invalid_when_evaluating_equation(_number_stack, _operator_stack);
-					return _ans_list;
-				}
-				var _c = evaluate_with_error_check(_number_stack, _operator_stack, _executing_operator[? "function"], _executing_operator[? "input_count"]);
-				if (_c[| 0] == -1) return _c;
-				ds_stack_push(_number_stack, _c);
-			}
-			ds_stack_pop(_operator_stack);
+			while (true) {
+            if (ds_stack_size(_operator_stack) == 0) {
+               _ans_list = return_invalid_when_evaluating_equation(_number_stack, _operator_stack);
+               return _ans_list;
+            } else if (typeof(ds_stack_top(_operator_stack)) == "ref") {
+   				var _executing_operator = ds_stack_pop(_operator_stack);
+   				if (ds_stack_size(_number_stack) < _executing_operator[? "input_count"]) {
+   					_ans_list = return_invalid_when_evaluating_equation(_number_stack, _operator_stack);
+   					return _ans_list;
+   				}
+   				var _c = evaluate_with_error_check(_number_stack, _operator_stack, _executing_operator[? "function"], _executing_operator[? "input_count"]);
+   				if (_c[| 0] == -1) return _c;
+   				ds_stack_push(_number_stack, _c); 
+            } else {
+               ds_stack_pop(_operator_stack);
+               break;
+            }
+         }
 		} else {
 			var _current_operator = global.operator_map[? _current_component[| 0]];
 			while (
@@ -724,8 +731,11 @@ function evaluate_equation(_equation) {
 	}
 	while (!ds_stack_empty(_operator_stack)) {
 		var _executing_operator = ds_stack_pop(_operator_stack);
+      
 		if (typeof(ds_stack_top(_operator_stack)) == "number"
-			or ds_stack_size(_number_stack) < _executing_operator[? "input_count"]) {
+         or _executing_operator == global.math_encodings[? "("]
+         or ds_stack_size(_number_stack) < _executing_operator[? "input_count"]
+      ) {
 			_ans_list = return_invalid_when_evaluating_equation(_number_stack, _operator_stack);
 			return _ans_list;
 		}

@@ -15,4 +15,8 @@ function update_layer() {
 	}		
 }
 
+allowed_keys = {
+   Standard: ["=", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+};
+
 alarm[0] = game_get_speed(gamespeed_fps);

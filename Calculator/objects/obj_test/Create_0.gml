@@ -393,8 +393,10 @@ test_cases_7 = [
 	"---10.24",
 	"55.5÷0.7",
 	"(1−2)×(3+4)",
-	"12÷0.000001×0.000001",
-	"+−",
+	"12÷0.000001×0.000001"
+	"(",
+   ")", 
+   "+−",
 	"12+",
 	"(12+",
 	"40÷0",
@@ -451,7 +453,7 @@ test_evaluate_equation = function() {
 //test_divide_integer();
 //test_divide();
 //test_parse_equation();
-//test_evaluate_equation();
+test_evaluate_equation();
 
 // ================ DS List Functions ================
 
