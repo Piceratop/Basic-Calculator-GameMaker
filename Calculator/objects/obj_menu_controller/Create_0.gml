@@ -26,7 +26,7 @@ array_push(labels, "Setting");
 // This code creates the button to navigate to a specific room.
 
 for (var _i = 0; _i < array_length(labels); _i++) {
-	instance_create_layer(
+	var _inst = instance_create_layer(
 		navigation_button_pos[0],
 		navigation_button_pos[1] + _i * (navigation_button_height + 12),
 		"Instances", obj_navigation_button,
@@ -34,8 +34,10 @@ for (var _i = 0; _i < array_length(labels); _i++) {
 			button_height: navigation_button_height,
 			button_width: navigation_button_width,
 			label: labels[_i],
+			name: labels[_i],
 		}
 	);
+	show_debug_message(labels[_i]);
 }
 
 

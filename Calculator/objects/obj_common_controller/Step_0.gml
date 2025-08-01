@@ -2,9 +2,6 @@
 with (all) {
 	image_blend = global.border_color;
 }
-#region This code displays the menu according to the current state of the game.
-update_layer();
-#endregion
 
 #region This code manages the dropdown.
 if (mouse_check_button_pressed(mb_left)) {
@@ -52,7 +49,7 @@ if (mouse_check_button_pressed(mb_left)) {
 
 if (keyboard_check_pressed(vk_anykey)) {
    var _key = convert_keyboard_key_to_button_input();
-   if (struct_exists(allowed_keys, global.current_mode)) {
+   if (struct_exists(allowed_keys, global.current_mode) and array_contains(allowed_keys[$ global.current_mode], _key)) {
      	handle_math_input(_key);
    }
    

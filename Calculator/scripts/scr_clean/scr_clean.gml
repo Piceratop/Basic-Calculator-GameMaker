@@ -33,11 +33,10 @@ function ds_list_destroy_multiple() {
  * @function					room_clean_goto
  * @description				This function will clean all the leftover ds_list and ds_map, then change the room.
  *									Must be used in end step.
- * @param {Asset.GMRoom}	_room - The room to go to
  * @param {String}			_mode - The mode of the room to go to
  */
 
-function room_clean_goto(_room, _mode) {
+function room_clean_goto(_mode) {
 	// This code frees the dropdowns
 	with (obj_dropdown) {
 		dropdown_destroy(self);
@@ -49,5 +48,5 @@ function room_clean_goto(_room, _mode) {
 	
 	// This code changes the room
 	global.current_mode = _mode;
-	room_goto(_room);
+	room_goto(global.modes[$ _mode].room_id);
 }

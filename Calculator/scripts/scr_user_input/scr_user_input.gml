@@ -1,4 +1,3 @@
-
 #macro STANDARD_NAV_STEP 0.5 // Half-step for input/output switching
 #macro PRACTICE_NAV_MODE_STEP -1
 enum store_id_meaning {
@@ -83,7 +82,7 @@ function handle_standard_previous_data_horizontal_navigation(_key, _mode) {
          ds_list_size(_standard.equations[| _curr_equation_pos][| store_id_meaning.lhs_data])
       );
    } else {
-      _standard.equations[| _curr_equation_posid][| store_id_meaning.rhs_cursor_index] = navigate_equations(
+      _standard.equations[| _curr_equation_pos][| store_id_meaning.rhs_cursor_index] = navigate_equations(
          _key,
          _standard.equations[| _curr_equation_pos][| store_id_meaning.rhs_cursor_index],
          ds_list_size(_standard.equations[| _curr_equation_pos][| store_id_meaning.rhs_data])
@@ -106,7 +105,7 @@ function handle_vertical_navigation(_key, _mode) {
             global.modes.Practice.current_option_id = navigate_equations(
                _key,
                global.modes.Practice.current_option_id,
-               ds_list_size(global.modes.Practice.option_id_mapping),
+               ds_list_size(global.modes.Practice.option_id_mapping) - 1,
                PRACTICE_NAV_MODE_STEP
             );
          }
@@ -229,8 +228,6 @@ function load_answer(_mode=global.current_mode) {
 			 */
 			var _equation_list = parse_equation_from_list_to_list(global.modes.Standard.current_equation);
 			var _ans_list = evaluate_equation(_equation_list);
-         show_debug_message(ds_list_stringify(_equation_list));
-         show_debug_message(_ans_list);
 			ds_list_destroy_all(_equation_list);
 	
 			if (_ans_list[| 0] != -1) {

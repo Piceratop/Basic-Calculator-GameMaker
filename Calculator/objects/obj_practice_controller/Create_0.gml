@@ -1,5 +1,5 @@
 display_height = 48;
-text_height = string_height("Mp");
+text_height = string_height("Mp") + 4;
 y_top_draw = 80;
 y_max_scroll = 48;
 alarm[0] = game_get_speed(gamespeed_fps);
@@ -15,19 +15,19 @@ if (is_undefined(glb_practice.flex_option)) {
       paddingRight: 32,
       paddingTop: 48,
    });
-   for (var _i = 0; _i < 4; _i++) {
+   for (var _i = 0; _i < 5; _i++) {
       flexpanel_node_insert_child(glb_practice.flex_option, flexpanel_create_node({
          width: "100%",
          height: display_height,
          marginTop: text_height
       }), _i);
    }
+	
 }
 
 flexpanel_calculate_layout(glb_practice.flex_option, room_width, undefined, flexpanel_direction.LTR);
 
-// This code creates the dropdown from the question type selection
-
+#region This code creates the dropdown from the question type selection
 options_practice_mode = ds_list_create();
 dropdown_options_add(options_practice_mode, "Add", "+");
 dropdown_options_add(options_practice_mode, "Add & Subtract", "+−");
@@ -45,6 +45,7 @@ while (dropdown_get_value(dropdown_practice_mode) != glb_practice.practice_mode)
 }
 
 rendered_mode_choice = false;
+#endregion
 
 #region This code initializes the corresponding option's name to its id.
 var _t_map = glb_practice.option_id_mapping;
@@ -83,7 +84,14 @@ for (var _i = 0; _i < ds_list_size(_t_map); _i++) {
 	);
 }
 
-#region This code creates the buttons
+// Button to navigate to the play room
+var _navigation_to_play_btn_pos = flexpanel_node_layout_get_position(flexpanel_node_get_child(glb_practice.flex_option, ds_list_size(_t_map) + 1), false);
+
+instance_create_layer(_navigation_to_play_btn_pos.left, _navigation_to_play_btn_pos.top, "Display", obj_navigation_button, {
+
+})
+
+#region This code creates the buttons for inputing equations
 button_layout = [
 	["⌫", "◀", "▶", "▼", "▲"],
 	["7", "8", "9"],

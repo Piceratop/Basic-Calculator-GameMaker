@@ -1,6 +1,6 @@
 /**
  * @function				scroll_obj
- * @description			This function scrolls a scrollable object
+ * @description			This function scrolls a scrollable object.
  * @param {Asset.GMObject}			_object - The object to be scrolled
  * @return {Undefined}
  */
@@ -14,4 +14,8 @@ function scroll_obj(_object){
 	}
 
 	_object.y = _object.y_original - _object.y_scroll;
+}
+
+function is_allowed_mode(_allowed_mode, _mode=global.current_mode) {
+	return array_contains(_allowed_mode, _mode);
 }
