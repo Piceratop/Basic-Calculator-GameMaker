@@ -80,6 +80,7 @@ global.modes = {
 		room_id: rm_converter,
 	},
 	Menu: {
+		flex_option: undefined,
 		mode_id: -1,
 		room_id: rm_menu,
 	},

@@ -22,7 +22,6 @@ if (is_undefined(glb_practice.flex_option)) {
          marginTop: text_height
       }), _i);
    }
-	
 }
 
 flexpanel_calculate_layout(glb_practice.flex_option, room_width, undefined, flexpanel_direction.LTR);
@@ -93,11 +92,11 @@ instance_create_layer(_navigation_to_play_btn_pos.left, _navigation_to_play_btn_
 
 #region This code creates the buttons for inputing equations
 button_layout = [
-	["⌫", "◀", "▶", "▼", "▲"],
-	["7", "8", "9"],
-	["4", "5", "6"],
-	["1", "2", "3"],
-	["Enter", "0", "."],
+	//["⌫", "◀", "▶", "▼", "▲"],
+	//["7", "8", "9"],
+	//["4", "5", "6"],
+	//["1", "2", "3"],
+	//["Enter", "0", "."],
 ];
 
 if (is_undefined(global.modes.Practice.flex_numpad)) {

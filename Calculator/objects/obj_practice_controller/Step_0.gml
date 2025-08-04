@@ -23,3 +23,9 @@ with (obj_display_box) {
 		cursor_alpha = global.cursor_alpha;
 	} else { cursor_alpha = 0; }
 }
+
+// Testing
+
+with (obj_navigation_button) {
+	show_debug_message(label);
+}
