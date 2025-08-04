@@ -37,7 +37,6 @@ for (var _i = 0; _i < array_length(labels); _i++) {
 			name: labels[_i],
 		}
 	);
-	show_debug_message(labels[_i]);
 }
 
 
