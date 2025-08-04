@@ -57,6 +57,7 @@
     {"id":{"name":"rm_converter","path":"rooms/rm_converter/rm_converter.yy",},},
     {"id":{"name":"rm_main","path":"rooms/rm_main/rm_main.yy",},},
     {"id":{"name":"rm_menu","path":"rooms/rm_menu/rm_menu.yy",},},
+    {"id":{"name":"rm_practice_play","path":"rooms/rm_practice_play/rm_practice_play.yy",},},
     {"id":{"name":"rm_practice","path":"rooms/rm_practice/rm_practice.yy",},},
     {"id":{"name":"rm_setting","path":"rooms/rm_setting/rm_setting.yy",},},
     {"id":{"name":"rm_standard","path":"rooms/rm_standard/rm_standard.yy",},},
@@ -88,6 +89,7 @@
     {"roomId":{"name":"rm_converter","path":"rooms/rm_converter/rm_converter.yy",},},
     {"roomId":{"name":"rm_practice","path":"rooms/rm_practice/rm_practice.yy",},},
     {"roomId":{"name":"rm_setting","path":"rooms/rm_setting/rm_setting.yy",},},
+    {"roomId":{"name":"rm_practice_play","path":"rooms/rm_practice_play/rm_practice_play.yy",},},
   ],
   "templateType":"game",
   "TextureGroups":[

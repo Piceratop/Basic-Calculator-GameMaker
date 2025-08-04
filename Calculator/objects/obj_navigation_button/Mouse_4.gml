@@ -1,2 +1,2 @@
-global.current_mode = label;
-room_goto(global.modes[$ label].room_id);
+global.current_mode = name;
+room_goto(global.modes[$ name].room_id);

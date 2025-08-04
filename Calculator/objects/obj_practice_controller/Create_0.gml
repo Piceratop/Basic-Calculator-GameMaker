@@ -85,9 +85,13 @@ for (var _i = 0; _i < ds_list_size(_t_map); _i++) {
 
 // Button to navigate to the play room
 var _navigation_to_play_btn_pos = flexpanel_node_layout_get_position(flexpanel_node_get_child(glb_practice.flex_option, ds_list_size(_t_map) + 1), false);
+var _navigation_to_play_btn_label = "Play";
 
 instance_create_layer(_navigation_to_play_btn_pos.left, _navigation_to_play_btn_pos.top, "Display", obj_navigation_button, {
-
+	button_height: _navigation_to_play_btn_pos.height,
+	button_width: _navigation_to_play_btn_pos.width,
+	label: _navigation_to_play_btn_label,
+	name: "Practice_Play"
 })
 
 #region This code creates the buttons for inputing equations

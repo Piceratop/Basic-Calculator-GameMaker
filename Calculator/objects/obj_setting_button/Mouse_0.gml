@@ -1,3 +1,3 @@
-if (is_allowed_mode(allowed_mode)) {
+if (is_allowed_mode(banned_mode)) {
 	room_clean_goto("Setting");
 }

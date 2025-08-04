@@ -111,6 +111,10 @@ global.modes = {
 		values_of_options: ds_map_create(),
 		practice_mode: "+",
 		room_id: rm_practice,
+	},
+	Practice_Play: {
+		mode_id: -3,
+		room_id: rm_practice_play
 	}
 }
 
