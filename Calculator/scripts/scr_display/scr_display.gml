@@ -110,14 +110,15 @@ function draw_enclosed_text(
  * @param {String}				_name - The name of the dropdown (used for getting the dropdown's value)
  * @param {Real}					_width - The width of the dropdown
  * @param {Real}					_height - The height of the dropdown
- * @param {Real}					_scroll - The maximum scroll height
+ * @param {Real}					_max_scroll - The maximum scroll height
+ * @param {Real}					_single_scroll - The change after a single scroll
  * @param {String}				_text - The text to be displayed
  * @param {String}				_label - The label of the display
  * @param {Real}					_margin - The gap between the label and the display
- * @return {Asset.GMObject}
+ * @return {Id.Instance}
  */
 
-function display_create_with_label(_x, _y, _layer, _name, _width, _height, _scroll, _text, _label="", _margin=4) {
+function display_create_with_label(_x, _y, _layer, _name, _width, _height, _max_scroll=0, _single_scroll, _text="", _label="", _margin=4) {
 	var _display = instance_create_layer(_x, _y, _layer, obj_display_box, {
 		width: _width,
 		height: _height,
@@ -125,7 +126,8 @@ function display_create_with_label(_x, _y, _layer, _name, _width, _height, _scro
 		value: _text,
 		label: _label,
 		margin: _margin,
-		y_max_scroll: _scroll
+		y_max_scroll: _max_scroll,
+		y_single_scroll: _single_scroll
 	});
 	return _display;
 }

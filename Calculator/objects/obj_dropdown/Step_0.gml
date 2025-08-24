@@ -12,4 +12,4 @@ if (is_dropping) {
 }
 #endregion
 
-scroll_obj(self);
+scroll_obj(self, y_single_scroll);

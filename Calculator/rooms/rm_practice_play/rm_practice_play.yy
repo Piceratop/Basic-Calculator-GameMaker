@@ -13,8 +13,8 @@
   ],
   "name":"rm_practice_play",
   "parent":{
-    "name":"Rooms",
-    "path":"folders/Rooms.yy",
+    "name":"Practice",
+    "path":"folders/Rooms/Practice.yy",
   },
   "parentRoom":null,
   "physicsSettings":{

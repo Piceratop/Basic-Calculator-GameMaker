@@ -38,7 +38,7 @@ var _dropdown_room_option_position = flexpanel_node_layout_get_position(
 setting_dropdown = dropdown_create(
 	_dropdown_room_option_position.left, _dropdown_room_option_position.top,
    "Option", "Mode Selection",
-	_dropdown_room_option_position.width, _dropdown_room_option_position.height, 0, 
+	_dropdown_room_option_position.width, _dropdown_room_option_position.height, 0, 0,
 	options_setting_dropdown
 )
 y_top_label = setting_dropdown.y + 32;

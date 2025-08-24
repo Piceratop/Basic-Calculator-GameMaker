@@ -68,7 +68,9 @@ var _dropdown_input_position = flexpanel_node_layout_get_position(flexpanel_node
 input_unit_dropdown = dropdown_create(
 	_dropdown_input_position.left, _dropdown_input_position.top,
    "Option", "input",
-	_dropdown_input_position.width, _dropdown_input_position.height, false, dropdown_options, true,
+	_dropdown_input_position.width, _dropdown_input_position.height, 
+	0, 0, // Scroll
+	dropdown_options, true,
 	parse_equation_from_single_list_to_string(global.modes.Converter.current_equation)
 );
 with (input_unit_dropdown) { 
@@ -85,7 +87,7 @@ output_unit_dropdown = dropdown_create(
 	_dropdown_output_position.left, _dropdown_output_position.top,
    "Option", "output", 
 	_dropdown_output_position.width, _dropdown_output_position.height,
-   false, dropdown_options, true,
+   0, 0 /*Scroll*/, dropdown_options, true,
 	parse_equation_from_single_list_to_string(global.modes.Converter.converted)
 );
 with (output_unit_dropdown) {

@@ -1,7 +1,8 @@
 display_height = 48;
 text_height = string_height("Mp") + 4;
 y_top_draw = 80;
-y_max_scroll = 48;
+y_single_scroll = 24;
+y_max_scroll = y_single_scroll * 4;
 alarm[0] = game_get_speed(gamespeed_fps);
 is_playing = false;
 
@@ -36,7 +37,8 @@ var _question_type_pos = flexpanel_node_layout_get_position(flexpanel_node_get_c
 dropdown_practice_mode = dropdown_create(
 	_question_type_pos.left, _question_type_pos.top,
 	"Button", "practice mode", room_width - 64,
-	display_height, y_max_scroll, options_practice_mode, false, "", undefined, "Mode of practice:"
+	display_height, y_max_scroll, y_single_scroll,
+	options_practice_mode, false, "", undefined, "Mode of practice:"
 );
 
 while (dropdown_get_value(dropdown_practice_mode) != glb_practice.practice_mode) {
@@ -77,7 +79,7 @@ for (var _i = 0; _i < ds_list_size(_t_map); _i++) {
    
 	var _input_instance = display_create_with_label(
 		_question_set_metadata_pos.left, _question_set_metadata_pos.top, "Display", 
-		_t_map[| _i], room_width - 64, display_height, y_max_scroll, 
+		_t_map[| _i], room_width - 64, display_height, y_max_scroll, y_single_scroll,
 		parse_equation_from_single_list_to_string(glb_practice.values_of_options[? glb_practice.option_id_mapping[|_i]][| 0]),
 		_t_map[| _i]
 	);
@@ -91,16 +93,18 @@ instance_create_layer(_navigation_to_play_btn_pos.left, _navigation_to_play_btn_
 	button_height: _navigation_to_play_btn_pos.height,
 	button_width: _navigation_to_play_btn_pos.width,
 	label: _navigation_to_play_btn_label,
-	name: "Practice_Play"
+	name: "Practice_Play",
+	y_max_scroll: y_max_scroll,
+	y_single_scroll: y_single_scroll
 })
 
 #region This code creates the buttons for inputing equations
 button_layout = [
-	//["⌫", "◀", "▶", "▼", "▲"],
-	//["7", "8", "9"],
-	//["4", "5", "6"],
-	//["1", "2", "3"],
-	//["Enter", "0", "."],
+	["⌫", "◀", "▶", "▼", "▲"],
+	["7", "8", "9"],
+	["4", "5", "6"],
+	["1", "2", "3"],
+	["0", "."],
 ];
 
 if (is_undefined(global.modes.Practice.flex_numpad)) {

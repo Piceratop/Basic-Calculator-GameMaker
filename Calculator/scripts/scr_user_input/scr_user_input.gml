@@ -329,3 +329,28 @@ function navigate_equations(_label, _pos, _pos_limit, _incr=1) {
 			return clamp(_pos + _incr, 0, _pos_limit);
 	}
 }
+
+/**
+ * @function			check_valid_praction_option
+ * @description		This function checks if the input's options' parameters are correct.
+ */
+
+function check_valid_praction_option(_question_length, _min_value, _max_value) {
+	var _post_question_length = parse_equation_from_list_to_list(_question_length);
+	var _post_min_value = parse_equation_from_list_to_list(_min_value);
+	var _post_max_value = parse_equation_from_list_to_list(_max_value);
+	var _no_question_length = evaluate_equation(_post_question_length);
+	var _no_min_value = evaluate_equation(_post_min_value);
+	var _no_max_value = evaluate_equation(_post_max_value);
+	
+	var _flag = true;
+	if (is_undefined(_no_question_length) or _no_question_length[| 0] == -1
+		or is_undefined(_no_min_value) or _no_min_value[| 0] == -1
+		or is_undefined(_no_max_value) or _no_max_value[| 0] == -1
+		or compare(_no_min_value, _no_max_value) == 1
+	) {
+		_flag = false;
+	}
+	ds_list_destroy_multiple(_post_question_length, _no_question_length, _post_min_value, _no_min_value, _post_max_value, _no_max_value);
+	return _flag;
+}
