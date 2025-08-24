@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"scr_util",
+  "%Name":"scr_partial",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"scr_util",
+  "name":"scr_partial",
   "parent":{
     "name":"Scripts",
     "path":"folders/Scripts.yy",
