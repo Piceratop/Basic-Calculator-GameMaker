@@ -168,10 +168,36 @@ if (ds_list_size(global.modes.Standard.equations) > 0) {
 } else { ds_list_add(global.Ans, 0); }
 #endregion
 
+#region This code adds the keys to practice
+
+var _t_map = glb_practice.option_id_mapping;
+
+ds_list_add(_t_map, "Question's length:");
+ds_list_add(_t_map, "Minimum:");
+ds_list_add(_t_map, "Maximum:");
+ds_list_add(_t_map, "No. decimals:");
+
+for (var _i = 0; _i < ds_list_size(_t_map); _i++) {
+   /* 
+    * Adding a list with two elements to the values_of_options map for recording
+    * The first one is the value of the option
+    * The second one is the cursor position of the option
+    */
+	var _l = ds_list_create();
+	var _data = ds_list_create();
+	ds_list_add(_l, _data);
+	ds_list_mark_as_list(_l, 0);
+	ds_list_add(_l, 0);
+	ds_map_add_list(glb_practice.values_of_options, _t_map[| _i], _l);
+}
+
+
+#endregion
+
 #region This code handles font creation and drawing elements
 global.allow_characters = 
 	" &'()+-./0123456789:=" +
-	"ACEFGKLMSTPQ" + 
+	"ACEFGKLMNSTPQ" + 
 	"abcdefghiklmnoprstuvxy" + 
 	"|×÷⁁−⌫▲▶▼◀";
 global.fnt_calculator = font_add_sprite_ext(

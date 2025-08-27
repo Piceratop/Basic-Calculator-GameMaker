@@ -9,6 +9,12 @@
  */
 
 function normalize(_n) {
+	// Return invalid for a blank input
+	if (ds_list_size(_n) == 0) {
+		ds_list_add(_n, -1);
+		return;
+	}
+	
 	/*
 	 * Count the number of decimal point symbol in the number.
 	 * Return unnormalizable if there are 2 decimal points or more.

@@ -4,7 +4,8 @@ switch (name) {
 		if (check_valid_praction_option(
 			_values[? "Question's length:"][| 0],
 			_values[? "Minimum:"][| 0],
-			_values[? "Maximum:"][| 0]
+			_values[? "Maximum:"][| 0],
+			_values[? "No. decimals:"][| 0]
 		)) {
 			global.current_mode = name;
 			room_goto(global.modes[$ name].room_id);

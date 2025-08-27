@@ -68,3 +68,16 @@ function ds_list_stringify(_list) {
 	_ans += " ]";
 	return _ans;
 }
+
+/**
+ * @function				ds_list_destroy_multiple
+ * @description			This function will destroy all given lists.
+ */
+
+function ds_list_destroy_multiple() {
+	for (var _i = 0; _i < argument_count; _i++) {
+		if (typeof(argument[_i]) == "ref") {
+			ds_list_destroy(argument[_i]);
+		}
+   }
+}

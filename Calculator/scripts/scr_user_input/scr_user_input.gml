@@ -330,27 +330,33 @@ function navigate_equations(_label, _pos, _pos_limit, _incr=1) {
 	}
 }
 
+function reset_invalid_input_options() {
+	for (var _i = 0; _i < argument_count; _i++) {
+		if (typeof(argument[_i]) == "ref" and argument[_i][| 0] == -1) {
+			ds_list_clear(argument[_i]);
+		}
+   }
+}
+
 /**
  * @function			check_valid_praction_option
  * @description		This function checks if the input's options' parameters are correct.
  */
 
-function check_valid_praction_option(_question_length, _min_value, _max_value) {
-	var _post_question_length = parse_equation_from_list_to_list(_question_length);
-	var _post_min_value = parse_equation_from_list_to_list(_min_value);
-	var _post_max_value = parse_equation_from_list_to_list(_max_value);
-	var _no_question_length = evaluate_equation(_post_question_length);
-	var _no_min_value = evaluate_equation(_post_min_value);
-	var _no_max_value = evaluate_equation(_post_max_value);
+function check_valid_praction_option(_question_length, _min_value, _max_value, _no_dec) {
+	normalize(_question_length);
+	normalize(_min_value);
+	normalize(_max_value);
+	normalize(_no_dec);
 	
 	var _flag = true;
-	if (is_undefined(_no_question_length) or _no_question_length[| 0] == -1
-		or is_undefined(_no_min_value) or _no_min_value[| 0] == -1
-		or is_undefined(_no_max_value) or _no_max_value[| 0] == -1
-		or compare(_no_min_value, _no_max_value) == 1
+	
+	if (_question_length[| 0] == -1 or _min_value[| 0] == -1 or _max_value[| 0] == -1 or _no_dec[| 0] == -1
+		or compare(_min_value, _max_value) == 1
 	) {
 		_flag = false;
 	}
-	ds_list_destroy_multiple(_post_question_length, _no_question_length, _post_min_value, _no_min_value, _post_max_value, _no_max_value);
+	
+	reset_invalid_input_options(_question_length, _min_value, _max_value, _no_dec);
 	return _flag;
 }
