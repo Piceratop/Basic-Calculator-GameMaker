@@ -17,7 +17,7 @@ if (not had_layout) {
 			var _converter_type_dropdown = dropdown_create(
 				_converter_type_dropdown_pos.left, _converter_type_dropdown_pos.top,
             "Option", "Converter Type",
-				width_dropdown, height_dropdown, 0, 0, _modes_conversion, false, "", 0, "Conversion types:"
+				width_dropdown, height_dropdown, _modes_conversion, 0, 0, false, "", 0, "Conversion types:"
 			);
 			with (_converter_type_dropdown) {
 				while (options[| current_option_id][? "value"] != global.modes.Converter.convert_mode) {

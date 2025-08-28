@@ -69,8 +69,7 @@ input_unit_dropdown = dropdown_create(
 	_dropdown_input_position.left, _dropdown_input_position.top,
    "Option", "input",
 	_dropdown_input_position.width, _dropdown_input_position.height, 
-	0, 0, // Scroll
-	dropdown_options, true,
+	dropdown_options, 0, 0, true,
 	parse_equation_from_single_list_to_string(global.modes.Converter.current_equation)
 );
 with (input_unit_dropdown) { 
@@ -87,7 +86,7 @@ output_unit_dropdown = dropdown_create(
 	_dropdown_output_position.left, _dropdown_output_position.top,
    "Option", "output", 
 	_dropdown_output_position.width, _dropdown_output_position.height,
-   0, 0 /*Scroll*/, dropdown_options, true,
+   dropdown_options, 0, 0, true,
 	parse_equation_from_single_list_to_string(global.modes.Converter.converted)
 );
 with (output_unit_dropdown) {

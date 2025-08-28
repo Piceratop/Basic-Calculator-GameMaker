@@ -26,17 +26,16 @@ function dropdown_options_add(_dropdown, _label, _value=undefined) {
  * @param {String}				_name - The name of the dropdown (used for getting the dropdown's value)
  * @param {Real}					_width - The width of the dropdown
  * @param {Real}					_height - The height of the dropdown
- * @param {Real}					_max_scroll - The maximum scroll height
  * @param {Id.DsList}			_options - List the possible options for the dropdown
+ * @param {Real}					_max_scroll - The maximum scroll height
+ * @param {Real}					_single_scroll - The change in a single scroll
  * @param {Bool}					_has_display - Whether to display the box or not
  * @return {Asset.GMObject}
  */
 
 function dropdown_create(
-	_x, _y, _layer, _name, _width, _height, _max_scroll=0, _single_scroll=16,
-	_options=undefined, _has_display=false,
-	_init_value="", _display_margin=4,
-	_label="", _label_margin=4
+	_x, _y, _layer, _name, _width, _height, _options=undefined, _max_scroll=0, _single_scroll=16, _has_display=false,
+	_init_value="", _display_margin=4, _label="", _label_margin=4
 ) {
 	if (is_undefined(_options)) {
 		_options = ds_list_create();

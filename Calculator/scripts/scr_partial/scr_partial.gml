@@ -42,3 +42,34 @@ function _refresh_curr_eq_comp(_curr_eq_comp, _eq_list) {
 	}
 	return _curr_eq_comp;
 }
+
+// rm_main initial function
+
+function single_option_add_data(_option, _key) {
+	/* 
+    * Adding a list with two elements to the values_of_options map for recording
+    * The first one is the value of the option
+    * The second one is the cursor position of the option
+    */
+	
+	var _l = ds_list_create();
+	var _data = ds_list_create();
+	ds_list_add(_l, _data);
+	ds_list_mark_as_list(_l, 0);
+	ds_list_add(_l, 0);
+	ds_map_add_list(_option, _key, _l);
+}
+
+function option_id_mapping_add_options(_value, _option_id_mapping) {
+	var _list_options = ds_map_create();
+	switch (_value) {
+		case "+":
+		case "+−":
+			single_option_add_data(_list_options, "Question's length");
+			single_option_add_data(_list_options, "Minimum");
+			single_option_add_data(_list_options, "Maximum");
+			single_option_add_data(_list_options, "No. decimal places");
+	}
+	
+	ds_map_add_map(_option_id_mapping, _value, _list_options);
+}

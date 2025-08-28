@@ -106,8 +106,7 @@ global.modes = {
 		mode_id: 2,
 		option_id: 0,
 		current_option_id: 0,
-		option_id_mapping: ds_list_create(),
-		values_of_options: ds_map_create(),
+		option_id_mapping: ds_map_create(),
 		practice_mode: "+",
 		room_id: rm_practice,
 	},
@@ -170,27 +169,18 @@ if (ds_list_size(global.modes.Standard.equations) > 0) {
 
 #region This code adds the keys to practice
 
-var _t_map = glb_practice.option_id_mapping;
+var _list_practice_option_keys = ds_list_create();
+ds_list_add(_list_practice_option_keys, "Question's length");
+ds_list_add(_list_practice_option_keys, "Minimum");
+ds_list_add(_list_practice_option_keys, "Maximum");
+ds_list_add(_list_practice_option_keys, "No. decimal places");
 
-ds_list_add(_t_map, "Question's length:");
-ds_list_add(_t_map, "Minimum:");
-ds_list_add(_t_map, "Maximum:");
-ds_list_add(_t_map, "No. decimals:");
+var _t_map = global.modes.Practice.option_id_mapping;
 
-for (var _i = 0; _i < ds_list_size(_t_map); _i++) {
-   /* 
-    * Adding a list with two elements to the values_of_options map for recording
-    * The first one is the value of the option
-    * The second one is the cursor position of the option
-    */
-	var _l = ds_list_create();
-	var _data = ds_list_create();
-	ds_list_add(_l, _data);
-	ds_list_mark_as_list(_l, 0);
-	ds_list_add(_l, 0);
-	ds_map_add_list(glb_practice.values_of_options, _t_map[| _i], _l);
-}
+option_id_mapping_add_options("+", _t_map);
+option_id_mapping_add_options("+−", _t_map);
 
+ds_list_destroy(_list_practice_option_keys);
 
 #endregion
 
