@@ -1,25 +1,39 @@
-//var _dropdown_mode = dropdown_get_value(dropdown_practice_mode);
+#region Reset the displays when change the playing mode
+var _dropdown_mode = dropdown_get_value(dropdown_practice_mode);
 
-//if (!rendered_mode_choice) {
-//	global.modes.Practice.practice_mode = _dropdown_mode;
-//	rendered_mode_choice = true;
-//}
+if (!rendered_mode_choice) {
+	glb_practice.practice_mode = _dropdown_mode;
+	glb_practice.current_option_id = 0;
+	with (obj_display_box) { instance_destroy();	}
+	with (obj_navigation_button) {
+		if (name == "Practice_Play") { instance_destroy(); }
+	}
+	create_input_displays();
+	rendered_mode_choice = true;
+}
 
-//if (global.modes.Practice.practice_mode != _dropdown_mode) {
-//	rendered_mode_choice = false;
-//}
+if (glb_practice.practice_mode != _dropdown_mode) {
+	rendered_mode_choice = false;
+}
+#endregion
 
-//// This code updates the values of the options
+#region Update the displays of options
+var _current_mode_options = glb_practice.option_id_mapping[? glb_practice.practice_mode];
 
-//var _p = global.modes.Practice;
-//with (obj_display_box) {
-//	for (var _i = 0; _i < ds_list_size(_p.option_id_mapping); _i++) {
-//		if (name == _p.option_id_mapping[| _i]) {
-//			value = parse_equation_from_single_list_to_string(_p.values_of_options[? _p.option_id_mapping[| _i]][| 0]);
-//			cursor_position = _p.values_of_options[? _p.option_id_mapping[| _i]][| 1];
-//		}
-//	}
+with (obj_display_box) {
+	for (
+		var _k = ds_map_find_first(_current_mode_options);
+		not is_undefined(_k);
+		_k = ds_map_find_next(_current_mode_options, _k)
+	) {
+		if (name == _current_mode_options[? _k]) {
+			value = parse_equation_from_single_list_to_string(_current_mode_options[? _k][| global.store_pos_equation]);
+			cursor_position = _current_mode_options[? _k][| global.store_pos_equation_cursor];
+		}
+	}
+
 //	if (name == _p.option_id_mapping[| _p.current_option_id]) {
 //		cursor_alpha = global.cursor_alpha;
 //	} else { cursor_alpha = 0; }
-//}
+}
+#endregion

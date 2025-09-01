@@ -116,6 +116,10 @@ global.modes = {
 	}
 }
 
+global.store_pos_equation = 0;
+global.store_pos_equation_cursor = 1;
+global.store_pos_practice_option_id = 2;
+
 // Conversion rates input
 global.modes.Converter.conversion_rate[? "Length"] = ds_map_create();
 var _lcr = global.modes.Converter.conversion_rate[? "Length"];
@@ -168,20 +172,10 @@ if (ds_list_size(global.modes.Standard.equations) > 0) {
 #endregion
 
 #region This code adds the keys to practice
-
-var _list_practice_option_keys = ds_list_create();
-ds_list_add(_list_practice_option_keys, "Question's length");
-ds_list_add(_list_practice_option_keys, "Minimum");
-ds_list_add(_list_practice_option_keys, "Maximum");
-ds_list_add(_list_practice_option_keys, "No. decimal places");
-
 var _t_map = global.modes.Practice.option_id_mapping;
 
 option_id_mapping_add_options("+", _t_map);
 option_id_mapping_add_options("+−", _t_map);
-
-ds_list_destroy(_list_practice_option_keys);
-
 #endregion
 
 #region This code handles font creation and drawing elements

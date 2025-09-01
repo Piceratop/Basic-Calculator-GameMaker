@@ -49,40 +49,51 @@ while (dropdown_get_value(dropdown_practice_mode) != glb_practice.practice_mode)
 	dropdown_practice_mode.current_option_id += 1;
 }
 
-rendered_mode_choice = false;
-
-
-
-// This code creates the inputs
-var _id_box = 1;
-var _current_mode_options = glb_practice.option_id_mapping[? glb_practice.practice_mode];
-for (var _k = ds_map_find_first(_current_mode_options);
-		not is_undefined(_k);
-		_k = ds_map_find_next(_current_mode_options, _k)) {
-	var _question_set_metadata_pos = flexpanel_node_layout_get_position(flexpanel_node_get_child(glb_practice.flex_option, _id_box), false);
-
-	var _input_instance = display_create_with_label(
-		_question_set_metadata_pos.left, _question_set_metadata_pos.top, "Display", 
-		_k, _question_set_metadata_pos.width, display_height,
-		parse_equation_from_single_list_to_string(_current_mode_options[? _k][| 0]),
-		_k, y_max_scroll, y_single_scroll
-	);
-
-	_id_box++;
+#region This code creates the inputs for options
+function option_compare_id(_key_1, _key_2) {
+	var _current_mode_options = glb_practice.option_id_mapping[? glb_practice.practice_mode];
+	return _current_mode_options[? _key_1][| global.store_pos_practice_option_id] - _current_mode_options[? _key_2][| global.store_pos_practice_option_id];
 }
 
-// Button to navigate to the play room
-var _navigation_to_play_btn_pos = flexpanel_node_layout_get_position(flexpanel_node_get_child(glb_practice.flex_option, _id_box), false);
-var _navigation_to_play_btn_label = "Play";
+/// @desc This function creates the displays of the options for playing.
+/// @return {Undefined}
+function create_input_displays() {
+	var _current_mode_options = glb_practice.option_id_mapping[? glb_practice.practice_mode];
+	var _key_array = ds_map_keys_to_array(_current_mode_options);
+	
+	array_sort(_key_array, option_compare_id);
+	show_debug_message(_key_array);
+	
+	var _id_box = 0;
+	
+	for (; _id_box < array_length(_key_array); _id_box++) {
+		var _question_set_metadata_pos = flexpanel_node_layout_get_position(flexpanel_node_get_child(glb_practice.flex_option, _id_box + 1), false);
+		var _key = _key_array[_id_box];
+		var _input_instance = display_create_with_label(
+			_question_set_metadata_pos.left, _question_set_metadata_pos.top, "Display", 
+			/* name */ _key, _question_set_metadata_pos.width, display_height,
+			parse_equation_from_single_list_to_string(_current_mode_options[? _key][| global.store_pos_equation]),
+			_key, y_max_scroll, y_single_scroll
+		);
+	}
 
-instance_create_layer(_navigation_to_play_btn_pos.left, _navigation_to_play_btn_pos.top, "Display", obj_navigation_button, {
-	button_height: _navigation_to_play_btn_pos.height,
-	button_width: _navigation_to_play_btn_pos.width,
-	label: _navigation_to_play_btn_label,
-	name: "Practice_Play",
-	y_max_scroll: y_max_scroll,
-	y_single_scroll: y_single_scroll
-})
+	// Button to navigate to the play room
+	var _navigation_to_play_btn_pos = flexpanel_node_layout_get_position(flexpanel_node_get_child(glb_practice.flex_option, _id_box + 1), false);
+	var _navigation_to_play_btn_label = "Play";
+
+	instance_create_layer(_navigation_to_play_btn_pos.left, _navigation_to_play_btn_pos.top, "Display", obj_navigation_button, {
+		button_height: _navigation_to_play_btn_pos.height,
+		button_width: _navigation_to_play_btn_pos.width,
+		label: _navigation_to_play_btn_label,
+		name: "Practice_Play",
+		y_max_scroll: y_max_scroll,
+		y_single_scroll: y_single_scroll
+	});
+}
+
+create_input_displays();
+rendered_mode_choice = true;
+#endregion
 
 #region This code creates the buttons for inputing equations
 button_layout = [
