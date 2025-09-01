@@ -76,3 +76,9 @@ function option_id_mapping_add_options(_value, _option_id_mapping) {
 	
 	ds_map_add_map(_option_id_mapping, _value, _list_options);
 }
+
+// obj_practice_controller partial function
+function option_compare_id(_key_1, _key_2) {
+	var _current_mode_options = global.modes.Practice.option_id_mapping[? global.modes.Practice.practice_mode];
+	return _current_mode_options[? _key_1][| global.store_pos_practice_option_id] - _current_mode_options[? _key_2][| global.store_pos_practice_option_id];
+}

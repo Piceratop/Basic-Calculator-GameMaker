@@ -50,25 +50,24 @@ while (dropdown_get_value(dropdown_practice_mode) != glb_practice.practice_mode)
 }
 
 #region This code creates the inputs for options
-function option_compare_id(_key_1, _key_2) {
-	var _current_mode_options = glb_practice.option_id_mapping[? glb_practice.practice_mode];
-	return _current_mode_options[? _key_1][| global.store_pos_practice_option_id] - _current_mode_options[? _key_2][| global.store_pos_practice_option_id];
-}
+var _current_mode_options = glb_practice.option_id_mapping[? glb_practice.practice_mode];
+key_array = ds_map_keys_to_array(_current_mode_options);
+	
+array_sort(key_array, option_compare_id);
 
 /// @desc This function creates the displays of the options for playing.
 /// @return {Undefined}
 function create_input_displays() {
 	var _current_mode_options = glb_practice.option_id_mapping[? glb_practice.practice_mode];
-	var _key_array = ds_map_keys_to_array(_current_mode_options);
+	var key_array = ds_map_keys_to_array(_current_mode_options);
 	
-	array_sort(_key_array, option_compare_id);
-	show_debug_message(_key_array);
+	array_sort(key_array, option_compare_id);
 	
 	var _id_box = 0;
 	
-	for (; _id_box < array_length(_key_array); _id_box++) {
+	for (; _id_box < array_length(key_array); _id_box++) {
 		var _question_set_metadata_pos = flexpanel_node_layout_get_position(flexpanel_node_get_child(glb_practice.flex_option, _id_box + 1), false);
-		var _key = _key_array[_id_box];
+		var _key = key_array[_id_box];
 		var _input_instance = display_create_with_label(
 			_question_set_metadata_pos.left, _question_set_metadata_pos.top, "Display", 
 			/* name */ _key, _question_set_metadata_pos.width, display_height,

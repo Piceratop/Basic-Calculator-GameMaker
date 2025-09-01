@@ -16,18 +16,22 @@ function is_practice_mode_playing() {
 
 function get_practice_data() {
    var _practice = global.modes.Practice;
+	
+	var _current_mode_options = _practice.option_id_mapping[? _practice.practice_mode];
+	var _key_array = ds_map_keys_to_array(_current_mode_options);
+	array_sort(_key_array, option_compare_id);
+	var _current_key = _key_array[_practice.current_option_id]
 
    return {
       practice: _practice,
-      option_key: _practice.option_id_mapping[| _practice.current_option_id],
-      option_data: _practice.values_of_options[? _practice.option_id_mapping[| _practice.current_option_id]],
+      option_key: _current_key,
+      option_data: _current_mode_options[? _current_key],
    };
 }
 
 function handle_equation_input(_key, _mode) {
    if (_mode == "Practice" and !is_practice_mode_playing()) {
       var _practice_data = get_practice_data();
-      
       _practice_data.option_data[| store_id_meaning.number_cursor_id] = input_equation(
          _practice_data.option_data[| store_id_meaning.number_data],
          _key,

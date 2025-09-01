@@ -26,14 +26,14 @@ with (obj_display_box) {
 		not is_undefined(_k);
 		_k = ds_map_find_next(_current_mode_options, _k)
 	) {
-		if (name == _current_mode_options[? _k]) {
+		if (name == _k) {
 			value = parse_equation_from_single_list_to_string(_current_mode_options[? _k][| global.store_pos_equation]);
 			cursor_position = _current_mode_options[? _k][| global.store_pos_equation_cursor];
 		}
 	}
 
-//	if (name == _p.option_id_mapping[| _p.current_option_id]) {
-//		cursor_alpha = global.cursor_alpha;
-//	} else { cursor_alpha = 0; }
+	if (name == other.key_array[other.glb_practice.current_option_id]) {
+		cursor_alpha = global.cursor_alpha;
+	} else { cursor_alpha = 0; }
 }
 #endregion
