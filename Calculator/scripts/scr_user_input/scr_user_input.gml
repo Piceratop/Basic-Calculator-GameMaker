@@ -106,10 +106,11 @@ function handle_vertical_navigation(_key, _mode) {
          break;
       case "Practice":
          if (!is_practice_mode_playing()) {
-            global.modes.Practice.current_option_id = navigate_equations(
+				var _practice = global.modes.Practice;
+            _practice.current_option_id = navigate_equations(
                _key,
                global.modes.Practice.current_option_id,
-               ds_list_size(global.modes.Practice.option_id_mapping) - 1,
+               ds_map_size(_practice.option_id_mapping[? _practice.practice_mode]) - 1,
                PRACTICE_NAV_MODE_STEP
             );
          }

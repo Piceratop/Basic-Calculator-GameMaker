@@ -112,6 +112,9 @@ global.modes = {
 	},
 	Practice_Play: {
 		mode_id: -3,
+		current_equation: ds_list_create(), /* Answer */
+		cursor_position: 0,
+		flex_numpad: undefined,
 		room_id: rm_practice_play
 	}
 }
